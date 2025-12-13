@@ -1,0 +1,32 @@
+.error-page {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    padding: 60px 0;
+    min-height: calc(100vh - 200px);
+
+    h1 {
+        font-size: 44px;
+        margin: 0 auto 20px auto;
+        text-align: center;
+
+        @include breakpoint(tablet) {
+            font-size: 92px;
+        }
+    }
+
+    p {
+        line-height: 160%;
+        font-size: 15px;
+        margin-bottom: 40px;
+
+        @include breakpoint(tablet) {
+            font-size: 17px;
+            margin-bottom: 50px;
+        }
+    }
+
+    .btn {
+        margin: 0 auto;
+    }
+}

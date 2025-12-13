@@ -1,0 +1,93 @@
+.subscribe {
+    margin-bottom: 50px;
+
+    @include breakpoint(tablet) {
+        margin-bottom: 80px;
+    }
+
+    .subscribe-content {
+        padding: 20px 10px;
+        background-color: #fafafa;
+        background-repeat: no-repeat;
+        background-size: cover;
+        position: relative;
+        background-position: center;
+        height: 170px;
+
+        @include breakpoint(tablet) {
+            display: flex;
+            align-items: center;
+            height: 200px;
+            padding-top: 100px;
+        }
+
+        &:before {
+            content: "";
+            width: 100%;
+            left: 0;
+            top: 0;
+            z-index: 5;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+
+        * {
+            z-index: 10;
+            position: relative;
+        }
+
+        .txt {
+            font-size: 14px;
+            color: #fff;
+            margin-bottom: 40px;
+            line-height: 130%;
+            margin-right: auto;
+
+            @include breakpoint(tablet) {
+                width: 504px;
+                font-size: 18px;
+                margin-bottom: 0;
+            }
+        }
+
+        .subscribe-form {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+
+            @include breakpoint(tablet) {
+                width: 500px;
+            }
+
+            .form-row {
+                width: calc(100% - 120px);
+            }
+
+            input {
+                width: 100%;
+                font-size: 13px;
+                background-color: #fff;
+                border-radius: 30px;
+
+                @include breakpoint(tablet) {
+                    width: 320px;
+                }
+            }
+
+            .message {
+                position: absolute;
+            }
+
+            .btn {
+                width: 100px;
+
+                @include breakpoint(tablet) {
+                    width: 150px;
+                    margin-top: 0;
+                }
+            }
+        }
+    }
+}

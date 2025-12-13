@@ -1,0 +1,91 @@
+.form-select {
+    position: relative;
+    height: 36px;
+
+    @include breakpoint(tablet) {
+        height: 40px;
+    }
+
+    &:before {
+        right: 15px;
+        font-size: 14px;
+        font-family: "icons";
+        display: block;
+        position: absolute;
+        content: "\e801";
+        top: 50%;
+        color: #aaaaaa;
+        transform: translateY(-50%);
+
+        @include breakpoint(tablet) {
+            right: 20px;
+            font-size: 16px;
+        }
+    }
+
+    &:hover {
+        select {
+            box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
+        }
+    }
+
+    select {
+        height: 100%;
+        width: 100%;
+        color: #000;
+        padding: 0 13px;
+        font-size: 14px;
+        border: 1px solid #d8d8d8;
+        border-radius: 50px;
+        cursor: pointer;
+        @include customScroll();
+
+        @include breakpoint(tablet) {
+            padding: 0 22px;
+            font-size: 16px;
+        }
+
+        option {
+            font-size: 14px;
+
+            @include breakpoint(tablet) {
+                font-size: 16px;
+            }
+
+            &:first-of-type {
+                opacity: 0.8;
+                display: none;
+            }
+        }
+
+        &[disabled],
+        &:disabled {
+            pointer-events: none;
+            cursor: none;
+        }
+
+        &:not(:focus):invalid {
+            opacity: 0.8;
+        }
+    }
+
+    &.has-label {
+        height: 54px;
+
+        @include breakpoint(tablet) {
+            height: 60px;
+        }
+
+        &:before {
+            top: 39px;
+        }
+
+        select {
+            height: 36px;
+
+            @include breakpoint(tablet) {
+                height: 40px;
+            }
+        }
+    }
+}

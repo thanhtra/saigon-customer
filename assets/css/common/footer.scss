@@ -1,0 +1,187 @@
+.site-footer {
+    padding-top: 30px;
+    padding-bottom: 30px;
+    border-top: 1px solid #ebebeb;
+    position: relative;
+    background: var(--color-main-gray-1);
+
+
+    @include breakpoint(tablet) {
+        padding-top: 40px;
+        padding-bottom: 50px;
+    }
+
+    .container {
+        display: flex;
+        flex-direction: column;
+
+        @include breakpoint(tablet) {
+            flex-direction: row;
+        }
+    }
+
+    &.in-land {
+        padding-bottom: 90px;
+
+        @include breakpoint(tablet) {
+            padding-bottom: 30px;
+        }
+    }
+
+    .site-footer-description {
+        text-align: center;
+        padding-bottom: 50px;
+
+        @include breakpoint(tablet) {
+            text-align: unset;
+            max-width: 550px;
+            padding-right: 80px;
+            padding-bottom: 0px;
+        }
+
+        svg {
+            object-fit: contain;
+            width: 45px;
+            height: 35px;
+            fill: #000;
+            margin-right: 15px;
+        }
+
+        h6 {
+            font-weight: 700;
+            align-items: center;
+            margin-bottom: 20px;
+            font-size: 16px;
+            color: var(--color-main-green);
+
+            @include breakpoint(tablet) {
+                font-size: 18px;
+                margin-bottom: 30px;
+            }
+        }
+
+        p {
+            line-height: 24px;
+        }
+
+        .site-footer-social-networks {
+            display: flex;
+            justify-content: center;
+            margin-top: 35px;
+
+            @include breakpoint(tablet) {
+                margin-top: 10px;
+            }
+
+            li {
+                font-size: 21px;
+                padding: 5px 10px;
+
+                &:first-child:hover {
+                    color: #3578E5;
+                }
+
+                &:nth-child(2):hover {
+                    color: rgb(29, 155, 240);
+                }
+
+                &:nth-child(3):hover {
+                    color: #0a66c2;
+                }
+
+                &:nth-child(4):hover {
+                    color: #FA383E;
+                }
+
+                &:nth-child(5):hover {
+                    color: #f00;
+                }
+
+
+                .icon-img {
+                    height: 19px;
+                    width: 18px;
+                    background-repeat: no-repeat;
+                }
+
+                &:nth-child(6) {
+                    a {
+                        padding: 0px 0px 0px 4px;
+                        width: 26px;
+                        display: block;
+                    }
+                }
+            }
+        }
+    }
+
+    .site-footer-links {
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+
+        @include breakpoint(tablet) {
+            flex-direction: row;
+            text-align: unset;
+            width: 100%;
+            justify-content: space-between;
+        }
+
+        ul {
+            margin-bottom: 40px;
+
+            @include breakpoint(tablet) {
+                margin-bottom: 0px;
+            }
+
+            &:last-child {
+                margin-bottom: 0px;
+            }
+
+            &:last-of-type {
+                margin-right: 0;
+            }
+
+            li {
+                color: #000;
+                margin-bottom: 15px;
+
+                @include breakpoint(tablet) {
+                    margin-bottom: 15px;
+                }
+
+                &:first-child {
+                    font-weight: 700;
+                    margin-bottom: 20px;
+                    font-size: 14px;
+
+                    @include breakpoint(tablet) {
+                        margin-bottom: 30px;
+                        font-size: 16px;
+                    }
+                }
+
+                &:last-child {
+                    margin-bottom: 0px;
+                }
+
+                a {
+                    &:hover {
+                        text-decoration: underline;
+                    }
+                }
+            }
+
+            .labl {
+                margin-right: 4px;
+                color: var(--color-main-coffee);
+                font-style: italic;
+
+                @include breakpoint(tablet) {
+                    margin-right: 6px;
+                }
+            }
+        }
+    }
+
+}

@@ -1,0 +1,142 @@
+.pagination-container {
+    display: flex;
+    list-style-type: none;
+    justify-content: center;
+    padding-top: 30px;
+    width: 100%;
+
+    @include breakpoint(tablet) {
+        padding-top: 50px;
+    }
+
+    .pagination-item {
+        height: 32px;
+        width: 32px;
+        text-align: center;
+        margin: auto 4px;
+        color: rgba(0, 0, 0, 0.87);
+        display: flex;
+        box-sizing: border-box;
+        align-items: center;
+        letter-spacing: 0.01071em;
+        border-radius: 16px;
+        line-height: 1.43;
+        font-size: 14px;
+        display: flex;
+        justify-content: center;
+
+        @include breakpoint(tablet) {
+            font-size: 16px;
+            height: 34px;
+            width: 34px;
+        }
+
+        &:last-child,
+        &:first-child {
+            font-size: 16px;
+
+            @include breakpoint(tablet) {
+                font-size: 18px;
+            }
+
+            &:hover {
+                background-color: var(--color-main-gray-1);
+            }
+        }
+
+        &:first-child {
+            @include breakpoint(tablet) {
+                padding: 0px 16px 0px 10px;
+            }
+        }
+
+        &.dots:hover {
+            background-color: transparent;
+            cursor: default;
+            color: unset;
+        }
+
+        &:hover {
+            background-color: var(--color-main-green-light);
+            color: #fff;
+            cursor: pointer;
+        }
+
+        &.selected {
+            // background-color: rgba(0, 0, 0, 0.08);
+            background-color: var(--color-main-coffee);
+            color: #fff;
+            pointer-events: none;
+        }
+
+        .arrow {
+            &::before {
+                position: relative;
+                /* top: 3pt; Uncomment this to lower the icons as requested in comments*/
+                content: '';
+                /* By using an em scale, the arrows will size with the font */
+                display: inline-block;
+                width: 0.4em;
+                height: 0.4em;
+                border-right: 0.12em solid rgba(0, 0, 0, 0.87);
+                border-top: 0.12em solid rgba(0, 0, 0, 0.87);
+                top: -2px;
+            }
+
+            &.left {
+                transform: rotate(-135deg) translate(-50%);
+
+                &::before {
+                    right: -2px;
+
+                    @include breakpoint(tablet) {
+                        top: 0px;
+                        right: 0px;
+                    }
+                }
+            }
+
+            &.right {
+                transform: rotate(45deg);
+            }
+        }
+
+        &.disabled {
+            pointer-events: none;
+
+            .arrow::before {
+                border-right: 0.12em solid rgba(0, 0, 0, 0.43);
+                border-top: 0.12em solid rgba(0, 0, 0, 0.43);
+            }
+
+            &:hover {
+                background-color: transparent;
+                cursor: default;
+            }
+        }
+    }
+}
+
+.pagination {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+
+    li {
+        width: 30px;
+        height: 30px;
+        background-color: var(--color-main-green);
+        margin: 0px 10px;
+        cursor: pointer;
+        border-radius: 50%;
+        text-align: center;
+        color: #fff;
+        border: 1px solid var(--color-gray);
+        line-height: 28px;
+
+        &.selected {
+            background-color: var(--color-gray);
+            pointer-events: none;
+        }
+    }
+}

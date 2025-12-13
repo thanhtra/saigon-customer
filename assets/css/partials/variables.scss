@@ -1,0 +1,119 @@
+:root {
+    // fonts
+    --main-font: "Source Sans Pro", sans-serif;
+    --font-title: "Archivo";
+
+    // colors
+    --color-black: #2d2c2c;
+    --color-text: #868686;
+    --color-white: #ffffff;
+    --color-gray: #706c61;
+    --color-main-green: #076836;
+    --color-main-green-light: #1f774a;
+    --color-main-black: #2c2b2a;
+    --color-main-coffee: #503629;
+    --color-main-light: #d4ca9f;
+    --color-main-gray: #fafafa;
+    --color-main-gray-1: #ededed;
+    --color-main-gray-2: #e0e0e0;
+    --main-red-color: #ef4136;
+    --main-red-2-color: #961b12;
+
+    //Scroll
+    --g-scrollbar-track-bd: #d1d1d1;
+    --g-scrollbar-thumb-bg: #c8c8c8;
+}
+
+@mixin inputPlaceholder() {
+    $selector: "";
+    $prefixes: (
+        moz: "::-moz",
+        webkit: "::-webkit",
+        ie: ":-ms",
+    );
+    @each $prop, $value in $prefixes {
+        @if $prop != "moz" {
+            $selector: #{$value}-input-placeholder;
+        } @else {
+            $selector: #{$value}-placeholder;
+        }
+        @if & {
+            &#{$selector} {
+                @content;
+            }
+        } @else {
+            #{$selector} {
+                @content;
+            }
+        }
+    }
+    &::placeholder {
+        @content;
+    }
+}
+
+@mixin placeholder {
+    &::-webkit-input-placeholder {
+        @content;
+    }
+
+    &:-moz-placeholder {
+        /* Firefox 18- */
+        @content;
+    }
+
+    &::-moz-placeholder {
+        /* Firefox 19+ */
+        @content;
+    }
+
+    &:-ms-input-placeholder {
+        @content;
+    }
+}
+
+@mixin customScroll {
+    &::-webkit-scrollbar {
+        width: 12px !important;
+        height: 12px !important;
+        scroll-behavior: smooth;
+    }
+    &::-webkit-scrollbar-track {
+        background: rgba(222, 222, 222, 0.75);
+        border: 0;
+        &:vertical {
+            border-top: none;
+            border-bottom: none;
+        }
+        &:horizontal {
+            border-left: none;
+            border-right: none;
+        }
+    }
+    &::-webkit-scrollbar-thumb {
+        background: rgba(0, 0, 0, 0.4);
+        background-clip: padding-box;
+        border-radius: 5px;
+        cursor: pointer;
+        &:vertical {
+            border-left: 2px solid transparent;
+            border-right: 2px solid transparent;
+        }
+        &:horizontal {
+            border-top: 2px solid transparent;
+            border-bottom: 2px solid transparent;
+        }
+    }
+    &::-webkit-scrollbar-corner {
+        background: transparent;
+    }
+}
+
+@keyframes skeleton {
+    0% {
+        background-position: -200px 0;
+    }
+    100% {
+        background-position: calc(200px + 100%) 0;
+    }
+}

@@ -1,0 +1,155 @@
+.information-tour {
+    padding-top: 15px;
+    line-height: 18px;
+
+    @include breakpoint(tablet) {
+        padding-top: 20px;
+        line-height: 20px;
+    }
+
+    .brief-description {
+        text-align: center;
+        margin-bottom: 60px;
+        color: var(--color-main-coffee);
+
+        @include breakpoint(tablet) {
+            margin-bottom: 80px;
+        }
+
+        .b-title {
+            font-size: 16px;
+            margin-bottom: 20px;
+            font-weight: 700;
+
+            @include breakpoint(tablet) {
+                font-size: 20px;
+                margin-bottom: 30px;
+            }
+        }
+
+        .b-description {
+            line-height: 18px;
+
+            @include breakpoint(tablet) {
+                line-height: 22px;
+            }
+        }
+    }
+
+    .service {
+        padding-bottom: 30px;
+
+        .tour-title {
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .tour-des {
+            padding: 10px;
+        }
+    }
+
+    .call-to-order .action a.btn {
+        padding: 8px !important;
+    }
+}
+
+.information-land {
+    padding-top: 15px;
+
+    .brief-description {
+        text-align: center;
+        margin-bottom: 60px;
+        color: var(--color-main-coffee);
+
+        @include breakpoint(tablet) {
+            margin-bottom: 80px;
+        }
+
+        .b-title {
+            font-size: 16px;
+            margin-bottom: 20px;
+            font-weight: 700;
+
+            @include breakpoint(tablet) {
+                font-size: 20px;
+                margin-bottom: 30px;
+            }
+        }
+
+        .b-description {
+            line-height: 18px;
+
+            @include breakpoint(tablet) {
+                line-height: 22px;
+            }
+        }
+    }
+
+    .service {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-between;
+
+        .col-service {
+            width: 100%;
+            height: 450px;
+            position: relative;
+
+            @include breakpoint(tablet) {
+                width: 50%;
+                height: 500px;
+            }
+
+            .col-s-image {
+                height: 250px;
+                width: 100%;
+                background-position: center;
+                background-size: cover;
+                margin: 0 auto;
+
+                @include breakpoint(tablet) {
+                    width: 90%;
+                    height: 300px;
+                }
+            }
+
+            .col-s-text {
+                background: var(--color-main-gray);
+                width: 90%;
+                position: absolute;
+                margin-left: auto;
+                margin-right: auto;
+                left: 0;
+                right: 0;
+                text-align: center;
+                bottom: 40px;
+                height: 200px;
+                padding: 15px;
+
+                @include breakpoint(tablet) {
+                    bottom: 40px;
+                    width: 70%;
+                    padding: 20px;
+                }
+
+                .t-title {
+                    font-size: 16px;
+                    margin-bottom: 20px;
+                    color: #ef4136;
+                    font-weight: 700;
+
+                    @include breakpoint(tablet) {
+                        font-size: 18px;
+                    }
+                }
+
+                .t-des {
+                    line-height: 22px;
+                }
+            }
+        }
+    }
+}

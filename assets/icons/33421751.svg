@@ -1,0 +1,12 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg">
+<metadata>Copyright (C) 2023 by original authors @ fontello.com</metadata>
+<defs>
+<font id="33421751" horiz-adv-x="1000" >
+<font-face font-family="33421751" font-weight="400" font-stretch="normal" units-per-em="1000" ascent="850" descent="-150" />
+<missing-glyph horiz-adv-x="1000" />
+<glyph glyph-name="compass" unicode="&#xe801;" d="M474 830q198 2 340-136t146-336q2-200-136-342t-338-146q-198-2-341 137t-145 337q-4 200 135 342t339 144z m12-858q156 2 266 114t108 270-115 267-269 107q-158-2-267-114t-107-270 114-267 270-107z m-234 154q4 26 12 66t41 128 77 132 125 76 141 42l60 10q-4-26-12-66t-41-128-77-132q-42-42-124-74t-142-42z m180 276q-22-20-22-48t22-50q20-22 49-22t49 22q52 52 88 186-136-36-186-88z" horiz-adv-x="960" />
+</font>
+</defs>
+</svg>

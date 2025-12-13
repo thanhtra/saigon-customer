@@ -1,0 +1,322 @@
+.cart {
+    padding-top: 15px;
+
+    .cart-intro {
+        display: flex;
+        align-items: flex-start;
+        margin-bottom: 35px;
+        justify-content: space-between;
+
+        @include breakpoint(tablet) {
+            margin-bottom: 40px;
+        }
+    }
+
+    .cart-empty {
+        text-align: center;
+        padding-top: 70px;
+
+        .btn-full {
+            margin-top: 100px;
+        }
+    }
+
+    .cart-list {
+        width: 100%;
+
+        table {
+            width: 100%;
+        }
+
+        tr {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            position: relative;
+            padding-bottom: 15px;
+            margin-bottom: 15px;
+            border-bottom: 1px dotted #d8d8d8;
+
+            @include breakpoint(tablet) {
+                display: table-row;
+                padding: 0;
+                margin: 0;
+                border: none;
+                padding-bottom: 18px;
+                margin-bottom: 18px;
+            }
+
+            &:last-of-type {
+                border-bottom: none;
+            }
+
+            &:first-of-type {
+                display: none;
+
+                @include breakpoint(tablet) {
+                    display: table-row;
+                }
+            }
+
+            th {
+                text-align: center;
+                font-size: 14px;
+                color: var(--color-main-black);
+                padding-bottom: 30px;
+                font-weight: 600;
+
+                &.price {
+                    display: none;
+
+                    @include breakpoint(tablet) {
+                        display: table-cell;
+                    }
+                }
+            }
+
+            td {
+                display: block;
+                flex-wrap: wrap;
+                padding: 10px 0;
+                color: #000;
+                width: 100%;
+
+                @include breakpoint(tablet) {
+                    display: table-cell;
+                    vertical-align: middle;
+                    text-align: center;
+                    padding: 20px 0;
+                }
+
+                &.td-cancel {
+                    display: none;
+                    top: 20px;
+                    right: 0;
+                    width: auto !important;
+                    position: absolute;
+
+                    @include breakpoint(tablet) {
+                        display: table-cell;
+                        position: static;
+                        top: unset;
+                        right: unset;
+                        width: unset;
+                        position: unset;
+                    }
+
+                    i {
+                        cursor: pointer;
+                        font-weight: normal;
+                        color: var(--color-main-green);
+                        font-size: 14px;
+
+                        &:hover {
+                            color: var(--main-red-color);
+                        }
+                    }
+                }
+
+                &.td-price,
+                &.td-quantity,
+                &.td-sum-price {
+                    display: none;
+
+                    @include breakpoint(tablet) {
+                        display: table-cell;
+                    }
+                }
+            }
+
+            td,
+            th {
+                @include breakpoint(tablet) {
+                    text-align: left !important;
+
+                    &:nth-of-type(1) {
+                        width: 10% !important;
+                    }
+
+                    &:nth-of-type(2) {
+                        width: 30% !important;
+                    }
+
+                    &:nth-of-type(3) {
+                        width: 20% !important;
+                    }
+
+                    &:nth-of-type(4) {
+                        width: 20% !important;
+                    }
+
+                    &:nth-of-type(5) {
+                        width: 20% !important;
+                    }
+                }
+            }
+        }
+
+        .cart-item {
+            .cart-product {
+                display: flex;
+                align-items: center;
+                justify-content: flex-start;
+
+                .cart-product-img {
+                    height: 50px;
+                    width: 50px;
+                    background: #fafafa;
+                    border-radius: 100%;
+                    margin-right: 10px;
+                    background-size: cover;
+                    background-position: center;
+                    background-repeat: no-repeat;
+
+                    @include breakpoint(tablet) {
+                        margin-right: 15px;
+                        height: 50px;
+                        width: 50px;
+                    }
+
+                    .icon-cancel {
+                        display: block;
+                        position: absolute;
+                        background-color: var(--color-gray);
+                        color: #fff;
+                        padding: 2px;
+                        border-radius: 50%;
+                        height: 22px;
+                        width: 22px;
+                        top: 4px;
+
+                        &::before {
+                            padding: 4px 0px 0px 2px;
+                            font-size: 10px;
+                        }
+
+                        @include breakpoint(tablet) {
+                            display: none;
+                        }
+                    }
+
+                    img {
+                        width: 100%;
+                        height: 100%;
+                        object-fit: cover;
+                        border-radius: 100%;
+                        object-position: top center;
+                    }
+                }
+
+                .cart-product-content {
+                    text-align: left;
+                    width: calc(100% - 180px);
+
+                    @include breakpoint(tablet) {
+                        padding: 0;
+                        width: unset;
+                    }
+
+                    .c-p-c-name {
+                        font-size: 14px;
+                        font-weight: 400;
+                        margin-bottom: 8px;
+                        color: var(--color-main-coffee);
+                        word-break: break-word;
+                        line-height: 16px;
+
+                        @include breakpoint(tablet) {
+                            font-size: 16px;
+                            margin-bottom: 0px;
+                            line-height: 18px;
+                        }
+                    }
+
+                    .c-p-c-price {
+                        display: block;
+                        color: #000;
+
+                        @include breakpoint(tablet) {
+                            display: none;
+                        }
+                    }
+                }
+
+                .quantity-button {
+                    display: inline-flex;
+                    position: absolute;
+                    right: 0px;
+
+                    @include breakpoint(tablet) {
+                        display: none;
+                    }
+                }
+            }
+        }
+    }
+
+    .total-price {
+        text-align: center;
+        padding: unset;
+
+        @include breakpoint(tablet) {
+            text-align: right;
+            padding: 20px 170px 0px 0px;
+        }
+
+        span {
+            margin-left: 15px;
+            color: #000;
+            font-weight: 700;
+            font-size: 14px;
+
+            @include breakpoint(tablet) {
+                font-size: 16px;
+            }
+        }
+    }
+
+    .cart-actions {
+        padding-top: 80px;
+
+        @include breakpoint(tablet) {
+            padding-top: 60px;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .btn {
+            display: block;
+            margin: 0 auto;
+            width: 85%;
+            max-width: 300px;
+
+            @include breakpoint(tablet) {
+                width: 220px;
+                margin: unset;
+            }
+
+            &.btn-green {
+                margin-bottom: 30px;
+                order: 1;
+
+                @include breakpoint(tablet) {
+                    order: 2;
+                    margin-left: 25px;
+                }
+            }
+
+            &.btn-border {
+                order: 2;
+
+                @include breakpoint(tablet) {
+                    order: 1;
+                }
+            }
+
+            &.btn-disable {
+                pointer-events: none;
+                background-color: var(--color-gray);
+            }
+        }
+    }
+}

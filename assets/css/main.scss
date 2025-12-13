@@ -1,0 +1,26 @@
+@import url("https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400&display=swap");
+// @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap");
+
+@import "../icons/icons.css";
+
+@import "./partials/variables.scss";
+@import "./partials/breakpoints.scss";
+@import "./partials/reset.css";
+
+@import "./common/common.scss";
+
+@import "./login.scss";
+@import "./cart.scss";
+@import "./checkout.scss";
+@import "./complete-order.scss";
+@import "./discover.scss";
+@import "./error-page.scss";
+@import "./forgot-password.scss";
+@import "./home-page.scss";
+@import "./land.scss";
+@import "./partials.scss";
+@import "./product.scss";
+@import "./profile.scss";
+@import "./register.scss";
+@import "./pagination.scss";
+@import "./information.scss";

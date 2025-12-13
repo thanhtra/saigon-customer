@@ -1,0 +1,9 @@
+.register-page {
+    padding-top: 15px;
+
+    .form-block {
+        @include breakpoint(tablet) {
+            max-width: 800px;
+        }
+    }
+}
