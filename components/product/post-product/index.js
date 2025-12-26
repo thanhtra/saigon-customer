@@ -6,7 +6,7 @@ import {
     removeImageByName,
 } from 'lib/api/land.service';
 import { createProduct, getMyPost, updateMyProductPost, uploadImagesProduct } from 'lib/api/product-service';
-import { CategoryType } from 'lib/constants/constant';
+import { CategoryType } from 'lib/constants/data';
 import NProgress from 'nprogress';
 import { useEffect, useState } from 'react';
 import { useForm } from "react-hook-form";

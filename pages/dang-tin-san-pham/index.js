@@ -1,8 +1,8 @@
 import Breadcrumb from 'components/common/breadcrumb';
 import { useEffect } from 'react';
-import { ProfileTab } from 'lib/constants/constant';
+import { ProfileTab } from 'lib/constants/data';
 import PostProduct from 'components/product/post-product';
-import { PageUrl } from 'lib/constants/constant';
+import { PageUrl } from 'lib/constants/tech';
 import { useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
 import { useDispatch } from 'react-redux';

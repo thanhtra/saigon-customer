@@ -28,7 +28,7 @@ const Account = () => {
 
             const payload = {
                 id: user.id,
-                full_name: data.full_name
+                name: data.name
             }
 
             const res = await updateUser(payload);
@@ -62,7 +62,7 @@ const Account = () => {
             {!isEdit ? <div className="infor-user">
                 <div className="item">
                     <p className="label">Tên liên hệ:</p>
-                    <p className="val">{user.full_name}</p>
+                    <p className="val">{user.name}</p>
                 </div>
                 <div className="item">
                     <p className="label">Số điện thoại:</p>
@@ -78,13 +78,13 @@ const Account = () => {
                                 <input
                                     type="text"
                                     autoComplete="off"
-                                    name="full_name"
+                                    name="name"
                                     ref={register({
                                         required: true,
                                     })} />
                             </div>
 
-                            {errors.full_name && errors.full_name.type === 'required' &&
+                            {errors.name && errors.name.type === 'required' &&
                                 <p className="message message-error">Vui lòng nhập thông tin</p>
                             }
                         </div>

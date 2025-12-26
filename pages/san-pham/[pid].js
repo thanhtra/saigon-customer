@@ -2,7 +2,7 @@ import Breadcrumb from 'components/common/breadcrumb';
 import ProductContent from 'components/product/product-content';
 import ProductGallery from 'components/product/product-gallery';
 import { getProductDetail } from 'lib/api/product-service';
-import { PageUrl } from 'lib/constants/constant';
+import { PageUrl } from 'lib/constants/tech';
 import PopupContactProduct from 'components/common/popup-contact-product';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';

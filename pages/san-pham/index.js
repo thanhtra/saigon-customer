@@ -2,7 +2,7 @@ import Breadcrumb from 'components/common/breadcrumb';
 import ProductsContent from 'components/product/products-content';
 import ProductsFilter from 'components/product/products-filter';
 import { getProducts } from 'lib/api/product-service';
-import { PageUrl } from 'lib/constants/constant';
+import { PageUrl } from 'lib/constants/tech';
 import { COMMON_URL_REDIRECT_LOGIN } from 'lib/store/type/common-type';
 import Link from 'next/link';
 import { useRouter } from 'next/router';

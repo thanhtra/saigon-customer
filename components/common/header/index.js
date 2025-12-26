@@ -1,5 +1,5 @@
 import { logout } from 'lib/api/user-service'
-import { PageUrl, ProfileTab } from 'lib/constants/constant'
+import { PageUrl, ProfileTab } from 'lib/constants/tech'
 import { CART_HIDE_POPUP_REQUEST } from 'lib/store/type/cart-type'
 import { COMMON_POPUP_FILTER_HIDE, COMMON_POPUP_HIDE, COMMON_POPUP_OPEN, POPUP_ADD_ADDRESS_HIDE } from 'lib/store/type/common-type'
 import { UPDATE_USER } from 'lib/store/type/user-type'
@@ -125,8 +125,8 @@ const Header = () => {
                     </div>
 
                     <div className='nav-menu'>
-                        <Link href={PageUrl.RentalRoom}>
-                            <a onClick={handleClosePopup} className={`${pathname.includes(PageUrl.RentalRoom) ? 'active' : ''}`}>Phòng trọ</a>
+                        <Link href={PageUrl.Rental}>
+                            <a onClick={handleClosePopup} className={`${pathname.includes(PageUrl.Rental) ? 'active' : ''}`}>Nhà ở cho thuê</a>
                         </Link>
 
                         <Link href={PageUrl.Lands}>
@@ -199,7 +199,7 @@ const Header = () => {
                     </Link> :
                         <Link href={PageUrl.Profile}>
                             <button className="site-header-btn-avatar"><i className="icon-avatar"></i>
-                                <p>{user.full_name}</p>
+                                <p>{user.name}</p>
                             </button>
                         </Link>}
                     <button

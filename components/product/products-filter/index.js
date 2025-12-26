@@ -1,11 +1,11 @@
 import Checkbox from 'components/common/checkbox';
 import { getCategories } from 'lib/api/category.service';
-import { CategoryType } from 'lib/constants/constant';
+import { CategoryType } from 'lib/constants/data';
 import { useEffect, useState } from 'react';
 import Popup from 'reactjs-popup';
 import { COMMON_POPUP_FILTER_OPEN, COMMON_POPUP_FILTER_HIDE } from 'lib/store/type/common-type';
 import { useDispatch } from 'react-redux';
-import { StatusProduct } from 'lib/constants/constant';
+import { StatusProduct } from 'lib/constants/data';
 
 const initModelSearch = {
     categoryId: '',

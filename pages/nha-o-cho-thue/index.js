@@ -1,7 +1,7 @@
 import Breadcrumb from 'components/common/breadcrumb';
 import LandFilter from 'components/land/land-filter';
 import LandsContent from 'components/land/lands-content';
-import { getLands } from 'lib/api/land.service';
+import { getRentals } from 'lib/api/rental.service';
 import { PageUrl } from 'lib/constants/tech';
 import { COMMON_URL_REDIRECT_LOGIN } from 'lib/store/type/common-type';
 import Link from 'next/link';
@@ -15,7 +15,7 @@ export async function getServerSideProps({ query }) {
         size: 10
     };
 
-    const res = await getLands(payload);
+    const res = await getRentals(payload);
     return {
         props: {
             lands: res?.data || [],
@@ -24,12 +24,12 @@ export async function getServerSideProps({ query }) {
     }
 }
 
-const Lands = ({ lands, meta }) => {
+const Rental = ({ lands, meta }) => {
     const router = useRouter();
     const [query, setQuery] = useState({});
     const dispatch = useDispatch()
 
-    const searchLandsHandle = (payload) => {
+    const searchRentalsHandle = (payload) => {
         const newQuery = { ...payload, page: 0 };
 
         setQuery(newQuery);
@@ -45,30 +45,16 @@ const Lands = ({ lands, meta }) => {
         router.push(router);
     }
 
-    const postLand = () => {
-        dispatch({
-            type: COMMON_URL_REDIRECT_LOGIN,
-            payload: PageUrl.PostLand
-        })
-    }
-
     return (
         <>
-            <section className="container lands-page">
-                <Breadcrumb title={`Tất cả ${meta?.itemCount} bất động sản`} />
+            <section className="container rentals-page">
+                <Breadcrumb title={`Tất cả ${meta?.itemCount} nhà ở cho thuê`} />
 
                 <div className='lands-main'>
                     <div className='section-filter'>
-                        <LandFilter searchLands={searchLandsHandle} query={router.query} />
+                        <LandFilter searchLands={searchRentalsHandle} query={router.query} />
                     </div>
                     <div className='section-content'>
-                        <div className='btn-head'>
-                            <Link href={PageUrl.PostLand}>
-                                <button type='button' className="btn btn-green" onClick={postLand}>
-                                    Đăng tin miễn phí
-                                </button>
-                            </Link>
-                        </div>
                         <LandsContent lands={lands} meta={meta} changePage={changePageHandle} />
                     </div>
                 </div>
@@ -77,4 +63,4 @@ const Lands = ({ lands, meta }) => {
     )
 }
 
-export default Lands
+export default Rental

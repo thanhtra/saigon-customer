@@ -1,160 +1,167 @@
-import { useForm } from "react-hook-form"
-import { useRouter } from 'next/router'
-import { userRegister } from 'lib/api/user-service';
-import Breadcrumb from 'components/common/breadcrumb';
-import { PageUrl } from 'lib/constants/constant';
+import { useForm } from 'react-hook-form';
+import { useRouter } from 'next/router';
 import NProgress from 'nprogress';
 import { toast } from 'react-toastify';
+
+import Breadcrumb from 'components/common/breadcrumb';
+import { userRegister } from 'lib/api/user-service';
+import { PageUrl } from 'lib/constants/tech';
+import { PHONE_REGEX } from 'lib/constants/tech';
+import InputField from 'components/common/form/InputField';
+import RadioGroupCheckbox from 'components/common/form/RadioGroupCheckbox';
+import { CustomerTypeOptions } from 'lib/constants/data';
+import { convertObjectToOptions } from 'lib/utils';
 
 
 const RegisterPage = () => {
     const router = useRouter();
 
-    const { register, handleSubmit, getValues, formState: { errors } } = useForm({
+    const {
+        control,
+        handleSubmit,
+        getValues,
+        formState: { errors },
+    } = useForm({
         defaultValues: {
-            full_name: '',
+            name: '',
             phone_number: '',
             password: '',
-            cf_password: ''
-        }
+            cf_password: '',
+            customer_type: '',
+        },
     });
+
 
     const onSubmit = async (data) => {
         NProgress.start();
 
-        const payload = {
-            full_name: data.full_name,
-            phone: data.phone_number,
-            password: data.password
-        }
-
         try {
-            const res = await userRegister(payload);
+            const res = await userRegister({
+                name: data.name,
+                phone: data.phone_number,
+                password: data.password,
+                customer_type: data.customer_type
+            });
 
-            if (res && res.success) {
-                NProgress.done();
-                toast.success("Đăng kí thành công!");
-                router.push(PageUrl.Login)
+            if (res?.success) {
+                toast.success('Đăng kí thành công!');
+                router.push(PageUrl.Login);
             } else {
-                NProgress.done();
-                toast.error("Đăng kí thất bại.");
+                toast.error('Đăng kí thất bại.');
             }
-
-        } catch (ex) {
+        } catch (error) {
+            toast.error('Đăng kí thất bại.');
+        } finally {
             NProgress.done();
-            toast.error("Đăng kí thất bại.");
         }
-    }
+    };
 
     return (
         <section className="container register-page">
-            <Breadcrumb title='Tạo tài khoản' />
+            <Breadcrumb title="Tạo tài khoản" />
 
             <div className="form-block">
                 <h2 className="form-title">Tạo tài khoản</h2>
-                <p className="form-description">Tạo tài khoản để quản lý thông tin như đặt hàng, đăng tin bất động sản,...</p>
+                <p className="form-description">
+                    Tạo tài khoản để đăng tin, đặt lịch xem nhà,...
+                </p>
 
-                <form className="form" onSubmit={handleSubmit(onSubmit)} autoComplete="off">
+                <form className="form" onSubmit={handleSubmit(onSubmit)}>
+
                     <div className="form-row two">
-                        <div className="form-col">
-                            <div className='form-input has-label'>
-                                <label>Tên liên hệ<label className='required'>*</label></label>
-                                <input
-                                    placeholder="Nhập tên liên hệ"
-                                    type="text"
-                                    autoComplete="off"
-                                    name="full_name"
-                                    ref={register({ required: true })}
-                                />
-                            </div>
+                        <InputField
+                            label="Tên liên hệ"
+                            name="name"
+                            placeholder="Nhập tên liên hệ"
+                            required
+                            control={control}
+                            rules={{
+                                required: 'Vui lòng nhập thông tin',
+                            }}
+                            error={errors.name}
+                        />
 
-                            {errors.full_name && errors.full_name.type === 'required' &&
-                                <p className="message message-error">Vui lòng nhập thông tin</p>
-                            }
-                        </div>
-                        <div className="form-col">
-                            <div className='form-input has-label'>
-                                <label>Số điện thoại<label className='required'>*</label></label>
-                                <input
-                                    placeholder="Nhập số điện thoại"
-                                    type="number"
-                                    autoComplete="off"
-                                    name="phone_number"
-                                    ref={register({
-                                        required: true,
-                                        pattern: /(84|0[3|5|7|8|9])+([0-9]{8})\b/,
-                                    })}
-                                />
-                            </div>
-
-                            {errors.phone_number && errors.phone_number.type === 'required' &&
-                                <p className="message message-error">Vui lòng nhập thông tin</p>
-                            }
-
-                            {errors.phone_number && errors.phone_number.type === 'pattern' &&
-                                <p className="message message-error">Số điện thoại chưa đúng</p>
-                            }
-                        </div>
+                        <InputField
+                            label="Số điện thoại"
+                            name="phone_number"
+                            placeholder="Nhập số điện thoại"
+                            required
+                            control={control}
+                            rules={{
+                                required: 'Vui lòng nhập thông tin',
+                                pattern: {
+                                    value: PHONE_REGEX,
+                                    message: 'Số điện thoại chưa đúng',
+                                },
+                            }}
+                            error={errors.phone_number}
+                        />
                     </div>
+
                     <div className="form-row two">
-                        <div className="form-col">
-                            <div className='form-input has-label'>
-                                <label>Mật khẩu<label className='required'>*</label></label>
-                                <input
-                                    placeholder="Nhập mật khẩu"
-                                    type="text"
-                                    autoComplete="off"
-                                    name="password"
-                                    ref={register({
-                                        required: true,
-                                        minLength: 6
-                                    })}
-                                />
-                            </div>
+                        <InputField
+                            label="Mật khẩu"
+                            name="password"
+                            // type="password"
+                            placeholder="Nhập mật khẩu"
+                            required
+                            control={control}
+                            rules={{
+                                required: 'Vui lòng nhập thông tin',
+                                minLength: {
+                                    value: 6,
+                                    message: 'Mật khẩu phải có ít nhất 6 kí tự',
+                                },
+                            }}
+                            error={errors.password}
+                        />
 
-                            {errors.password && errors.password.type === 'required' &&
-                                <p className="message message-error">Vui lòng nhập thông tin</p>
-                            }
-                            {errors.password && errors.password.type === 'minLength' &&
-                                <p className="message message-error">Mật khẩu phải có ít nhất 6 kí tự</p>
-                            }
-                        </div>
-                        <div className="form-col">
-                            <div className='form-input has-label'>
-                                <label>Xác nhận mật khẩu<label className='required'>*</label></label>
-                                <input
-                                    type="text"
-                                    autoComplete="off"
-                                    name="cf_password"
-                                    placeholder="Nhập lại mật khẩu"
-                                    ref={register({
-                                        required: true,
-                                        validate: (val) => {
-                                            const { password } = getValues();
-                                            return password === val;
-                                        },
-                                    })} />
-                            </div>
+                        <InputField
+                            label="Xác nhận mật khẩu"
+                            name="cf_password"
+                            // type="password"
+                            placeholder="Nhập lại mật khẩu"
+                            required
+                            control={control}
+                            rules={{
+                                required: 'Vui lòng nhập thông tin',
+                                validate: (val) =>
+                                    val === getValues('password') || 'Mật khẩu không khớp',
+                            }}
+                            error={errors.cf_password}
+                        />
 
-                            {errors.cf_password && errors.cf_password.type === 'required' &&
-                                <p className="message message-error">Vui lòng nhập thông tin</p>
-                            }
-                            {errors.cf_password && errors.cf_password.type === 'validate' &&
-                                <p className="message message-error">Mật khẩu không khớp</p>
-                            }
-                        </div>
                     </div>
+
+                    <div className="form-row three">
+                        <RadioGroupCheckbox
+                            label="Bạn là"
+                            required
+                            name="customer_type"
+                            options={convertObjectToOptions(CustomerTypeOptions)}
+                            control={control}
+                            rules={{ required: 'Vui lòng chọn 1 loại khách' }}
+                            error={errors.customer_type}
+                            inline
+                        />
+                    </div>
+
 
                     <div className="form-row j-c-c pt-40">
-                        <button type="submit" className="btn btn-green btn-full">Đăng ký</button>
+                        <button type="submit" className="btn btn-green btn-full">
+                            Đăng ký
+                        </button>
                     </div>
+
                     <div className="form-row j-c-c pt-30">
-                        <a href={PageUrl.Login} className="link-text">Bạn đã có tài khoản?</a>
+                        <a href={PageUrl.Login} className="link-text">
+                            Bạn đã có tài khoản?
+                        </a>
                     </div>
                 </form>
             </div>
         </section>
-    )
-}
+    );
+};
 
-export default RegisterPage
+export default RegisterPage;

@@ -1,4 +1,4 @@
-import { OrderStatus, PageUrl } from 'lib/constants/constant';
+import { OrderStatus, PageUrl } from 'lib/constants/data';
 import { CART_RE_BUY } from 'lib/store/type/cart-type';
 import { formatCurrency } from 'lib/utils';
 import { useRouter } from 'next/router';

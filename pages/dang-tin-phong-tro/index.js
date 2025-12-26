@@ -8,7 +8,7 @@ import { useRouter } from 'next/router';
 import { useDispatch } from 'react-redux';
 import { COMMON_URL_REDIRECT_LOGIN } from 'lib/store/type/common-type';
 
-const PostLandPage = () => {
+const Page = () => {
     const router = useRouter();
     const { user } = useSelector(state => state.users);
     const { slug = '' } = router.query || {};
@@ -32,7 +32,7 @@ const PostLandPage = () => {
     return (
         <>
             {user && user?.id && <section className="container post-land-page">
-                <Breadcrumb menu={PageUrl.Lands} title='Đăng tin bất động sản' />
+                <Breadcrumb menu={PageUrl.PostRentalRoom} title='Đăng tin phòng trọ' />
 
                 <div className='post-land'>
                     <PostLandCreate slug={slug} displayList={displayListHandle} />
@@ -42,4 +42,4 @@ const PostLandPage = () => {
     )
 }
 
-export default PostLandPage
+export default Page

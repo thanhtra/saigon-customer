@@ -1,11 +1,11 @@
 import { logout } from 'lib/api/user-service';
-import { ProfileTab } from 'lib/constants/constant';
+import { ProfileTab } from 'lib/constants/data';
 import { removeAllLocalStorage } from 'lib/utils/index';
 import { useDispatch } from 'react-redux';
 import { UPDATE_USER } from 'lib/store/type/user-type';
 import { useRouter } from 'next/router';
 import NProgress from 'nprogress';
-import { PageUrl } from 'lib/constants/constant';
+import { PageUrl } from 'lib/constants/tech';
 import Link from 'next/link';
 
 const ProfileFilter = ({ tab }) => {

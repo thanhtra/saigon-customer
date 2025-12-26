@@ -3,7 +3,7 @@ import DiscoveryContent from 'components/discovery/discovery-content';
 import DiscoveryDescription from 'components/discovery/discovery-description';
 import DiscoveryGallery from 'components/discovery/discovery-gallery';
 import { getDiscoveryDetail } from 'lib/api/discovery-service';
-import { PageUrl } from 'lib/constants/constant';
+import { PageUrl } from 'lib/constants/tech';
 import Link from 'next/link';
 
 export async function getServerSideProps({ params }) {

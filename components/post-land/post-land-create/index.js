@@ -7,7 +7,7 @@ import {
     createLand, uploadImagesLand, removeImageByName,
     createImages, getMyPost, updateMyLandPost
 } from 'lib/api/land.service';
-import { CategoryType, Position } from 'lib/constants/constant';
+import { CategoryType, Position } from 'lib/constants/data';
 import ImageUploading from "react-images-uploading";
 import clsx from 'clsx';
 import Checkbox from 'components/common/checkbox';

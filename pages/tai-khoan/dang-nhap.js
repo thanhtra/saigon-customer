@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { useRouter } from 'next/router'
 import { toast } from 'react-toastify'
 import NProgress from 'nprogress'
-import { PageUrl } from 'lib/constants/constant';
+import { PageUrl } from 'lib/constants/tech';
 import Breadcrumb from 'components/common/breadcrumb';
 import { login } from 'lib/api/user-service';
 import { LOGIN_SUCCESS } from 'lib/store/type/user-type';

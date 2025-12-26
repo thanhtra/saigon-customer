@@ -4,7 +4,7 @@ import CheckoutItems from 'components/order/checkout-item';
 import CheckoutStatus from 'components/order/checkout-status';
 import { createAddress, getAddresses } from 'lib/api/address-service';
 import { createOrder } from 'lib/api/order-service';
-import { PageUrl } from 'lib/constants/constant';
+import { PageUrl } from 'lib/constants/tech';
 import { CART_REMOVE_ALL_ITEM } from 'lib/store/type/cart-type';
 import { COMMON_URL_REDIRECT_LOGIN, POPUP_ADD_ADDRESS_HIDE, POPUP_ADD_ADDRESS_OPEN } from 'lib/store/type/common-type';
 import { UPDATE_USER } from 'lib/store/type/user-type';
@@ -16,7 +16,7 @@ import { useEffect, useState } from 'react';
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
-import { ProfileTab } from 'lib/constants/constant';
+import { ProfileTab } from 'lib/constants/data';
 
 const jsonProvince = require('lib/constants/address/tinh_tp.json');
 const jsonDistrict = require('lib/constants/address/quan_huyen.json');

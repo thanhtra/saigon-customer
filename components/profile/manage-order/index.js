@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux'
 import NProgress from 'nprogress'
 import OrderItem from '../order-item'
 import { getOrderByUserId } from 'lib/api/order-service';
-import { OrderStatus } from 'lib/constants/constant';
+import { OrderStatus } from 'lib/constants/data';
 import Pagination from 'components/common/pagination';
 
 const ManageOrder = () => {

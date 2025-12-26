@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react'
 import Checkbox from 'components/common/checkbox';
 import { getCategories } from 'lib/api/category.service';
-import { CategoryType } from 'lib/constants/constant';
+import { CategoryType } from 'lib/constants/data';
 import { getDistrictOption, getWardsOption } from 'lib/utils';
 import { AdministrativeUnits } from 'lib/constants/administrativeUnits';
 import { getOptionFromObject } from 'lib/utils';
 import Popup from 'reactjs-popup';
-import { AcreageLevel, PriceLevel } from 'lib/constants/constant';
+import { AcreageLevel, PriceLevel } from 'lib/constants/data';
 import { COMMON_POPUP_FILTER_OPEN, COMMON_POPUP_FILTER_HIDE } from 'lib/store/type/common-type';
 import { useSelector, useDispatch } from 'react-redux';
 

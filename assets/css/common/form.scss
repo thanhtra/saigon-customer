@@ -35,6 +35,17 @@
 }
 
 .form-row {
+    &.inline {
+        display: flex;
+        align-items: center;
+    }
+
+    .required {
+        color: var(--main-red-color);
+        display: inline;
+        padding-left: 3px;
+    }
+    
     &.two {
         display: flex;
         justify-content: space-between;
@@ -62,22 +73,16 @@
 
     .form-col {
         width: 100%;
-        margin-bottom: 15px;
+        margin-bottom: 30px;
 
         label {
-            padding: 0px 0px 6px 0px;
+            padding: 0px 0px 10px 0px;
             display: block;
             font-size: 12px;
             font-style: italic;
 
             @include breakpoint(tablet) {
                 font-size: 14px;
-            }
-
-            &.required {
-                color: var(--main-red-color);
-                display: inline;
-                padding-left: 3px;
             }
 
             &.note {

@@ -4,7 +4,7 @@ import { CART_ADD_ITEM_REQUEST } from 'lib/store/type/cart-type';
 import { formatCurrency } from 'lib/utils'
 import useOnClickOutside from 'use-onclickoutside';
 import Checkbox from 'components/common/checkbox';
-import { StatusProductConst } from 'lib/constants/constant';
+import { StatusProductConst } from 'lib/constants/data';
 
 const ProductContent = ({ product }) => {
     const inputRef = useRef(null);

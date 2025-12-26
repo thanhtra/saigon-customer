@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { PageUrl } from 'lib/constants/constant';
+import { PageUrl } from 'lib/constants/tech';
 import Link from 'next/link';
 
 const Footer = () => {

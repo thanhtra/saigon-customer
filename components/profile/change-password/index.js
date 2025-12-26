@@ -5,7 +5,7 @@ import { toast } from 'react-toastify'
 import NProgress from 'nprogress';
 import { removeAllLocalStorage } from 'lib/utils/index';
 import { UPDATE_USER } from 'lib/store/type/user-type';
-import { PageUrl } from 'lib/constants/constant';
+import { PageUrl } from 'lib/constants/tech';
 import { useRouter } from 'next/router';
 import { logout } from 'lib/api/user-service';
 

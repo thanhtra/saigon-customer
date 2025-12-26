@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { PageUrl } from 'lib/constants/constant';
+import { PageUrl } from 'lib/constants/tech';
 
 const Breadcrumb = ({ menu = '', title }) => (
   <section className="breadcrumb">

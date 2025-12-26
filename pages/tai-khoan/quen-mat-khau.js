@@ -11,7 +11,7 @@ import Breadcrumb from 'components/common/breadcrumb';
 import clsx from 'clsx';
 import { removeAllLocalStorage } from 'lib/utils/index';
 import { UPDATE_USER } from 'lib/store/type/user-type';
-import { PageUrl } from 'lib/constants/constant';
+import { PageUrl } from 'lib/constants/tech';
 
 const ForgotPassword = () => {
     const router = useRouter()

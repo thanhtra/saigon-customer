@@ -5,7 +5,7 @@ import CheckoutStatus from '../checkout-status';
 import CartItem from '../cart-item';
 import { formatCurrency } from 'lib/utils';
 import Link from 'next/link';
-import { PageUrl } from 'lib/constants/constant';
+import { PageUrl } from 'lib/constants/tech';
 import Breadcrumb from 'components/common/breadcrumb';
 import { COMMON_URL_REDIRECT_LOGIN } from 'lib/store/type/common-type';
 

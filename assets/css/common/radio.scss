@@ -1,0 +1,90 @@
+.radio-wrapper {
+    display: flex;
+    align-items: center;
+
+    &.inline {
+        .radio {
+            display: flex;
+            margin-bottom: 0;
+            margin-right: 30px;
+        }
+    }
+}
+
+.radio {
+    font-weight: 300;
+    font-size: 14px;
+    display: flex;
+    color: #000;
+    margin-bottom: 10px;
+    align-items: center;
+    cursor: pointer;
+    padding: 0 !important;
+
+    @include breakpoint(tablet) {
+        margin-bottom: 12px;
+    }
+
+    &:hover {
+        color: var(--color-main-green);
+
+        .radio-check {
+            box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
+        }
+    }
+
+    > input {
+        display: none !important;
+    }
+
+    .radio-check {
+        display: block;
+        height: 20px;
+        width: 20px;
+        flex-shrink: 0;
+        position: relative;
+        margin-right: 14px;
+        border: 1px solid #d4d4d4;
+        border-radius: 50%;
+
+        @include breakpoint(tablet) {
+            width: 26px;
+            height: 26px;
+            margin-right: 16px;
+        }
+
+        &:before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 10px;
+            height: 10px;
+            background: var(--color-main-green);
+            border-radius: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            transition: all 0.2s linear;
+
+            @include breakpoint(tablet) {
+                width: 12px;
+                height: 12px;
+            }
+        }
+    }
+
+    input:checked + .radio-check {
+        border-color: var(--color-main-green);
+
+        &:before {
+            transform: translate(-50%, -50%) scale(1);
+        }
+    }
+
+    p {
+        font-size: 14px;
+
+        @include breakpoint(tablet) {
+            font-size: 16px;
+        }
+    }
+}

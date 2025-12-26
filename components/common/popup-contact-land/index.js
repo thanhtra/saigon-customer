@@ -90,7 +90,7 @@ const PopupContact = ({ isShow, hideModal, contact }) => {
 
                 <p className='title'>Thông tin tài khoản đăng tin</p>
                 <div className='p-contact-action infor-account'>
-                    <div className='item name'><p className='c-label'>{user?.gender ? (user?.gender === "Nam" ? 'Anh' : 'Chị') : 'Anh, chị'}</p> {user?.full_name}</div>
+                    <div className='item name'><p className='c-label'>{user?.gender ? (user?.gender === "Nam" ? 'Anh' : 'Chị') : 'Anh, chị'}</p> {user?.name}</div>
                     {user?.phone && <a className="btn btn_call btn_zalo" target="_blank" href={zalo_user}>
                         Zalo
                     </a>}
