@@ -1,10 +1,16 @@
 import Link from 'next/link';
-import { formatDate } from 'lib/utils/index';
+import { formatDate, formatVnd, formatArea } from 'lib/utils/index';
 const { NEXT_PUBLIC_REACT_APP_API } = process.env
 
 const LandItem = ({ land }) => {
-    const { image, slug, title, price, acreage, district, ward, updatedAt } = land
-    const bkImage = `${NEXT_PUBLIC_REACT_APP_API}/uploads/land/${image}`
+    console.log('ahihiii', land);
+
+
+
+    const { slug, title, price, area, rental, updatedAt, uploads, cover_index } = land;
+    console.log('ahahaa', uploads[cover_index]);
+
+    const bkImage = `${NEXT_PUBLIC_REACT_APP_API}/uploads/${uploads[cover_index].file_path}`
 
     return (
         <Link href={`/bat-dong-san/${slug}`}>
@@ -16,12 +22,12 @@ const LandItem = ({ land }) => {
                     <a className='land-name'>{title}</a>
 
                     <div className="land-price">
-                        <span className='title'>{acreage}</span>
+                        <span className='title'>{formatArea(area)}</span>
                         <span className='point'></span>
-                        <span className='title'>{price}</span>
+                        <span className='title'>{formatVnd(price)}</span>
                     </div>
 
-                    <p className='land-address'> {ward} - {district} - Đăk Nông </p>
+                    <p className='land-address'>{rental?.address_detail_display}</p>
                     <p className='created-date'>Ngày cập nhật: {formatDate(updatedAt)}</p>
                 </div>
             </div >

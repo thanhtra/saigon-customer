@@ -1,71 +1,102 @@
-import { useForm } from "react-hook-form"
-import { useSelector } from "react-redux"
+'use client'
+
+import { useForm } from 'react-hook-form'
+import { useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
-import { updateUser } from 'lib/api/user-service';
+import { updateUser } from 'lib/api/user-service'
 import NProgress from 'nprogress'
+import { useState } from 'react'
 
 const Subscribe = () => {
     const { user } = useSelector(state => state.users)
-    const { register, handleSubmit, errors, reset } = useForm()
+    const [loading, setLoading] = useState(false)
 
-    const onSubmit = (data) => {
-        if (!user?.id || !data.email) {
-            toast.error("Đăng kí thất bại.")
+    const {
+        register,
+        handleSubmit,
+        reset,
+        formState: { errors }
+    } = useForm({
+        defaultValues: {
+            email: ''
+        }
+    })
+
+    const onSubmit = async (data) => {
+        if (!user?.id) {
+            toast.error('Vui lòng đăng nhập để đăng ký nhận tin.')
             return
         }
-        const userInfor = {
-            id: user?.id,
-            email: data.email
-        }
 
+        setLoading(true)
         NProgress.start()
-        updateUser(userInfor)
-            .then(res => {
-                if (res && res.success) {
-                    NProgress.done()
-                    toast.success("Đăng kí thành công!")
-                    reset({});
-                }
+
+        try {
+            const res = await updateUser({
+                id: user.id,
+                email: data.email
             })
-            .catch(err => {
-                reset({});
-                NProgress.done()
-                toast.error("Đăng kí thất bại.")
-            })
+
+            if (res?.success) {
+                toast.success('🎉 Đăng ký nhận tin thành công!')
+                reset()
+            } else {
+                toast.error('Đăng ký thất bại, vui lòng thử lại.')
+            }
+        } catch (error) {
+            toast.error('Có lỗi xảy ra, vui lòng thử lại.')
+        } finally {
+            setLoading(false)
+            NProgress.done()
+        }
     }
 
     return (
-        <section className="container subscribe">
-            <div style={{ backgroundImage: 'url(/images/subscribe.jpg)' }} className="subscribe-content">
-                <p className="txt">Đăng ký để nhận thông tin mới nhất về văn hoá, ẩm thực và du lịch Đăk Nông</p>
+        <section className="subscribe-section">
+            <div
+                className="subscribe-box"
+                style={{ backgroundImage: 'url(/images/subscribe.jpg)' }}
+            >
+                <div className="subscribe-content">
+                    <h3>Nhận tin BĐS Gò Vấp sớm nhất</h3>
+                    <p>
+                        Nhà phố chính chủ • Phòng trọ mới • Tool & dịch vụ BĐS hữu ích
+                    </p>
 
-                <form className="form subscribe-form" onSubmit={handleSubmit(onSubmit)} autoComplete="off">
-                    <div className="form-row">
-                        <div className="form-input">
+                    <form
+                        className="subscribe-form"
+                        onSubmit={handleSubmit(onSubmit)}
+                        autoComplete="off"
+                    >
+                        <div className="input-group">
+                            <i className="icon-send"></i>
                             <input
-                                type="text"
-                                autoComplete="off"
-                                placeholder="Địa chỉ email"
-                                name="email"
-                                ref={register({
-                                    required: true,
-                                    pattern: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/,
+                                type="email"
+                                placeholder="Nhập email của bạn"
+                                {...register('email', {
+                                    required: 'Vui lòng nhập email',
+                                    pattern: {
+                                        value: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/i,
+                                        message: 'Email không hợp lệ'
+                                    }
                                 })}
+                                disabled={loading}
                             />
                         </div>
 
+                        {errors.email && (
+                            <p className="message-error">{errors.email.message}</p>
+                        )}
 
-                        {errors.email && errors.email.type === 'required' &&
-                            <p className="message message-error">Vui lòng nhập thông tin</p>
-                        }
-
-                        {errors.email && errors.email.type === 'pattern' &&
-                            <p className="message message-error">Địa chỉ email chưa đúng</p>
-                        }
-                    </div>
-
-                    <button type="submit" className="btn btn-green">Đăng ký</button>
-                </form>
+                        <button
+                            type="submit"
+                            className="btn-submit"
+                            disabled={loading}
+                        >
+                            {loading ? 'Đang đăng ký...' : 'Đăng ký nhận tin'}
+                        </button>
+                    </form>
+                </div>
             </div>
         </section>
     )

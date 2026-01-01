@@ -501,3 +501,393 @@ const LandFilter = ({ searchLands, query }) => {
 }
 
 export default LandFilter
+
+
+
+
+
+
+// import { useCallback, useEffect, useMemo, useState } from 'react';
+// import Popup from 'reactjs-popup';
+// import { useDispatch } from 'react-redux';
+
+// import Checkbox from 'components/common/checkbox';
+// import { getCategories } from 'lib/api/category.service';
+// import { CategoryType, AcreageLevel, PriceLevel } from 'lib/constants/data';
+// import { AdministrativeUnits } from 'lib/constants/administrativeUnits';
+// import {
+//     getDistrictOption,
+//     getWardsOption,
+//     getOptionFromObject,
+// } from 'lib/utils';
+
+// import {
+//     COMMON_POPUP_FILTER_OPEN,
+//     COMMON_POPUP_FILTER_HIDE,
+// } from 'lib/store/type/common-type';
+
+// /* ===================== CONST ===================== */
+
+// const INIT_FILTER = {
+//     district: '',
+//     ward: '',
+//     categoryId: '',
+//     priceLevel: '',
+//     acreageLevel: '',
+// };
+
+// /* ===================== COMPONENT ===================== */
+
+// const RoomFilter = ({ searchRooms, query }) => {
+//     const dispatch = useDispatch();
+
+//     const [categories, setCategories] = useState([]);
+//     const [wards, setWards] = useState([]);
+//     const [filters, setFilters] = useState(INIT_FILTER);
+
+//     // popup đang mở
+//     const [activePopup, setActivePopup] = useState(null);
+
+//     /* ===================== OPTIONS ===================== */
+
+//     const priceOptions = useMemo(
+//         () => getOptionFromObject(PriceLevel),
+//         []
+//     );
+
+//     const acreageOptions = useMemo(
+//         () => getOptionFromObject(AcreageLevel),
+//         []
+//     );
+
+//     const categoryIds = useMemo(
+//         () => filters.categoryId.split(',').filter(Boolean),
+//         [filters.categoryId]
+//     );
+
+//     const priceIds = useMemo(
+//         () => filters.priceLevel.split(',').filter(Boolean),
+//         [filters.priceLevel]
+//     );
+
+//     const acreageIds = useMemo(
+//         () => filters.acreageLevel.split(',').filter(Boolean),
+//         [filters.acreageLevel]
+//     );
+
+//     /* ===================== EFFECTS ===================== */
+
+//     // fetch categories
+//     useEffect(() => {
+//         getCategories({ isPagin: false }).then(res => {
+//             if (res?.success) {
+//                 setCategories(
+//                     (res.result?.data || []).filter(
+//                         item => item.type === CategoryType.LAND
+//                     )
+//                 );
+//             }
+//         });
+//     }, []);
+
+//     // call search
+//     useEffect(() => {
+//         const hasValue = Object.values(filters).some(Boolean);
+//         if (!hasValue) return;
+
+//         searchRooms(filters);
+//     }, [filters, searchRooms]);
+
+
+//     // popup overlay redux
+//     useEffect(() => {
+//         dispatch({
+//             type: activePopup
+//                 ? COMMON_POPUP_FILTER_OPEN
+//                 : COMMON_POPUP_FILTER_HIDE,
+//         });
+//     }, [activePopup, dispatch]);
+
+//     // sync query -> filter
+//     useEffect(() => {
+//         if (!query) return;
+
+//         const nextFilter = {
+//             district: query.district || '',
+//             ward: query.ward || '',
+//             categoryId: query.categoryId || '',
+//             priceLevel: query.priceLevel || '',
+//             acreageLevel: query.acreageLevel || '',
+//         };
+
+//         if (nextFilter.district) {
+//             setWards(
+//                 getWardsOption(AdministrativeUnits, nextFilter.district)
+//             );
+//         }
+
+//         setFilters(nextFilter);
+//     }, [query]);
+
+//     /* ===================== HANDLERS ===================== */
+
+//     const toggleMultiValue = useCallback(
+//         (key, value) => {
+//             const current = filters[key].split(',').filter(Boolean);
+
+//             const next = current.includes(value)
+//                 ? current.filter(v => v !== value)
+//                 : [...current, value];
+
+//             setFilters(prev => ({
+//                 ...prev,
+//                 [key]: next.join(','),
+//             }));
+//         },
+//         [filters]
+//     );
+
+//     const clearFilter = useCallback(key => {
+//         setFilters(prev => ({
+//             ...prev,
+//             [key]: '',
+//         }));
+//     }, []);
+
+//     const selectDistrict = e => {
+//         const value = e.target.value;
+//         if (!value) return;
+
+//         setWards(getWardsOption(AdministrativeUnits, value));
+//         setFilters(prev => ({
+//             ...prev,
+//             district: value,
+//             ward: '',
+//         }));
+//     };
+
+//     const selectWard = e => {
+//         const value = e.target.value;
+//         if (!value) return;
+
+//         setFilters(prev => ({
+//             ...prev,
+//             ward: value,
+//         }));
+//     };
+
+//     const categoryNames = useMemo(() => {
+//         return categoryIds
+//             .map(id => categories.find(c => c.id === id)?.name)
+//             .filter(Boolean)
+//             .join(' - ');
+//     }, [categoryIds, categories]);
+
+//     /* ===================== RENDER ===================== */
+
+//     return (
+//         <>
+//             {/* ===== TOP FILTER BAR ===== */}
+//             <div className="show-menu-filter">
+//                 <div
+//                     className={`filter-item ${filters.district ? 'has-value' : ''
+//                         }`}
+//                     onClick={() => setActivePopup('address')}
+//                 >
+//                     {filters.ward
+//                         ? `${filters.ward}, ${filters.district}`
+//                         : filters.district || 'Khu vực'}
+//                     <i className="icon-down-open" />
+//                 </div>
+
+//                 <div
+//                     className={`filter-item ${filters.categoryId ? 'has-value' : ''
+//                         }`}
+//                     onClick={() => setActivePopup('category')}
+//                 >
+//                     {categoryNames || 'Loại nhà đất'}
+//                     <i className="icon-down-open" />
+//                 </div>
+
+//                 <div
+//                     className={`filter-item ${priceIds.length ? 'has-value' : ''
+//                         }`}
+//                     onClick={() => setActivePopup('price')}
+//                 >
+//                     Mức giá <i className="icon-down-open" />
+//                 </div>
+
+//                 <div
+//                     className={`filter-item ${acreageIds.length ? 'has-value' : ''
+//                         }`}
+//                     onClick={() => setActivePopup('acreage')}
+//                 >
+//                     Diện tích <i className="icon-down-open" />
+//                 </div>
+//             </div>
+
+//             {/* ===== POPUP ADDRESS ===== */}
+//             <Popup
+//                 open={activePopup === 'address'}
+//                 onClose={() => setActivePopup(null)}
+//                 className="popup-filter-rooms"
+//             >
+//                 <div className="filter-mobile">
+//                     <div className="filter-head">
+//                         <p className="filter-title">Khu vực Đăk Nông</p>
+//                         <i
+//                             className="icon-cancel"
+//                             onClick={() => setActivePopup(null)}
+//                         />
+//                     </div>
+
+//                     <div className="filter-content">
+//                         <div className="form-select">
+//                             <select value={filters.district} onChange={selectDistrict}>
+//                                 <option value="">Huyện, thành phố</option>
+//                                 {getDistrictOption(AdministrativeUnits).map(d => (
+//                                     <option key={d.id} value={d.id}>
+//                                         {d.label}
+//                                     </option>
+//                                 ))}
+//                             </select>
+//                         </div>
+
+//                         <div className="form-select">
+//                             <select
+//                                 value={filters.ward}
+//                                 onChange={selectWard}
+//                                 disabled={!filters.district}
+//                             >
+//                                 <option value="">Xã, phường</option>
+//                                 {wards.map(w => (
+//                                     <option key={w.id} value={w.id}>
+//                                         {w.label}
+//                                     </option>
+//                                 ))}
+//                             </select>
+//                         </div>
+//                     </div>
+
+//                     {filters.district && (
+//                         <div className="filter-footer">
+//                             <span
+//                                 className="remove-filter"
+//                                 onClick={() => clearFilter('district')}
+//                             >
+//                                 Bỏ lọc
+//                             </span>
+//                         </div>
+//                     )}
+//                 </div>
+//             </Popup>
+
+//             {/* ===== POPUP CATEGORY ===== */}
+//             <Popup
+//                 open={activePopup === 'category'}
+//                 onClose={() => setActivePopup(null)}
+//                 className="popup-filter-rooms"
+//             >
+//                 <div className="filter-mobile">
+//                     <div className="filter-head">
+//                         <p className="filter-title">Loại bất động sản</p>
+//                         <i
+//                             className="icon-cancel"
+//                             onClick={() => setActivePopup(null)}
+//                         />
+//                     </div>
+
+//                     <div className="filter-content">
+//                         {categories.map(c => (
+//                             <Checkbox
+//                                 key={c.id}
+//                                 name={c.id}
+//                                 label={c.name}
+//                                 checked={categoryIds.includes(c.id)}
+//                                 onChange={() =>
+//                                     toggleMultiValue('categoryId', c.id)
+//                                 }
+//                             />
+//                         ))}
+//                     </div>
+
+//                     {filters.categoryId && (
+//                         <div className="filter-footer">
+//                             <span
+//                                 className="remove-filter"
+//                                 onClick={() => clearFilter('categoryId')}
+//                             >
+//                                 Bỏ lọc
+//                             </span>
+//                         </div>
+//                     )}
+//                 </div>
+//             </Popup>
+
+//             {/* ===== POPUP PRICE ===== */}
+//             <Popup
+//                 open={activePopup === 'price'}
+//                 onClose={() => setActivePopup(null)}
+//                 className="popup-filter-rooms"
+//             >
+//                 <div className="filter-mobile">
+//                     <div className="filter-head">
+//                         <p className="filter-title">Khoảng giá</p>
+//                         <i
+//                             className="icon-cancel"
+//                             onClick={() => setActivePopup(null)}
+//                         />
+//                     </div>
+
+//                     <div className="filter-content">
+//                         {priceOptions.map(p => (
+//                             <Checkbox
+//                                 key={p.id}
+//                                 name={p.id}
+//                                 label={p.label}
+//                                 checked={priceIds.includes(p.id)}
+//                                 onChange={() =>
+//                                     toggleMultiValue('priceLevel', p.id)
+//                                 }
+//                             />
+//                         ))}
+//                     </div>
+//                 </div>
+//             </Popup>
+
+//             {/* ===== POPUP ACREAGE ===== */}
+//             <Popup
+//                 open={activePopup === 'acreage'}
+//                 onClose={() => setActivePopup(null)}
+//                 className="popup-filter-rooms"
+//             >
+//                 <div className="filter-mobile">
+//                     <div className="filter-head">
+//                         <p className="filter-title">Khoảng diện tích</p>
+//                         <i
+//                             className="icon-cancel"
+//                             onClick={() => setActivePopup(null)}
+//                         />
+//                     </div>
+
+//                     <div className="filter-content">
+//                         {acreageOptions.map(a => (
+//                             <Checkbox
+//                                 key={a.id}
+//                                 name={a.id}
+//                                 label={a.label}
+//                                 checked={acreageIds.includes(a.id)}
+//                                 onChange={() =>
+//                                     toggleMultiValue('acreageLevel', a.id)
+//                                 }
+//                             />
+//                         ))}
+//                     </div>
+//                 </div>
+//             </Popup>
+//         </>
+//     );
+// };
+
+// export default RoomFilter;
+

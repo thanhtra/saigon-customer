@@ -165,8 +165,6 @@
 }
 
 
-// Popup filter
-
 .filter-mobile {
     display: block;
     position: fixed;
@@ -175,8 +173,8 @@
     right: 0px;
     background: #fff;
     z-index: 9999;
-    max-height: calc(100vh - 141px);
-    height: 50vh;
+    max-height: calc(100vh - 100px);
+    height: 85vh;
     border-radius: 10px 10px 0px 0px;
     box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
 
@@ -204,10 +202,10 @@
     }
 
     .filter-content {
-        padding: 20px 40px;
+        padding: 20px 20px;
         height: 215px;
         overflow: auto;
-        height: calc(70vh - 120px);
+        height: 100%;
 
         label {
             margin-bottom: 25px;

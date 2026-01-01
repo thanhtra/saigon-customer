@@ -1,66 +1,72 @@
 import Breadcrumb from 'components/common/breadcrumb';
-import LandFilter from 'components/land/land-filter';
-import LandsContent from 'components/land/lands-content';
-import { getRentals } from 'lib/api/rental.service';
-import { PageUrl } from 'lib/constants/tech';
-import { COMMON_URL_REDIRECT_LOGIN } from 'lib/store/type/common-type';
-import Link from 'next/link';
-import { useRouter } from 'next/router';
-import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import RoomFilter from 'components/room/room-filter';
+import RoomsContent from 'components/room/rooms-content';
+
+import { getRooms } from 'lib/api/room.service';
+import { normalizeRoomQuery } from 'lib/utils/normalizeRoomQuery';
+import { useRoomRouter } from 'hooks/useRoomRouter';
+
+/* ================= SSR ================= */
 
 export async function getServerSideProps({ query }) {
-    const payload = Object.keys(query) !== 0 ? query : {
-        page: 0,
-        size: 10
-    };
+    try {
+        const payload = normalizeRoomQuery(query);
+        const res = await getRooms(payload);
 
-    const res = await getRentals(payload);
-    return {
-        props: {
-            lands: res?.data || [],
-            meta: res?.meta || {}
-        },
+        if (!res?.success) {
+            return {
+                props: {
+                    rooms: [],
+                    meta: {},
+                },
+            };
+        }
+
+        return {
+            props: {
+                rooms: res.result?.data ?? [],
+                meta: res.result?.meta ?? {},
+            },
+        };
+    } catch {
+        return {
+            props: {
+                rooms: [],
+                meta: {},
+            },
+        };
     }
 }
 
-const Rental = ({ lands, meta }) => {
-    const router = useRouter();
-    const [query, setQuery] = useState({});
-    const dispatch = useDispatch()
+/* ================= PAGE ================= */
 
-    const searchRentalsHandle = (payload) => {
-        const newQuery = { ...payload, page: 0 };
-
-        setQuery(newQuery);
-        router.query = newQuery;
-        router.push(router);
-    }
-
-    const changePageHandle = (pageNumber) => {
-        const page = pageNumber < 0 ? 0 : pageNumber;
-        const newQuery = { ...query, page: page };
-        setQuery(newQuery);
-        router.query = newQuery;
-        router.push(router);
-    }
+const RentalPage = ({ rooms, meta }) => {
+    const { query, search, paginate } = useRoomRouter();
 
     return (
-        <>
-            <section className="container rentals-page">
-                <Breadcrumb title={`Tất cả ${meta?.itemCount} nhà ở cho thuê`} />
+        <section className="container rooms-page">
+            <Breadcrumb
+                title={`Tất cả ${meta?.itemCount ?? 0} nhà ở cho thuê`}
+            />
 
-                <div className='lands-main'>
-                    <div className='section-filter'>
-                        <LandFilter searchLands={searchRentalsHandle} query={router.query} />
-                    </div>
-                    <div className='section-content'>
-                        <LandsContent lands={lands} meta={meta} changePage={changePageHandle} />
-                    </div>
-                </div>
-            </section>
-        </>
-    )
-}
+            <div className="rooms-main">
+                <aside className="section-filter">
+                    <RoomFilter
+                        query={query}
+                        searchRooms={search}
+                    />
+                </aside>
 
-export default Rental
+                <main className="section-content">
+                    <RoomsContent
+                        rooms={rooms}
+                        meta={meta}
+                        changePage={paginate}
+                    />
+                </main>
+            </div>
+        </section>
+    );
+};
+
+export default RentalPage;

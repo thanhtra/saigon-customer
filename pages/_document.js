@@ -19,6 +19,10 @@ export default class CustomDocument extends Document {
           <meta property="og:site_name" content="Khám phá Đăk Nông" />
           <meta httpEquiv="Content-Security-Policy" content="upgrade-insecure-requests" />
           <meta httpEquiv="Content-Type" content="text/html;charset=UTF-8"></meta>
+          <meta
+            name="description"
+            content="Mua bán nhà phố, phòng trọ Sài Gòn. Pháp lý minh bạch, giá hợp lý, hỗ trợ tận tâm."
+          />
         </Head>
 
 

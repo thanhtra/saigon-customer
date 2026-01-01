@@ -1,7 +1,10 @@
 import { logout } from 'lib/api/user-service'
 import { PageUrl, ProfileTab } from 'lib/constants/tech'
 import { CART_HIDE_POPUP_REQUEST } from 'lib/store/type/cart-type'
-import { COMMON_POPUP_FILTER_HIDE, COMMON_POPUP_HIDE, COMMON_POPUP_OPEN, POPUP_ADD_ADDRESS_HIDE } from 'lib/store/type/common-type'
+import {
+    COMMON_POPUP_FILTER_HIDE, COMMON_POPUP_HIDE, COMMON_POPUP_OPEN,
+    POPUP_ADD_ADDRESS_HIDE, COMMON_POPUP_FILTER_OPEN
+} from 'lib/store/type/common-type'
 import { UPDATE_USER } from 'lib/store/type/user-type'
 import { removeAllLocalStorage } from 'lib/utils/index'
 import Link from 'next/link'
@@ -11,6 +14,8 @@ import { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import useOnClickOutside from 'use-onclickoutside';
 import { useForm } from "react-hook-form"
+
+
 
 const Header = () => {
     const router = useRouter()
@@ -27,6 +32,11 @@ const Header = () => {
     const searchRef = useRef(null)
     const popupCartRef = useRef(null);
     const [openMenuAccount, setOpenMenuAccount] = useState(false);
+
+    const isFilterPage =
+        pathname.includes(PageUrl.Rental) ||
+        pathname.includes(PageUrl.Lands);
+
 
     useEffect(() => {
         dispatch({ type: COMMON_POPUP_HIDE });
@@ -76,6 +86,7 @@ const Header = () => {
         });
         router.push('/');
     }
+
     const logoutHandle = async () => {
         try {
             handleClosePopup();
@@ -102,10 +113,24 @@ const Header = () => {
         }
     }
 
-    const openInputSearch = () => {
+    // const openInputSearch = () => {
+    //     reset({ search: router.query.keySearch || '' });
+    //     setSearchOpen(!searchOpen);
+    // }
+    const openSearchOrFilter = () => {
+        // Trang nhà thuê / BĐS → mở FILTER
+        if (
+            pathname.includes(PageUrl.Rental) ||
+            pathname.includes(PageUrl.Lands)
+        ) {
+            dispatch({ type: COMMON_POPUP_FILTER_OPEN });
+            return;
+        }
+
+        // Trang khác → search text
         reset({ search: router.query.keySearch || '' });
-        setSearchOpen(!searchOpen);
-    }
+        setSearchOpen(true);
+    };
 
     useOnClickOutside(navRef, handleClosePopup)
     useOnClickOutside(searchRef, closeSearch)
@@ -116,7 +141,7 @@ const Header = () => {
             <div className="container">
                 <Link href="/">
                     <a >
-                        <div className="img-logo" style={{ backgroundImage: 'url(/images/virung.png)' }}></div>
+                        <div className="img-logo" style={{ backgroundImage: 'url(/images/logo.png)' }}></div>
                     </a>
                 </Link>
                 <nav ref={navRef} className={`site-nav ${menuOpen ? 'site-nav--open' : ''}`}>
@@ -125,12 +150,12 @@ const Header = () => {
                     </div>
 
                     <div className='nav-menu'>
-                        <Link href={PageUrl.Rental}>
-                            <a onClick={handleClosePopup} className={`${pathname.includes(PageUrl.Rental) ? 'active' : ''}`}>Nhà ở cho thuê</a>
-                        </Link>
-
                         <Link href={PageUrl.Lands}>
                             <a onClick={handleClosePopup} className={`${pathname.includes(PageUrl.Lands) ? 'active' : ''}`}>Bất động sản</a>
+                        </Link>
+
+                        <Link href={PageUrl.Rental}>
+                            <a onClick={handleClosePopup} className={`${pathname.includes(PageUrl.Rental) ? 'active' : ''}`}>Nhà ở cho thuê</a>
                         </Link>
 
                         <Link href={PageUrl.Products}>
@@ -171,7 +196,7 @@ const Header = () => {
                 </nav>
 
                 <div className="site-header-actions" ref={searchRef}>
-                    <button className={`search-form-wrapper ${searchOpen ? 'search-active' : ''}`}>
+                    <button className={`search-form-wrapper ${searchOpen && !isFilterPage ? 'search-active' : ''}`}>
                         <form className='search-form' onSubmit={handleSubmit(onSubmit)} autoComplete="off">
                             <i className="icon-cancel" onClick={() => setSearchOpen(!searchOpen)}></i>
                             <input type="text"
@@ -181,7 +206,7 @@ const Header = () => {
                                 ref={register({})}
                             />
                         </form>
-                        <i onClick={openInputSearch} className="icon-search"></i>
+                        <i onClick={openSearchOrFilter} className="icon-search"></i>
                     </button>
 
                     <Link href={PageUrl.ShoppingCart}>

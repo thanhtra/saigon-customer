@@ -1,51 +1,35 @@
+
+import SwiperCore, { Autoplay, EffectFade } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import SwiperCore, { EffectFade, Autoplay } from 'swiper';
-import Link from 'next/link';
+import { SLIDES } from 'lib/constants/data';
+
 SwiperCore.use([EffectFade, Autoplay]);
 
 const PageIntro = () => {
-
     return (
         <section className="page-intro">
-            <Swiper autoplay={{
-                "delay": 3500,
-                "disableOnInteraction": false
-            }}
+            <Swiper
+                autoplay={{ delay: 4000, disableOnInteraction: false }}
                 effect="fade"
-                className="swiper-wrapper"
             >
-                <SwiperSlide>
-                    <div className="page-intro-slide" style={{ backgroundImage: "url('/images/ta_dung.jpeg')" }}>
-                        <div className="container">
-                            <div className="page-intro-slide-content">
-                                <p className='p-i-title'>Văn hóa - du lịch</p>
+                {SLIDES.map((item, index) => (
+                    <SwiperSlide key={index}>
+                        <div
+                            className="page-intro-slide"
+                            style={{ backgroundImage: `url(${item.image})` }}
+                        >
+                            <div className="container">
+                                <div className="page-intro-slide-content">
+                                    <h2 className="p-i-title">{item.title}</h2>
+                                    <p className="p-i-desc">{item.desc}</p>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </SwiperSlide>
-
-                <SwiperSlide>
-                    <div className="page-intro-slide" style={{ backgroundImage: "url('/images/dstn.jpeg')" }}>
-                        <div className="container">
-                            <div className="page-intro-slide-content">
-                                <p className='p-i-title'>Ẩm thực - đặc sản</p>
-                            </div>
-                        </div>
-                    </div>
-                </SwiperSlide>
-
-                <SwiperSlide>
-                    <div className="page-intro-slide" style={{ backgroundImage: "url('/images/bds.jpeg')" }}>
-                        <div className="container">
-                            <div className="page-intro-slide-content">
-                                <p className='p-i-title'>Bất động sản Đăk Nông</p>
-                            </div>
-                        </div>
-                    </div>
-                </SwiperSlide>
+                    </SwiperSlide>
+                ))}
             </Swiper>
         </section>
-    )
+    );
 };
 
-export default PageIntro
+export default PageIntro;
