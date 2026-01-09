@@ -1,6 +1,5 @@
 import { toast } from 'react-toastify'
-import { removeAddress } from 'lib/api/address-service';
-import { updateUser } from 'lib/api/user-service';
+import { updateUser } from 'lib/api/user.api';
 import { useDispatch } from 'react-redux'
 import NProgress from 'nprogress';
 import { UPDATE_USER } from 'lib/store/type/user-type';
@@ -12,19 +11,19 @@ const AddressItem = ({ id, user_id, address_detail, ward, district, province, ph
         try {
             NProgress.start();
 
-            const res = await removeAddress(id);
-            if (res && res.success) {
+            // const res = await removeAddress(id);
+            // if (res && res.success) {
 
-                NProgress.done()
-                toast.success("Xoá địa chỉ thành công!");
+            //     NProgress.done()
+            //     toast.success("Xoá địa chỉ thành công!");
 
-                if (reload) {
-                    reload(true)
-                }
-            } else {
-                NProgress.done()
-                toast.error("Xoá địa chỉ thất bại.")
-            }
+            //     if (reload) {
+            //         reload(true)
+            //     }
+            // } else {
+            //     NProgress.done()
+            //     toast.error("Xoá địa chỉ thất bại.")
+            // }
         } catch (err) {
             NProgress.done()
             toast.error("Xoá địa chỉ thất bại.")

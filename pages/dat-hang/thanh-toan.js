@@ -275,7 +275,7 @@ const CheckoutPage = () => {
                                 {(!Object.keys(currentAddress || {}).length && !user?.address_default) && <div className="gr-address">
                                     <div className='form'>
                                         <div className="form-row">
-                                            <div className="form-col">
+                                            <div className="form-group">
                                                 <div className='form-input has-label'>
                                                     <label>Tên liên hệ<label className='required'>*</label></label>
                                                     <input
@@ -293,7 +293,7 @@ const CheckoutPage = () => {
                                                 }
                                             </div>
 
-                                            <div className="form-col">
+                                            <div className="form-group">
                                                 <div className='form-input has-label'>
                                                     <label>Số điện thoại<label className='required'>*</label></label>
                                                     <input
@@ -318,8 +318,8 @@ const CheckoutPage = () => {
                                             </div>
                                         </div>
 
-                                        <div className="form-row two">
-                                            <div className="form-col">
+                                        <div className="form-row">
+                                            <div className="form-group">
                                                 <div className="form-select has-label">
                                                     <label>Tỉnh, thành phố<label className='required'>*</label></label>
                                                     <select
@@ -341,7 +341,7 @@ const CheckoutPage = () => {
                                                 }
                                             </div>
 
-                                            <div className="form-col">
+                                            <div className="form-group">
                                                 <div className="form-select has-label">
                                                     <label>Quận, huyện<label className='required'>*</label></label>
                                                     <select
@@ -365,8 +365,8 @@ const CheckoutPage = () => {
                                             </div>
                                         </div>
 
-                                        <div className="form-row two">
-                                            <div className="form-col">
+                                        <div className="form-row">
+                                            <div className="form-group">
                                                 <div className="form-select has-label">
                                                     <label>Xã, phường<label className='required'>*</label></label>
                                                     <select
@@ -387,7 +387,7 @@ const CheckoutPage = () => {
                                                 }
                                             </div>
 
-                                            <div className="form-col">
+                                            <div className="form-group">
                                                 <div className='form-input has-label'>
                                                     <label>Địa chỉ chi tiết<label className='required'>*</label></label>
                                                     <input
@@ -413,7 +413,7 @@ const CheckoutPage = () => {
                             <div className="block">
                                 <h3 className="block-title">Lời nhắn</h3>
                                 <div className="form-row three">
-                                    <div className="form-col" style={{ marginBottom: '0px' }}>
+                                    <div className="form-group" style={{ marginBottom: '0px' }}>
                                         <div className='form-input has-label'>
                                             <input
                                                 type="text"
@@ -455,7 +455,7 @@ const CheckoutPage = () => {
                     </div>
 
                     <div className="checkout-actions">
-                        <button type="submit" className="btn btn-green">Hoàn tất đặt hàng</button>
+                        <button type="submit" className="btn">Hoàn tất đặt hàng</button>
                         <Link href="/san-pham">
                             <button type="button" className="btn btn-border">Tiếp tục chọn hàng</button>
                         </Link>

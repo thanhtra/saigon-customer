@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import Checkbox from 'components/common/checkbox';
-import { getCategories } from 'lib/api/category.service';
 import { CategoryType } from 'lib/constants/data';
 import { getDistrictOption, getWardsOption } from 'lib/utils';
 import { AdministrativeUnits } from 'lib/constants/administrativeUnits';
@@ -512,7 +511,6 @@ export default LandFilter
 // import { useDispatch } from 'react-redux';
 
 // import Checkbox from 'components/common/checkbox';
-// import { getCategories } from 'lib/api/category.service';
 // import { CategoryType, AcreageLevel, PriceLevel } from 'lib/constants/data';
 // import { AdministrativeUnits } from 'lib/constants/administrativeUnits';
 // import {

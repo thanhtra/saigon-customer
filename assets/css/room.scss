@@ -4,7 +4,7 @@
         display: flex;
         align-items: flex-start;
         flex-direction: column;
-        min-height: 80vh;
+        // min-height: 80vh;
     }
 
     .rooms-main {
@@ -375,6 +375,14 @@
             border-color: #1677ff;
             color: #1677ff;
         }
+
+        .action-btn.booking svg {
+            color: var(--main-red-2-color);
+        }
+        .action-btn.booking:hover svg {
+            transform: scale(1.1);
+        }
+                
     }
 }
 

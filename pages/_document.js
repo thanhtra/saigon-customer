@@ -6,7 +6,7 @@ export default class CustomDocument extends Document {
     return (
       <Html lang="en">
         <Head>
-          <link rel="icon" href="https://www.daknong.info/images/mountain.ico" />
+          {/* <link rel="icon" href="https://www.daknong.info/images/mountain.ico" /> */}
           <meta name="description" itemProp="description" content="Đăk Nông là một tỉnh thuộc vùng Tây Nguyên, địa hình đồi núi có nhiều cảnh quan thiên nhiên đẹp và độc đáo. Có nền văn hóa, ẩm thực đa dạng phong phú của đồng bào được xây dựng qua hàng nghàn năm." />
           <meta name="robots" content="index, follow" />
           <meta name="google-site-verification" content="0pbwFdOPJdOBZ6b4q-Yqa__ad3DsqLx6RyOR_RB0lVg" />

@@ -78,11 +78,11 @@ const PopupContact = ({ isShow, hideModal, contact }) => {
                         Zalo
                     </a>}
 
-                    {collaborator?.phone && <a className="btn btn-green btn_call" href={phone}>
+                    {collaborator?.phone && <a className="btn btn_call" href={phone}>
                         Bấm gọi
                     </a>}
 
-                    {collaborator?.link_facebook && <a className="btn btn-green btn_facebook" target="_blank" href={collaborator?.link_facebook}>
+                    {collaborator?.link_facebook && <a className="btn btn_facebook" target="_blank" href={collaborator?.link_facebook}>
                         Xem facebook
                     </a>}
                 </div>
@@ -95,7 +95,7 @@ const PopupContact = ({ isShow, hideModal, contact }) => {
                         Zalo
                     </a>}
 
-                    {user?.phone && <a className="btn btn-green btn_call" href={phone_user}>
+                    {user?.phone && <a className="btn btn_call" href={phone_user}>
                         Bấm gọi
                     </a>}
                 </div>

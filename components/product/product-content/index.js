@@ -154,7 +154,7 @@ const ProductContent = ({ product }) => {
                 </div>
 
                 <div className='btn-add-to-cart'>
-                    <button type="button" onClick={() => addToCart()} className={`btn btn-green btn-full ${product?.status === StatusProductConst.OutOfStock || isEmpty ? 'btn-disable' : ''}`}>Thêm vào giỏ hàng</button>
+                    <button type="button" onClick={() => addToCart()} className={`btn ${product?.status === StatusProductConst.OutOfStock || isEmpty ? 'btn-disable' : ''}`}>Thêm vào giỏ hàng</button>
                 </div>
 
                 <div className='call-to-order'>
@@ -165,7 +165,7 @@ const ProductContent = ({ product }) => {
                             Zalo
                         </a>
 
-                        <a className="btn btn-green btn_call" href="tel://0968922006">
+                        <a className="btn btn_call" href="tel://0968922006">
                             Bấm gọi
                         </a>
                     </div>

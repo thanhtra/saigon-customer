@@ -1,5 +1,4 @@
 import Checkbox from 'components/common/checkbox';
-import { getCategories } from 'lib/api/category.service';
 import { CategoryType } from 'lib/constants/data';
 import { useEffect, useState } from 'react';
 import Popup from 'reactjs-popup';

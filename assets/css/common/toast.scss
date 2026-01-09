@@ -1,0 +1,31 @@
+
+.Toastify__toast {
+    max-width: 92vw;
+    padding: 12px 14px;
+    border-radius: 10px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+
+    @include breakpoint(tablet) {
+        max-width: 360px;
+    }
+}
+
+.Toastify__toast-body {
+    line-height: 1.55;
+    font-size: 14px;
+    color: #1f2937;
+}
+  
+.Toastify__toast--success {
+    background: #ecfdf5;
+    color: #065f46;
+}
+  
+.Toastify__toast--error {
+    background: #fef2f2;
+    color: #991b1b;
+}
+
+.nextjs-toast-errors-parent {
+    display: none !important;
+}

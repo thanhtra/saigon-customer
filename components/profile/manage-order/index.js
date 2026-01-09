@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import NProgress from 'nprogress'
 import OrderItem from '../order-item'
-import { getOrderByUserId } from 'lib/api/order-service';
+// import { getOrderByUserId } from 'lib/api/order-service';
 import { OrderStatus } from 'lib/constants/data';
 import Pagination from 'components/common/pagination';
 
@@ -32,13 +32,13 @@ const ManageOrder = () => {
                 isPagin: true
             }
 
-            const res = await getOrderByUserId(payload)
-            if (res && res.success) {
-                const { data, meta } = res.result;
+            // const res = await getOrderByUserId(payload)
+            // if (res && res.success) {
+            //     const { data, meta } = res.result;
 
-                setOrders(data);
-                setMeta(meta);
-            }
+            //     setOrders(data);
+            //     setMeta(meta);
+            // }
             NProgress.done()
         } catch (error) {
             NProgress.done()
@@ -53,7 +53,7 @@ const ManageOrder = () => {
     return (
         <section className="manage-order">
             <div className='p-header'>
-                <p className='p-title'>Đơn hàng của tôi</p>
+                <p className='p-title'>Lịch xem nhà của tôi</p>
 
                 <form className='form'>
                     <div className="form-select">

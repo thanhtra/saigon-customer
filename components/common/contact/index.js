@@ -13,7 +13,7 @@ const Contact = () => {
                     Zalo
                 </a>
 
-                <a className="btn btn-green btn_call" href="tel://0968922006">
+                <a className="btn btn_call" href="tel://0968922006">
                     Bấm gọi
                 </a>
             </div>

@@ -1,0 +1,148 @@
+.login-page,
+.register-page,
+.forgot-password-page {
+    padding-top: 15px;
+
+    .checkbox {
+        margin-bottom: 0;
+
+        input {
+            display: none;
+        }
+    }
+}
+
+.auth-content {
+    padding-top: 30px;
+
+    @include breakpoint(tablet) {
+        max-width: 300px;
+        margin: 0 auto;
+    }
+
+    .auth-title {
+        font-size: 16px;
+        font-weight: 600;
+        text-align: center;
+        margin-bottom: 15px;
+
+        @include breakpoint(tablet) {
+            font-size: 18px;
+        }
+    }
+
+    .auth-desc {
+        font-size: 14px;
+        text-align: center;
+        margin-bottom: 40px;
+        line-height: 20px;
+
+        @include breakpoint(tablet) {
+            font-size: 16px;
+            line-height: 22px;
+        }
+    }
+
+    .auth-action {
+        margin-top: 40px;
+        display: flex;
+        justify-content: center;
+
+        &--zalo {
+            margin-top: 32px;
+        }
+    }
+
+    .auth-link {
+        margin-top: 20px;
+        display: flex;
+        justify-content: center;
+    }
+}
+
+
+// custom riêng
+.register-page,
+.forgot-password-page {
+    .auth-content {
+        @include breakpoint(tablet) {
+            max-width: 600px;
+        }
+    }
+}
+
+.forgot-password-page {
+    .btn-zalo--auth {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+
+        width: 100%;
+        max-width: 320px;
+        height: 44px;
+
+        font-weight: 600;
+        letter-spacing: 0.2px;
+
+        background: linear-gradient(135deg,
+                #1677ff 0%,
+                #0f5ed7 100%);
+
+        box-shadow:
+            0 6px 18px rgba(22, 119, 255, 0.35),
+            inset 0 -1px 0 rgba(255, 255, 255, 0.15);
+
+        border-radius: 999px;
+
+        @include breakpoint(tablet) {
+            height: 48px;
+            font-size: 16px;
+        }
+
+        /* Icon */
+        .btn-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Text */
+        .btn-text {
+            line-height: 1;
+            white-space: nowrap;
+        }
+
+        /* Hover */
+        &:hover {
+            background: linear-gradient(135deg,
+                    #1b82ff 0%,
+                    #1369e8 100%);
+
+            box-shadow:
+                0 10px 24px rgba(22, 119, 255, 0.45);
+
+            transform: translateY(-2px);
+        }
+
+        /* Active */
+        &:active {
+            transform: translateY(0);
+            box-shadow:
+                0 4px 10px rgba(22, 119, 255, 0.35);
+        }
+
+        /* Focus */
+        &:focus-visible {
+            outline: none;
+            box-shadow:
+                0 0 0 3px rgba(22, 119, 255, 0.4),
+                0 8px 20px rgba(22, 119, 255, 0.35);
+        }
+    }
+
+    .auth-hint {
+        text-align: center;
+        margin-top: 30px;
+    }
+}

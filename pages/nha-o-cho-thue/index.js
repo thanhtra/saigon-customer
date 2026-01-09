@@ -2,7 +2,7 @@ import Breadcrumb from 'components/common/breadcrumb';
 import RoomFilter from 'components/room/room-filter';
 import RoomsContent from 'components/room/rooms-content';
 
-import { getRooms } from 'lib/api/room.service';
+import { getRooms } from 'lib/api/room.api';
 import { normalizeRoomQuery } from 'lib/utils/normalizeRoomQuery';
 import { useRoomRouter } from 'hooks/useRoomRouter';
 

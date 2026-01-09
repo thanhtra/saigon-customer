@@ -886,7 +886,7 @@
 
                 @include breakpoint(tablet) {}
 
-                .form-col:last-child {
+                .form-group:last-child {
                     margin-bottom: 0px;
                 }
             }

@@ -41,7 +41,7 @@ const PopupConfirm = ({ isShow = false, title = '', message = '', closeModalHand
 
                 <div className="action-cancel-submit">
                     <button type="button" className="btn btn-border" onClick={closeModal}>Huỷ</button>
-                    <button type="submit" className="btn btn-green" onClick={confirm}>Xác nhận</button>
+                    <button type="submit" className="btn" onClick={confirm}>Xác nhận</button>
                 </div>
             </div>
         </Modal>

@@ -42,7 +42,7 @@ const Cart = () => {
                     <p>Giỏ hàng trống</p>
 
                     <Link href="/san-pham">
-                        <button type="button" className="btn btn-border btn-full">Mua hàng</button>
+                        <button type="button" className="btn btn-border">Mua hàng</button>
                     </Link>
                 </div>
                 :
@@ -75,10 +75,10 @@ const Cart = () => {
                     </div>
 
                     <div className="cart-actions">
-                        <button type="button" className={"btn btn-green btn-full" + (totalPrice > 0 ? '' : 'btn-disable')} onClick={redirectToPayment}>Tiến hành đặt hàng</button>
+                        <button type="button" className={"btn" + (totalPrice > 0 ? '' : 'btn-disable')} onClick={redirectToPayment}>Tiến hành đặt hàng</button>
 
                         <Link href="/san-pham">
-                            <button type="button" className="btn btn-border btn-full">Tiếp tục chọn hàng</button>
+                            <button type="button" className="btn btn-border">Tiếp tục chọn hàng</button>
                         </Link>
                     </div>
                 </div>

@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react'
 import Modal from 'react-modal'
 import { useSelector } from 'react-redux'
 import { useForm } from "react-hook-form"
-import { createAddress } from 'lib/api/address-service';
 import { toast } from 'react-toastify'
 import NProgress from 'nprogress';
 
@@ -72,18 +71,18 @@ const PopupAddress = ({ isShow, hideModal }) => {
         }
 
         try {
-            const res = await createAddress(dataAddress)
+            // const res = await createAddress(dataAddress)
 
-            if (res && res?.success) {
-                toast.success("Tạo địa chỉ thành công!");
+            // if (res && res?.success) {
+            //     toast.success("Tạo địa chỉ thành công!");
 
-                if (hideModal) {
-                    hideModal(true, res?.result)
-                }
-            } else {
-                toast.error("Tạo địa chỉ thất bại.")
-            }
-            NProgress.done()
+            //     if (hideModal) {
+            //         hideModal(true, res?.result)
+            //     }
+            // } else {
+            //     toast.error("Tạo địa chỉ thất bại.")
+            // }
+            // NProgress.done()
         } catch (err) {
             toast.error("Tạo địa chỉ thất bại.")
             NProgress.done()
@@ -105,8 +104,8 @@ const PopupAddress = ({ isShow, hideModal }) => {
             <div className="popup-address">
                 <p className='title'>Địa chỉ mới</p>
                 <form className="form" onSubmit={handleSubmit(onSubmit)} autoComplete="off">
-                    <div className="form-row two">
-                        <div className="form-col">
+                    <div className="form-row">
+                        <div className="form-group">
                             <div className='form-input has-label'>
                                 <label>Tên liên hệ<label className='required'>*</label></label>
                                 <input
@@ -124,7 +123,7 @@ const PopupAddress = ({ isShow, hideModal }) => {
                             }
                         </div>
 
-                        <div className="form-col">
+                        <div className="form-group">
                             <div className='form-input has-label'>
                                 <label>Số điện thoại<label className='required'>*</label></label>
                                 <input
@@ -148,8 +147,8 @@ const PopupAddress = ({ isShow, hideModal }) => {
                         </div>
                     </div>
 
-                    <div className="form-row two">
-                        <div className="form-col">
+                    <div className="form-row">
+                        <div className="form-group">
                             <div className="form-select has-label">
                                 <label>Tỉnh, thành phố<label className='required'>*</label></label>
                                 <select
@@ -171,7 +170,7 @@ const PopupAddress = ({ isShow, hideModal }) => {
                             }
                         </div>
 
-                        <div className="form-col">
+                        <div className="form-group">
                             <div className="form-select has-label">
                                 <label>Quận, huyện<label className='required'>*</label></label>
                                 <select
@@ -195,8 +194,8 @@ const PopupAddress = ({ isShow, hideModal }) => {
                         </div>
                     </div>
 
-                    <div className="form-row two">
-                        <div className="form-col">
+                    <div className="form-row">
+                        <div className="form-group">
                             <div className="form-select has-label">
                                 <label>Xã, phường<label className='required'>*</label></label>
                                 <select
@@ -218,7 +217,7 @@ const PopupAddress = ({ isShow, hideModal }) => {
                             }
                         </div>
 
-                        <div className="form-col">
+                        <div className="form-group">
                             <div className='form-input has-label'>
                                 <label>Địa chỉ chi tiết<label className='required'>*</label></label>
                                 <input
@@ -240,7 +239,7 @@ const PopupAddress = ({ isShow, hideModal }) => {
 
                     <div className="action-cancel-submit">
                         <button type="button" className="btn btn-border" onClick={closeModal}>Huỷ</button>
-                        <button type="submit" className="btn btn-green">Lưu</button>
+                        <button type="submit" className="btn">Lưu</button>
                     </div>
                 </form>
             </div >

@@ -4,7 +4,7 @@ import Address from "components/profile/address";
 import ChangePassword from "components/profile/change-password";
 import ProfileFilter from 'components/profile/filter';
 import ManageOrder from "components/profile/manage-order";
-import { PageUrl, ProfileTab } from 'lib/constants/data';
+import { PageUrl, ProfileTab } from 'lib/constants/tech';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { useState } from 'react';
@@ -35,7 +35,7 @@ const ProfilePage = () => {
     return (
         <>
             <section className="container profile-page">
-                <Breadcrumb title={'Thông tin của tôi'} />
+                <Breadcrumb title={'Tài khoản'} />
 
                 <div className="profile-main">
                     <div className="profiles-filter">

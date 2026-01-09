@@ -6,9 +6,9 @@ import Link from 'next/link';
 const { NEXT_PUBLIC_REACT_APP_API } = process.env;
 
 const RoomItem = ({ room }) => {
-    const { slug, title, price, area, rental, updatedAt, uploads, cover_index, amenities, floor, room_code } = room;
+    const { id, slug, title, price, area, rental, updatedAt, uploads, cover_index, amenities, floor, room_code } = room;
 
-    const bkUrl = `${NEXT_PUBLIC_REACT_APP_API}/uploads/`;
+    const bkUrl = `${NEXT_PUBLIC_REACT_APP_API}/uploads`;
     const coverImage = uploads?.[cover_index];
     const subImages = uploads
         ?.filter((_, i) => i !== cover_index)
@@ -113,6 +113,7 @@ const RoomItem = ({ room }) => {
                 </div>
             </Link>
             <RoomActions
+                roomId={id}
                 roomCode={room_code}
                 updatedAt={updatedAt}
             />

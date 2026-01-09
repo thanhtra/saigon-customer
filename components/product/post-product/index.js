@@ -1,6 +1,5 @@
 import clsx from 'clsx';
 import Checkbox from 'components/common/checkbox';
-import { getCategories } from 'lib/api/category.service';
 import {
     createImages,
     removeImageByName,
@@ -335,8 +334,8 @@ const PostProduct = ({ slug = '', displayList }) => {
 
                 <div className='card-post'>
                     <p className='title'>Thông tin sản phẩm</p>
-                    <div className='form-row two'>
-                        <div className="form-col">
+                    <div className='form-row'>
+                        <div className="form-group">
                             <div className="form-select has-label">
                                 <label>Loại sản phẩm<label className='required'>*</label></label>
                                 <select
@@ -359,7 +358,7 @@ const PostProduct = ({ slug = '', displayList }) => {
                     </div>
 
                     <div className='form-row'>
-                        <div className="form-col">
+                        <div className="form-group">
                             <div className='form-textarea'>
                                 <label>Tiêu đề<label className='required'>*</label></label>
                                 <label className='note'>Tối thiểu 5 ký tự, tối đa 90 ký tự</label>
@@ -389,7 +388,7 @@ const PostProduct = ({ slug = '', displayList }) => {
 
                     <div className='form-row'>
                         {
-                            !!slug && !isEditDescription ? <div className="form-col">
+                            !!slug && !isEditDescription ? <div className="form-group">
                                 <div className='des-group-lbl'>
                                     <label>Mô tả<label className='required'>*</label></label>
                                     <button type="button" class="btn-tiny" onClick={() => editDescription(true)}>Thay đổi</button>
@@ -397,7 +396,7 @@ const PostProduct = ({ slug = '', displayList }) => {
 
                                 <div dangerouslySetInnerHTML={{ __html: productDetail?.description }} className='description-detail' />
                             </div> :
-                                <div className="form-col">
+                                <div className="form-group">
                                     <div className='form-textarea'>
                                         <div className='des-group-lbl'>
                                             <div>
@@ -433,7 +432,7 @@ const PostProduct = ({ slug = '', displayList }) => {
                     </div>
 
                     <div className="form-row">
-                        <div className="form-col">
+                        <div className="form-group">
                             <label>Hình ảnh<label className='required'>*</label></label>
                             <label className='note'>
                                 + Đăng tối thiểu 2 ảnh, tối đa 6 ảnh <br />
@@ -492,7 +491,7 @@ const PostProduct = ({ slug = '', displayList }) => {
                             {isSubmited && (savedImages.length + images.length > 6) && <p className="message message-error">Đăng tối đa 6 hình ảnh</p>}
                         </div>
 
-                        <div className="form-col">
+                        <div className="form-group">
                             <label>Video</label>
                             <label className='note'>Chọn nếu bạn có video về sản phẩm, chúng tôi sẽ liên hệ để đăng tải</label>
 
@@ -512,11 +511,11 @@ const PostProduct = ({ slug = '', displayList }) => {
                     <p className='title'>Quy cách và giá bán</p>
 
                     {packs && packs?.map((item, idx) => (
-                        <div className="form-row two package-card">
+                        <div className="form-row package-card">
                             {(idx !== 0 || packs.length > 1) && <div className='remove-pack'>
                                 <i className="icon-cancel" onClick={() => removePack(idx)}></i>
                             </div>}
-                            <div className="form-col">
+                            <div className="form-group">
                                 <div className='form-input has-label'>
                                     <label>Quy cách đóng gói<label className='required'>*</label></label>
                                     <input
@@ -529,7 +528,7 @@ const PostProduct = ({ slug = '', displayList }) => {
                                 </div>
                             </div>
 
-                            <div className="form-col">
+                            <div className="form-group">
                                 <div className='form-input has-label'>
                                     <label>Giá bán<label className='required'>*</label></label>
                                     <input
@@ -552,8 +551,8 @@ const PostProduct = ({ slug = '', displayList }) => {
                 <div className='card-post'>
                     <p className='title'>Thông tin liên hệ</p>
 
-                    <div className="form-row two">
-                        <div className="form-col">
+                    <div className="form-row">
+                        <div className="form-group">
                             <div className='form-input has-label'>
                                 <label>Tên liên hệ<label className='required'>*</label></label>
                                 <input
@@ -572,7 +571,7 @@ const PostProduct = ({ slug = '', displayList }) => {
                             }
                         </div>
 
-                        <div className="form-col">
+                        <div className="form-group">
                             <div className='form-input has-label'>
                                 <label>Số điện thoại<label className='required'>*</label></label>
                                 <input
@@ -597,8 +596,8 @@ const PostProduct = ({ slug = '', displayList }) => {
                         </div>
                     </div>
 
-                    <div className="form-row two">
-                        <div className="form-col">
+                    <div className="form-row">
+                        <div className="form-group">
                             <div className='form-input has-label'>
                                 <label>Zalo<label className='required'>*</label></label>
                                 <input
@@ -620,7 +619,7 @@ const PostProduct = ({ slug = '', displayList }) => {
                             }
                         </div>
 
-                        <div className="form-col">
+                        <div className="form-group">
                             <div className='form-input has-label'>
                                 <label>Địa chỉ</label>
                                 <input
@@ -628,7 +627,7 @@ const PostProduct = ({ slug = '', displayList }) => {
                                     autoComplete="off"
                                     name='contact_address'
                                     placeholder="Nhập địa chỉ"
-                                    ref={register({})}
+                                    {...register('contact_address')}
                                 />
                             </div>
                         </div>
@@ -637,7 +636,7 @@ const PostProduct = ({ slug = '', displayList }) => {
 
                 <div className="action-cancel-submit">
                     <button type="button" className="btn btn-border" onClick={() => displayList()}>Huỷ</button>
-                    <button type="submit" className="btn btn-green">{slug ? 'Lưu' : 'Đăng tin'}</button>
+                    <button type="submit" className="btn">{slug ? 'Lưu' : 'Đăng tin'}</button>
                 </div>
             </form >
         </>

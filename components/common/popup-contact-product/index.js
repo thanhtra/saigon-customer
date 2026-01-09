@@ -81,11 +81,11 @@ const PopupContactProduct = ({ isShow, hideModal, contact, product }) => {
                         Zalo
                     </a>}
 
-                    {contact?.phone && <a className="btn btn-green btn_call" href={phone}>
+                    {contact?.phone && <a className="btn btn_call" href={phone}>
                         Bấm gọi
                     </a>}
 
-                    {contact?.link_facebook && <a className="btn btn-green btn_facebook" target="_blank" href={contact?.link_facebook}>
+                    {contact?.link_facebook && <a className="btn btn_facebook" target="_blank" href={contact?.link_facebook}>
                         Xem facebook
                     </a>}
                 </div>

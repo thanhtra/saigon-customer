@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { useController } from 'react-hook-form';
 
 const InputField = ({
@@ -7,43 +8,60 @@ const InputField = ({
   placeholder,
   required = false,
   control,
-  rules = {},
-  error,
+  rules,
+  disabled = false,
 }) => {
-  const {
-    field: { value, onChange, onBlur, ref },
-  } = useController({
+  const controller = useController({
     name,
     control,
     rules,
   });
 
+  const field = controller?.field;
+  const error = controller?.fieldState?.error;
+
+  const isTextarea = type === 'textarea';
+  const isDateTime = type === 'datetime-local';
+
+  const errorMessage = error?.message;
+
   return (
-    <div className="form-col">
-      <div className="form-input has-label">
-        <label>
+    <div className="form-group">
+      <div className={`form-input has-label ${errorMessage ? 'has-error' : ''}`}>
+        <label htmlFor={name}>
           {label}
           {required && <span className="required">*</span>}
         </label>
 
-        <input
-          type={type}
-          placeholder={placeholder}
-          autoComplete="off"
-          value={value || ''}
-          onChange={onChange}
-          onBlur={onBlur}
-          ref={ref}
-        />
+        {isTextarea ? (
+          <textarea
+            id={name}
+            placeholder={placeholder}
+            disabled={disabled}
+            rows={4}
+            {...field}
+            onInput={(e) => {
+              e.target.style.height = 'auto';
+              e.target.style.height = `${e.target.scrollHeight}px`;
+            }}
+          />
+        ) : (
+          <input
+            id={name}
+            type={type}
+            placeholder={placeholder}
+            autoComplete="off"
+            disabled={disabled}
+            {...field}
+          />
+        )}
       </div>
 
-      {error && (
-        <p className="message message-error">
-          {error.message}
-        </p>
+      {errorMessage && (
+        <p className="message message-error">{errorMessage}</p>
       )}
     </div>
   );
 };
 
-export default InputField;
+export default memo(InputField);

@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react'
 import { useForm } from "react-hook-form"
 import { toast } from 'react-toastify'
 import NProgress from 'nprogress';
-import { getCategories } from 'lib/api/category.service';
 import {
     createLand, uploadImagesLand, removeImageByName,
     createImages, getMyPost, updateMyLandPost
@@ -350,8 +349,8 @@ const PostLandCreate = ({ slug = '', displayList }) => {
                 <div className='card-post'>
                     <p className='title'>Thông tin cơ bản</p>
 
-                    <div className='form-row two'>
-                        <div className="form-col">
+                    <div className='form-row'>
+                        <div className="form-group">
                             <div className="form-select has-label">
                                 <label>Loại bất động sản<label className='required'>*</label></label>
                                 <select
@@ -372,7 +371,7 @@ const PostLandCreate = ({ slug = '', displayList }) => {
                             }
                         </div>
 
-                        <div className="form-col">
+                        <div className="form-group">
                             <div className="form-input">
                                 <label>Tỉnh, thành phố</label>
                                 <p className='province'>Đăk Nông</p>
@@ -380,8 +379,8 @@ const PostLandCreate = ({ slug = '', displayList }) => {
                         </div>
                     </div>
 
-                    <div className="form-row two">
-                        <div className="form-col">
+                    <div className="form-row">
+                        <div className="form-group">
                             <div className="form-select has-label">
                                 <label>Quận, huyện<label className='required'>*</label></label>
                                 <select
@@ -403,7 +402,7 @@ const PostLandCreate = ({ slug = '', displayList }) => {
                             }
                         </div>
 
-                        <div className="form-col">
+                        <div className="form-group">
                             <div className="form-select has-label">
                                 <label>Phường, xã<label className='required'>*</label></label>
                                 <select
@@ -426,8 +425,8 @@ const PostLandCreate = ({ slug = '', displayList }) => {
                         </div>
                     </div>
 
-                    <div className="form-row two">
-                        <div className="form-col">
+                    <div className="form-row">
+                        <div className="form-group">
                             <div className='form-input has-label'>
                                 <label>Địa chỉ chi tiết<label className='required'>*</label></label>
                                 <input
@@ -452,7 +451,7 @@ const PostLandCreate = ({ slug = '', displayList }) => {
                     <p className='title'>Thông tin bài viết</p>
 
                     <div className='form-row'>
-                        <div className="form-col">
+                        <div className="form-group">
                             <div className='form-textarea'>
                                 <label>Tiêu đề<label className='required'>*</label></label>
                                 <label className='note'>Tối thiểu 10 ký tự, tối đa 90 ký tự</label>
@@ -482,7 +481,7 @@ const PostLandCreate = ({ slug = '', displayList }) => {
 
                     <div className='form-row'>
                         {
-                            !!slug && !isEditDescription ? <div className="form-col">
+                            !!slug && !isEditDescription ? <div className="form-group">
                                 <div className='des-group-lbl'>
                                     <label>Mô tả<label className='required'>*</label></label>
                                     <button type="button" class="btn-tiny" onClick={() => editDescription(true)}>Thay đổi</button>
@@ -490,7 +489,7 @@ const PostLandCreate = ({ slug = '', displayList }) => {
 
                                 <div dangerouslySetInnerHTML={{ __html: landDetail?.description }} className='description-detail' />
                             </div> :
-                                <div className="form-col">
+                                <div className="form-group">
                                     <div className='form-textarea'>
                                         <div className='des-group-lbl'>
                                             <div>
@@ -529,8 +528,8 @@ const PostLandCreate = ({ slug = '', displayList }) => {
                 <div className='card-post'>
                     <p className='title'>Thông tin bất động sản</p>
 
-                    <div className="form-row two">
-                        <div className="form-col">
+                    <div className="form-row">
+                        <div className="form-group">
                             <div className='form-input has-label'>
                                 <label>Diện tích<label className='required'>*</label></label>
                                 <input
@@ -549,7 +548,7 @@ const PostLandCreate = ({ slug = '', displayList }) => {
                             }
                         </div>
 
-                        <div className="form-col">
+                        <div className="form-group">
                             <div className='form-input has-label'>
                                 <label>Giá bán<label className='required'>*</label></label>
                                 <input
@@ -570,7 +569,7 @@ const PostLandCreate = ({ slug = '', displayList }) => {
                     </div>
 
                     <div className="form-row">
-                        <div className="form-col">
+                        <div className="form-group">
                             <label>Hình ảnh<label className='required'>*</label></label>
                             <label className='note'>
                                 + Đăng tối thiểu 2 ảnh, tối đa 6 ảnh <br />
@@ -629,7 +628,7 @@ const PostLandCreate = ({ slug = '', displayList }) => {
                             {isSubmited && (savedImages.length + images.length > 6) && <p className="message message-error">Đăng tối đa 6 hình ảnh</p>}
                         </div>
 
-                        <div className="form-col">
+                        <div className="form-group">
                             <label>Video</label>
                             <label className='note'>Chọn nếu bạn có video về bất động sản, chúng tôi sẽ liên hệ để đăng tải</label>
 
@@ -648,8 +647,8 @@ const PostLandCreate = ({ slug = '', displayList }) => {
                 <div className='card-post'>
                     <p className='title'>Thông tin liên hệ</p>
 
-                    <div className="form-row two">
-                        <div className="form-col">
+                    <div className="form-row">
+                        <div className="form-group">
                             <div className='form-input has-label'>
                                 <label>Tên liên hệ<label className='required'>*</label></label>
                                 <input
@@ -668,7 +667,7 @@ const PostLandCreate = ({ slug = '', displayList }) => {
                             }
                         </div>
 
-                        <div className="form-col">
+                        <div className="form-group">
                             <div className='form-input has-label'>
                                 <label>Số điện thoại<label className='required'>*</label></label>
                                 <input
@@ -693,8 +692,8 @@ const PostLandCreate = ({ slug = '', displayList }) => {
                         </div>
                     </div>
 
-                    <div className="form-row two">
-                        <div className="form-col">
+                    <div className="form-row">
+                        <div className="form-group">
                             <div className='form-input has-label'>
                                 <label>Zalo<label className='required'>*</label></label>
                                 <input
@@ -716,7 +715,7 @@ const PostLandCreate = ({ slug = '', displayList }) => {
                             }
                         </div>
 
-                        <div className="form-col">
+                        <div className="form-group">
                             <div className='form-input has-label'>
                                 <label>Địa chỉ</label>
                                 <input
@@ -724,14 +723,14 @@ const PostLandCreate = ({ slug = '', displayList }) => {
                                     autoComplete="off"
                                     name='contact_address'
                                     placeholder="Nhập địa chỉ"
-                                    ref={register({})}
+                                    {...register('contact_address')}
                                 />
                             </div>
                         </div>
                     </div>
 
-                    <div className="form-row two">
-                        <div className="form-col">
+                    <div className="form-row">
+                        <div className="form-group">
                             <label>Thông tin liên hệ là<label className='required'>*</label></label>
                             <div className='broker-owner'>
                                 <Checkbox
@@ -751,7 +750,7 @@ const PostLandCreate = ({ slug = '', displayList }) => {
                             </div>
                         </div>
 
-                        <div className="form-col">
+                        <div className="form-group">
                             <div className='form-input has-label'>
                                 <label>Hoa hồng cho người giới thiệu<label className='required'>*</label></label>
                                 <input
@@ -774,7 +773,7 @@ const PostLandCreate = ({ slug = '', displayList }) => {
 
                 <div className="action-cancel-submit">
                     <button type="button" className="btn btn-border" onClick={() => displayList()}>Huỷ</button>
-                    <button type="submit" className="btn btn-green">{slug ? 'Lưu' : 'Đăng tin'}</button>
+                    <button type="submit" className="btn">{slug ? 'Lưu' : 'Đăng tin'}</button>
                 </div>
             </form >
         </>

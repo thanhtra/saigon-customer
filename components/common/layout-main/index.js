@@ -2,38 +2,71 @@ import Header from 'components/common/header';
 import Footer from 'components/common/footer';
 import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
+import { useMemo } from 'react';
 import clsx from 'clsx';
 
 const Layout = ({ children }) => {
-    const router = useRouter();
-    const pathname = router.pathname;
-    const { isPopupOpen, isPopupFilterOpen, isPopupAddAddressOpen } = useSelector(state => state.commons);
-    const isShow = pathname.includes('bat-dong-san') && !pathname.includes('dang-tin-bat-dong-san');
+    const { pathname } = useRouter();
+
+    const {
+        isPopupOpen,
+        isPopupFilterOpen,
+        isPopupAddAddressOpen
+    } = useSelector((state) => state.commons);
+
+    const isPopupActive = useMemo(
+        () => isPopupOpen || isPopupFilterOpen || isPopupAddAddressOpen,
+        [isPopupOpen, isPopupFilterOpen, isPopupAddAddressOpen]
+    );
+
+    const isShowContact = useMemo(
+        () =>
+            pathname.includes('bat-dong-san') &&
+            !pathname.includes('dang-tin-bat-dong-san'),
+        [pathname]
+    );
+
+    const showSearchIcon = pathname.startsWith('/nha-o-cho-thue')
+    const hideFooter = pathname.startsWith('/nha-o-cho-thue') || pathname.startsWith('/tai-khoan');
 
     return (
-        <div className={clsx({
-            'app-main': true,
-            'popup-open': isPopupOpen || isPopupFilterOpen || isPopupAddAddressOpen
-        })}>
-            <Header />
+        <div
+            className={clsx('app-main', {
+                'popup-open': isPopupActive
+            })}
+        >
 
-            <main className='main-page'>
+            <Header showSearchIcon={showSearchIcon} />
+
+            <main className="main-page">
                 {children}
             </main>
 
-            <Footer />
+            {!hideFooter && <Footer />}
 
-            <div className={`contact-action ${isShow ? '' : 'hide'}`}>
-                <a className="btn btn_call zalo" target="_blank" href="https://zalo.me/0968922006">
+            <div
+                className={clsx('contact-action', {
+                    hide: !isShowContact
+                })}
+            >
+                <a
+                    className="btn btn_call zalo"
+                    href="https://zalo.me/0968922006"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
                     Zalo
                 </a>
 
-                <a className="btn btn-green btn_call" href="tel://0968922006">
+                <a
+                    className="btn btn_call"
+                    href="tel:0968922006"
+                >
                     Bấm gọi
                 </a>
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default Layout
+export default Layout;

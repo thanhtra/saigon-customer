@@ -64,7 +64,7 @@ const Lands = ({ lands, meta }) => {
                     <div className='section-content'>
                         <div className='btn-head'>
                             <Link href={PageUrl.PostLand}>
-                                <button type='button' className="btn btn-green" onClick={postLand}>
+                                <button type='button' className="btn" onClick={postLand}>
                                     Đăng tin miễn phí
                                 </button>
                             </Link>

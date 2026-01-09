@@ -101,7 +101,7 @@ const Products = ({ products, meta }) => {
           </div>
           <div className='btn-add'>
             <Link href={PageUrl.PostProduct}>
-              <button type='button' className="btn btn-green" onClick={postProduct}>
+              <button type='button' className="btn" onClick={postProduct}>
                 Đăng tin miễn phí
               </button>
             </Link>
@@ -118,7 +118,7 @@ const Products = ({ products, meta }) => {
                     name="key_search"
                     autoComplete="off"
                     placeholder="Tìm kiếm"
-                    ref={register({})}
+                    {...register('key_search')}
                   />
                   <i className="icon-search" onClick={search}></i>
                 </form>

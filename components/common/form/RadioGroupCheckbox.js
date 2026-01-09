@@ -19,7 +19,7 @@ const RadioGroupCheckbox = ({
     });
 
     return (
-        <div className="form-col">
+        <div className="form-group">
             <div className="form-input has-label">
                 {label && (
                     <label>

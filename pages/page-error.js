@@ -6,7 +6,7 @@ const ErrorPage = () => (
             <div className="container">
                 <h1>Lỗi</h1>
                 <p>Trang không tồn tại</p>
-                <a href="/" className="btn btn-green">Trở lại trang chủ</a>
+                <a href="/" className="btn">Trở lại trang chủ</a>
             </div>
         </section>
     </LayoutError>

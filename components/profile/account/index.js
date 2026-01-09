@@ -1,116 +1,203 @@
-import React, { useState, useEffect } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import { useForm } from "react-hook-form"
-import { updateUser } from 'lib/api/user-service';
-import { toast } from 'react-toastify'
 import NProgress from 'nprogress';
+import { useCallback, useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+
+import InputField from 'components/common/form/InputField';
+import { updateUser } from 'lib/api/user.api';
 import { UPDATE_USER } from 'lib/store/type/user-type';
 
 const Account = () => {
-    const dispatch = useDispatch()
-    const { user } = useSelector(state => state.users)
-    const [isEdit, setIsEdit] = useState(false)
-    const { register, handleSubmit, errors, reset } = useForm()
+    const dispatch = useDispatch();
+    const user = useSelector((state) => state.users?.user);
+    const [isEdit, setIsEdit] = useState(false);
 
+    const {
+        control,
+        handleSubmit,
+        reset,
+        formState: { errors, isSubmitting },
+    } = useForm({
+        defaultValues: {
+            name: '',
+            phone: '',
+            email: '',
+            zalo: '',
+            link_facebook: '',
+            address: '',
+        },
+        mode: 'onSubmit',
+        shouldUnregister: false
+    });
+
+    /* =====================
+       Sync user data
+    ===================== */
     useEffect(() => {
-        if (user) {
-            reset(user);
-        }
-    }, [JSON.stringify(user)]);
+        if (!user) return;
 
-    const openEdit = () => {
-        setIsEdit(true)
-    }
+        reset({
+            name: user.name || '',
+            phone: user.phone || '',
+            email: user.email || '',
+            zalo: user.zalo || '',
+            link_facebook: user.link_facebook || '',
+            address: user.address || '',
+        });
+    }, [user, reset]);
 
-    const onSubmit = async data => {
-        try {
+    /* =====================
+       Submit
+    ===================== */
+    const onSubmit = useCallback(
+        async (data) => {
             NProgress.start();
+            try {
+                const payload = {
+                    name: data.name.trim(),
+                    email: data.email || null,
+                    zalo: data.zalo || null,
+                    link_facebook: data.link_facebook || null,
+                    address: data.address || null,
+                };
 
-            const payload = {
-                id: user.id,
-                name: data.name
-            }
+                const res = await updateUser(payload);
 
-            const res = await updateUser(payload);
-
-            if (res && res.success) {
+                if (res?.success) {
+                    toast.success('Cập nhật thành công');
+                    dispatch({
+                        type: UPDATE_USER,
+                        payload: res.result,
+                    });
+                    setIsEdit(false);
+                } else {
+                    toast.error('Cập nhật thất bại');
+                }
+            } catch {
+                toast.error('Cập nhật thất bại');
+            } finally {
                 NProgress.done();
-                toast.success("Cập nhật thành công!");
-                setIsEdit(false);
-
-                dispatch({
-                    type: UPDATE_USER,
-                    payload: res.result
-                });
-            } else {
-                NProgress.done();
-                toast.error("Cập nhật thất bại.")
             }
-        } catch (ex) {
-            NProgress.done();
-            toast.error("Cập nhật thất bại.")
-        }
-    }
+        },
+        [dispatch, user]
+    );
 
     return (
         <section className="account">
-            <div className='p-header'>
-                <p className='p-title'>Thông tin của tôi</p>
-                <p className="btn-tiny" onClick={openEdit}>Chỉnh sửa</p>
+            <div className="p-header">
+                <p className="p-title">Thông tin của tôi</p>
+                {!isEdit && (
+                    <p className="btn-tiny" onClick={() => setIsEdit(true)}>
+                        Chỉnh sửa
+                    </p>
+                )}
             </div>
 
-            {!isEdit ? <div className="infor-user">
-                <div className="item">
-                    <p className="label">Tên liên hệ:</p>
-                    <p className="val">{user.name}</p>
+            {!isEdit && (
+                <div className="infor-user">
+                    <div className="item">
+                        <p className="label">Số điện thoại:</p>
+                        <p className="val">{user?.phone || '—'}</p>
+                    </div>
+                    <div className="item">
+                        <p className="label">Tên liên hệ:</p>
+                        <p className="val">{user?.name || '—'}</p>
+                    </div>
+                    <div className="item">
+                        <p className="label">Email:</p>
+                        <p className="val">{user?.email || '—'}</p>
+                    </div>
+                    <div className="item">
+                        <p className="label">Zalo:</p>
+                        <p className="val">{user?.zalo || '—'}</p>
+                    </div>
+                    <div className="item">
+                        <p className="label">Facebook:</p>
+                        <p className="val">{user?.link_facebook || '—'}</p>
+                    </div>
+                    <div className="item">
+                        <p className="label">Địa chỉ:</p>
+                        <p className="val">{user?.address || '—'}</p>
+                    </div>
                 </div>
-                <div className="item">
-                    <p className="label">Số điện thoại:</p>
-                    <p className="val">{user.phone}</p>
-                </div>
-            </div>
-                :
-                <form className="form" onSubmit={handleSubmit(onSubmit)} autoComplete="off">
+            )}
+
+            {isEdit && (
+                <form className="form" onSubmit={handleSubmit(onSubmit)} noValidate>
                     <div className="form-row">
-                        <div className="form-col">
-                            <div className='form-input has-label'>
-                                <label>Tên liên hệ<label className='required'>*</label></label>
-                                <input
-                                    type="text"
-                                    autoComplete="off"
-                                    name="name"
-                                    ref={register({
-                                        required: true,
-                                    })} />
-                            </div>
+                        <InputField
+                            label="Số điện thoại"
+                            name="phone"
+                            disabled
+                            control={control}
+                        />
 
-                            {errors.name && errors.name.type === 'required' &&
-                                <p className="message message-error">Vui lòng nhập thông tin</p>
-                            }
-                        </div>
+                        <InputField
+                            label="Tên liên hệ"
+                            name="name"
+                            required
+                            placeholder="Nhập tên liên hệ"
+                            control={control}
+                            rules={{ required: 'Vui lòng nhập tên' }}
+                            error={errors.name}
+                        />
+                    </div>
 
-                        <div className="form-col">
-                            <div className='form-input has-label'>
-                                <label>Số điện thoại<label className='required'>*</label></label>
-                                <input className="form-input"
-                                    type="number"
-                                    autoComplete="off"
-                                    name="phone"
-                                    disabled={true}
-                                    ref={register()}
-                                />
-                            </div>
-                        </div>
+                    <div className="form-row">
+                        <InputField
+                            label="Email"
+                            name="email"
+                            placeholder="uocmotngoinha@gmail.com"
+                            control={control}
+                        />
 
-                        <div className="form-col action-cancel-submit">
-                            <button type="button" className="btn btn-border" onClick={() => setIsEdit(false)}>Huỷ</button>
-                            <button type="submit" className="btn btn-green">Lưu</button>
-                        </div>
+                        <InputField
+                            label="Zalo"
+                            name="zalo"
+                            placeholder="Số Zalo"
+                            control={control}
+                        />
+                    </div>
+
+                    <div className="form-row">
+                        <InputField
+                            label="Facebook"
+                            name="link_facebook"
+                            placeholder="Link Facebook"
+                            control={control}
+                        />
+
+                        <InputField
+                            label="Địa chỉ"
+                            name="address"
+                            placeholder="Nhập địa chỉ"
+                            control={control}
+                        />
+                    </div>
+
+                    <div className="form-row inline row-action">
+                        <button
+                            type="button"
+                            className="btn btn-border mr-20"
+                            onClick={() => setIsEdit(false)}
+                            disabled={isSubmitting}
+                        >
+                            Huỷ
+                        </button>
+
+                        <button
+                            type="submit"
+                            className="btn"
+                            disabled={isSubmitting}
+                        >
+                            {isSubmitting ? 'Đang lưu...' : 'Lưu'}
+                        </button>
                     </div>
                 </form>
-            }
+            )}
         </section>
-    )
-}
+    );
+};
 
-export default Account
+export default Account;

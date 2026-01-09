@@ -5,10 +5,8 @@
 @import "./form.scss";
 @import "./popup.scss";
 @import "./select.scss";
-@import "./input.scss";
-@import "./textarea.scss";
 @import "./radio.scss";
-
+@import "./toast.scss";
 
 html,
 body {
@@ -376,11 +374,11 @@ button {
     font-size: 12px;
     display: flex;
     align-items: center;
-    padding-top: 6px;
+    padding-top: 8px;
 
     @include breakpoint(tablet) {
         font-size: 13px;
-        padding-top: 8px;
+        padding-top: 10px;
     }
 
     &:before {
@@ -453,10 +451,6 @@ button {
             color: #fff;
         }
     }
-}
-
-.nextjs-toast-errors-parent {
-    display: none !important;
 }
 
 .group-btn {
@@ -564,7 +558,8 @@ button {
 
     /* ===== SEARCH INPUT ===== */
     .filter-search-input {
-        flex: 1; /* chiếm phần còn lại */
+        flex: 1;
+        /* chiếm phần còn lại */
         height: 36px;
         padding: 0 12px;
         border-radius: 18px;
@@ -625,7 +620,7 @@ button {
     display: flex;
     flex-wrap: wrap;
     width: 100%;
-    gap: 10px; 
+    gap: 10px;
     margin-bottom: 20px;
 
     /* wrapper giống filter-item */
@@ -638,7 +633,7 @@ button {
         flex: 1;
         background: #fff;
         transition: all 0.25s ease;
-    
+
         i {
             position: absolute;
             top: 6px;
@@ -648,20 +643,20 @@ button {
             transition: all 0.3s ease;
             pointer-events: none;
         }
-    
+
         &.has-value {
             background: var(--color-main-gray-1);
         }
-    
+
         &:focus-within {
             border-color: var(--color-main-green);
-    
+
             i {
                 transform: rotate(360deg);
             }
         }
     }
-    
+
     /* select thật – trong suốt */
     .filter-select {
         width: 100%;
@@ -672,7 +667,7 @@ button {
         appearance: none;
         cursor: pointer;
     }
-    
+
     /* disabled */
     .filter-select:disabled {
         cursor: not-allowed;
@@ -757,10 +752,11 @@ button {
         padding-bottom: 12px;
         margin-bottom: 20px;
         border-bottom: 1px solid var(--color-main-gray-1);
-    
+
         .btn-reset-desktop,
         .btn-apply-desktop {
-            width: 40%;                 /* ⭐ mỗi button 40% */
+            width: 40%;
+            /* ⭐ mỗi button 40% */
             height: 36px;
             padding: 0 14px;
             border-radius: 18px;
@@ -769,46 +765,46 @@ button {
             cursor: pointer;
             white-space: nowrap;
             border: 1px solid transparent;
-            transition: 
+            transition:
                 background-color 0.2s ease,
                 color 0.2s ease,
                 box-shadow 0.2s ease,
                 transform 0.15s ease;
         }
-    
+
         /* ===== RESET ===== */
         .btn-reset-desktop {
             background: #fff;
             border-color: var(--color-main-gray-3);
             color: var(--main-red-color);
-    
+
             &:hover {
                 background: rgba(255, 77, 79, 0.06);
                 border-color: var(--main-red-color);
                 box-shadow: 0 4px 10px rgba(255, 77, 79, 0.15);
             }
-    
+
             &:active {
                 transform: translateY(1px);
             }
         }
-    
+
         /* ===== APPLY ===== */
         .btn-apply-desktop {
             background: var(--color-main-green);
             color: #fff;
-    
+
             &:hover {
                 background: darken(#076836, 6%);
                 box-shadow: 0 6px 14px rgba(0, 0, 0, 0.18);
             }
-    
+
             &:active {
                 transform: translateY(1px);
             }
         }
     }
-    
+
 
     /* ===== BLOCK ===== */
     .filter-block {

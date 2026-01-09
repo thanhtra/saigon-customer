@@ -1,12 +1,6 @@
 .profile-page {
     padding-top: 15px;
 
-    .form {
-        .form-row.two {
-            flex-direction: column;
-        }
-    }
-
     .p-header {
         display: flex;
         align-items: flex-start;
@@ -61,7 +55,6 @@
 
             .btn-tiny {
                 float: right;
-                color: var(--color-main-green);
             }
         }
     }
@@ -137,17 +130,7 @@
                         color: var(--main-red-color);
                     }
                 }
-
-                .btn-disable {
-                    pointer-events: none;
-                    background-color: var(--color-gray);
-                    color: #fff;
-                }
             }
-        }
-
-        .btn-tiny {
-            color: var(--color-main-green);
         }
     }
 
@@ -351,66 +334,210 @@
             @include customScroll();
         }
 
+        // .profiles-menu-desktop {
+        //     display: none;
+        //     z-index: 99;
+        //     background-color: #fff;
+        //     transition: all 0.4s ease;
+        //     width: 100%;
+        //     border-right: 1px solid var(--color-main-gray-1);
+        //     padding-top: 5px;
+
+        //     @include breakpoint(tablet) {
+        //         display: block;
+        //     }
+
+        //     .filter-title {
+        //         margin-bottom: 30px;
+        //         color: #000;
+        //         cursor: default;
+        //     }
+
+        //     a,
+        //     p {
+        //         text-align: center;
+        //         text-align: center;
+        //         cursor: pointer;
+        //         color: var(--color-main-green);
+        //         padding: 5px 0px;
+        //         margin: 10px 0px;
+        //         display: block;
+
+        //         &.active {
+        //             color: var(--color-main-coffee);
+        //         }
+
+        //         &:last-child {
+        //             margin-top: 30px;
+        //             color: #CC2400;
+        //         }
+        //     }
+
+        //     .profiles-filter-block-content {
+        //         padding-top: 15px;
+        //         padding-bottom: 25px;
+        //         padding-left: 20px;
+
+        //         &.area {
+        //             padding-left: 0px;
+        //         }
+
+        //         label {
+        //             margin-bottom: 10px;
+        //             cursor: pointer;
+        //             -webkit-user-select: none;
+        //             -webkit-touch-callout: none;
+        //             -moz-user-select: none;
+        //             -ms-user-select: none;
+        //             user-select: none;
+
+        //             &:last-child {
+        //                 margin-bottom: 0px;
+        //             }
+
+
+        //             input {
+        //                 display: none;
+        //             }
+        //         }
+
+        //         .form-select {
+        //             width: 220px;
+        //             margin-bottom: 15px;
+
+        //             &:last-child {
+        //                 margin-bottom: 0px;
+        //             }
+
+        //             &.small {
+        //                 height: 36px;
+        //                 margin: 0px auto 10px;
+        //             }
+
+        //             &.small:last-child {
+        //                 margin-bottom: 0px;
+        //             }
+        //         }
+        //     }
+        // }
+
         .profiles-menu-desktop {
             display: none;
             z-index: 99;
-            background-color: #fff;
-            transition: all 0.4s ease;
             width: 100%;
+            background-color: #fff;
             border-right: 1px solid var(--color-main-gray-1);
-            padding-top: 5px;
+            padding: 0px 16px 20px;
+            transition: all 0.3s ease;
 
             @include breakpoint(tablet) {
                 display: block;
             }
 
+            /* ===== TITLE ===== */
             .filter-title {
-                margin-bottom: 30px;
-                color: #000;
+                margin-bottom: 24px;
+                font-size: 16px;
+                font-weight: 600;
+                color: #111;
                 cursor: default;
             }
 
-            a,
-            p {
-                text-align: center;
-                text-align: center;
-                cursor: pointer;
+            /* ===== MENU ITEM ===== */
+            .profile-item {
+                display: flex;
+                align-items: center;
+                justify-content: flex-start;
+
+                width: 100%;
+                padding: 10px 14px;
+                margin-bottom: 6px;
+
+                font-size: 14.5px;
+                font-weight: 500;
+
                 color: var(--color-main-green);
-                padding: 5px 0px;
-                margin: 10px 0px;
-                display: block;
+                background: transparent;
+                border-radius: 8px;
+                border: 1px solid transparent;
+
+                cursor: pointer;
+                transition: all 0.2s ease;
+
+                &:hover {
+                    background-color: rgba(0, 128, 0, 0.06);
+                }
 
                 &.active {
                     color: var(--color-main-coffee);
+                    background-color: rgba(110, 74, 54, 0.08);
+                    font-weight: 600;
                 }
 
-                &:last-child {
-                    margin-top: 30px;
+                &:focus-visible {
+                    outline: none;
+                    box-shadow: 0 0 0 2px rgba(0, 128, 0, 0.25);
                 }
             }
 
+            .btn-logout {
+                display: flex;
+                align-items: center;
+                justify-content: flex-start;
+
+                width: 100%;
+                padding: 10px 14px;
+                margin-top: 18px;
+
+                font-size: 14.5px;
+                font-weight: 500;
+
+                color: #cc2400;
+                background: transparent;
+
+                border-radius: 8px;
+                border: 1px solid transparent;
+
+                cursor: pointer;
+                transition: all 0.2s ease;
+
+                /* Hover – nhẹ, đúng UX danger */
+                &:hover {
+                    background-color: rgba(204, 36, 0, 0.06);
+                    color: #a91c00;
+                }
+
+                /* Active – nhấn */
+                &:active {
+                    background-color: rgba(204, 36, 0, 0.12);
+                }
+
+                /* Focus – accessibility */
+                &:focus-visible {
+                    outline: none;
+                    box-shadow: 0 0 0 2px rgba(204, 36, 0, 0.25);
+                }
+            }
+
+
+
+            /* ===== FILTER BLOCK (giữ nguyên logic cũ) ===== */
             .profiles-filter-block-content {
-                padding-top: 15px;
-                padding-bottom: 25px;
-                padding-left: 20px;
+                padding: 15px 0 25px 0;
 
                 &.area {
-                    padding-left: 0px;
+                    padding-left: 0;
                 }
 
                 label {
+                    display: block;
                     margin-bottom: 10px;
                     cursor: pointer;
-                    -webkit-user-select: none;
-                    -webkit-touch-callout: none;
-                    -moz-user-select: none;
-                    -ms-user-select: none;
                     user-select: none;
 
                     &:last-child {
-                        margin-bottom: 0px;
+                        margin-bottom: 0;
                     }
-
 
                     input {
                         display: none;
@@ -421,21 +548,18 @@
                     width: 220px;
                     margin-bottom: 15px;
 
-                    &:last-child {
-                        margin-bottom: 0px;
-                    }
-
                     &.small {
                         height: 36px;
-                        margin: 0px auto 10px;
+                        margin: 0 auto 10px;
                     }
 
-                    &.small:last-child {
-                        margin-bottom: 0px;
+                    &:last-child {
+                        margin-bottom: 0;
                     }
                 }
             }
         }
+
     }
 
     .profile-content {
@@ -449,8 +573,14 @@
     .account,
     .change-password {
         @include breakpoint(tablet) {
-            width: 50%;
+            width: 60%;
             min-width: 500px;
         }
+    }
+
+    .row-action {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 40px;
     }
 }

@@ -282,7 +282,7 @@ const IndexPage = () => {
         <div className="container">
           <h3>Bạn đang tìm giải pháp phù hợp?</h3>
           <p>Để lại thông tin – chúng tôi sẽ liên hệ trong 15 phút</p>
-          <button className="btn btn-green">Nhận tư vấn miễn phí</button>
+          <button className="btn">Nhận tư vấn miễn phí</button>
         </div>
       </section>
 

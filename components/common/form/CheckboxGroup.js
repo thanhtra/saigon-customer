@@ -9,7 +9,7 @@ const CheckboxGroup = ({
   inline = false,
 }) => {
   return (
-    <div className="form-col">
+    <div className="form-group">
       {/* LABEL */}
       {label && (
         <label>

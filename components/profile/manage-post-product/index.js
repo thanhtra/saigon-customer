@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import NProgress from 'nprogress'
-import { getMyPosts, removeMyPost } from 'lib/api/product-service';
+// import { getMyPosts, removeMyPost } from 'lib/api/product-service';
 import { LandStatus } from 'lib/constants/data';
 import Pagination from 'components/common/pagination';
 import { toast } from 'react-toastify';
@@ -28,13 +28,13 @@ const ManagePostProduct = ({ editProduct }) => {
                 size: 10
             }
 
-            const res = await getMyPosts(payload)
-            if (res && res.success) {
-                const { data, meta } = res.result;
+            // const res = await getMyPosts(payload)
+            // if (res && res.success) {
+            //     const { data, meta } = res.result;
 
-                setProducts(data);
-                setMeta(meta);
-            }
+            //     setProducts(data);
+            //     setMeta(meta);
+            // }
             NProgress.done()
         } catch (error) {
             NProgress.done()
@@ -61,14 +61,14 @@ const ManagePostProduct = ({ editProduct }) => {
             if (!productRemove) return;
 
             NProgress.start();
-            const res = await removeMyPost(productRemove);
+            // const res = await removeMyPost(productRemove);
 
-            if (res && res.success) {
-                getProducts();
-                toast.success("Đã xóa tin đăng");
-            } else {
-                toast.error("Xóa tin đăng thất bại");
-            }
+            // if (res && res.success) {
+            //     getProducts();
+            //     toast.success("Đã xóa tin đăng");
+            // } else {
+            //     toast.error("Xóa tin đăng thất bại");
+            // }
 
             setIsShowConfirm(false);
             NProgress.done()

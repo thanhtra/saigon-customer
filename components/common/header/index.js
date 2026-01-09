@@ -1,6 +1,4 @@
-import { logout } from 'lib/api/user-service'
 import { PageUrl, ProfileTab } from 'lib/constants/tech'
-import { CART_HIDE_POPUP_REQUEST } from 'lib/store/type/cart-type'
 import {
     COMMON_POPUP_FILTER_HIDE, COMMON_POPUP_HIDE, COMMON_POPUP_OPEN,
     POPUP_ADD_ADDRESS_HIDE, COMMON_POPUP_FILTER_OPEN
@@ -13,11 +11,13 @@ import NProgress from 'nprogress'
 import { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import useOnClickOutside from 'use-onclickoutside';
-import { useForm } from "react-hook-form"
+import { useForm } from "react-hook-form";
+import { logout } from 'lib/api/auth.api';
+import { REMOVE_USER } from 'lib/store/type/user-type';
 
 
 
-const Header = () => {
+const Header = ({ showSearchIcon = false }) => {
     const router = useRouter()
     const pathname = router.pathname;
     const { tab } = router.query || {};
@@ -67,12 +67,6 @@ const Header = () => {
         setSearchOpen(false)
     }
 
-    const hidepopupCart = () => {
-        dispatch({
-            type: CART_HIDE_POPUP_REQUEST
-        })
-    }
-
     const expandMenuAccount = () => {
         setOpenMenuAccount(!openMenuAccount);
     }
@@ -87,19 +81,30 @@ const Header = () => {
         router.push('/');
     }
 
+    // const logoutHandle = async () => {
+    //     try {
+    //         handleClosePopup();
+    //         NProgress.start();
+    //         const res = await logout();
+    //         afterLogout();
+    //         NProgress.done();
+    //     } catch (ex) {
+    //         afterLogout();
+    //         NProgress.done();
+    //     }
+    // }
+
     const logoutHandle = async () => {
         try {
-            handleClosePopup();
-            NProgress.start();
-            const res = await logout();
-            afterLogout();
-            NProgress.done();
-        } catch (ex) {
-            afterLogout();
-            NProgress.done();
-        }
+            await logout();
+        } catch (e) { }
 
-    }
+        dispatch({ type: REMOVE_USER });
+
+        // 🔥 reset toàn bộ React tree → không còn useAuthInit
+        window.location.href = '/';
+    };
+
 
     const onSubmit = (data) => {
         const { search = '' } = data || {};
@@ -134,7 +139,6 @@ const Header = () => {
 
     useOnClickOutside(navRef, handleClosePopup)
     useOnClickOutside(searchRef, closeSearch)
-    useOnClickOutside(popupCartRef, hidepopupCart)
 
     return (
         <header className={`site-header site-header--fixed`}>
@@ -150,18 +154,29 @@ const Header = () => {
                     </div>
 
                     <div className='nav-menu'>
-                        <Link href={PageUrl.Lands}>
-                            <a onClick={handleClosePopup} className={`${pathname.includes(PageUrl.Lands) ? 'active' : ''}`}>Bất động sản</a>
-                        </Link>
-
                         <Link href={PageUrl.Rental}>
                             <a onClick={handleClosePopup} className={`${pathname.includes(PageUrl.Rental) ? 'active' : ''}`}>Nhà ở cho thuê</a>
                         </Link>
 
-                        <Link href={PageUrl.Products}>
-                            <a onClick={handleClosePopup} className={`${pathname.includes(PageUrl.Products) ? 'active' : ''}`}>Sản phẩm</a>
-                        </Link>
+                        <a
+                            href="https://zalo.me/0968922006"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            onClick={handleClosePopup}
+                            className="cursor-pointer"
+                        >
+                            Bất động sản
+                        </a>
 
+                        <a
+                            href="https://collshp.com/dacsantaynguyen"
+                            onClick={handleClosePopup}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className={`${pathname.includes(PageUrl.Products) ? 'active' : ''}`}
+                        >
+                            Sản phẩm
+                        </a>
 
                         {Object.keys(user || {}).length === 0 ? <Link href={PageUrl.Login}>
                             <a className={`site-nav-btn ${pathname.includes(PageUrl.Profile) ? 'active' : ''}`} onClick={handleClosePopup}>Tài khoản</a>
@@ -174,17 +189,17 @@ const Header = () => {
                                         <a onClick={handleClosePopup} className={`${tab === ProfileTab.account ? 'active' : ''}`}>Thông tin</a>
                                     </Link>
                                     <Link href={{ pathname: PageUrl.Profile, query: { tab: ProfileTab.manage_booking } }}>
-                                        <a onClick={handleClosePopup} className={`${tab === ProfileTab.manage_booking ? 'active' : ''}`}>Đơn mua</a>
+                                        <a onClick={handleClosePopup} className={`${tab === ProfileTab.manage_booking ? 'active' : ''}`}>Lịch xem nhà</a>
                                     </Link>
                                     <Link href={{ pathname: PageUrl.Profile, query: { tab: ProfileTab.manage_post_land } }}>
-                                        <a onClick={handleClosePopup} className={`${tab === ProfileTab.manage_post_land ? 'active' : ''}`}>Bài đăng bất động sản</a>
+                                        <a onClick={handleClosePopup} className={`${tab === ProfileTab.manage_post_land ? 'active' : ''}`}>Nhà của tôi</a>
                                     </Link>
-                                    <Link href={{ pathname: PageUrl.Profile, query: { tab: ProfileTab.manage_post_product } }}>
+                                    {/* <Link href={{ pathname: PageUrl.Profile, query: { tab: ProfileTab.manage_post_product } }}>
                                         <a onClick={handleClosePopup} className={`${tab === ProfileTab.manage_post_product ? 'active' : ''}`}>Bài đăng sản phẩm</a>
-                                    </Link>
-                                    <Link href={{ pathname: PageUrl.Profile, query: { tab: ProfileTab.address } }}>
+                                    </Link> */}
+                                    {/* <Link href={{ pathname: PageUrl.Profile, query: { tab: ProfileTab.address } }}>
                                         <a onClick={handleClosePopup} className={`${tab === ProfileTab.address ? 'active' : ''}`}>Địa chỉ</a>
-                                    </Link>
+                                    </Link> */}
                                     <Link href={{ pathname: PageUrl.Profile, query: { tab: ProfileTab.change_password } }}>
                                         <a onClick={handleClosePopup} className={`${tab === ProfileTab.change_password ? 'active' : ''}`}>Đổi mật khẩu</a>
                                     </Link>
@@ -196,27 +211,29 @@ const Header = () => {
                 </nav>
 
                 <div className="site-header-actions" ref={searchRef}>
-                    <button className={`search-form-wrapper ${searchOpen && !isFilterPage ? 'search-active' : ''}`}>
-                        <form className='search-form' onSubmit={handleSubmit(onSubmit)} autoComplete="off">
-                            <i className="icon-cancel" onClick={() => setSearchOpen(!searchOpen)}></i>
-                            <input type="text"
-                                name="search"
-                                autoComplete="off"
-                                placeholder="Tìm kiếm sản phẩm"
-                                ref={register({})}
-                            />
-                        </form>
-                        <i onClick={openSearchOrFilter} className="icon-search"></i>
-                    </button>
+                    {showSearchIcon && (
+                        <button className={`search-form-wrapper ${searchOpen && !isFilterPage ? 'search-active' : ''}`}>
+                            <form className='search-form' onSubmit={handleSubmit(onSubmit)} autoComplete="off">
+                                <i className="icon-cancel" onClick={() => setSearchOpen(!searchOpen)}></i>
+                                <input type="text"
+                                    name="search"
+                                    autoComplete="off"
+                                    placeholder="Tìm kiếm sản phẩm"
+                                    {...register('search')}
+                                />
+                            </form>
+                            <i onClick={openSearchOrFilter} className="icon-search"></i>
+                        </button>
+                    )}
 
-                    <Link href={PageUrl.ShoppingCart}>
+                    {/* <Link href={PageUrl.ShoppingCart}>
                         <button className="btn-cart">
                             <i className="icon-cart"></i>
                             {cartItems?.length > 0 &&
                                 <span className="btn-cart-count">{cartItems.length}</span>
                             }
                         </button>
-                    </Link>
+                    </Link> */}
                     {Object.keys(user || {}).length === 0 ? <Link href={PageUrl.Login}>
                         <button className="site-header-btn-avatar"><i className="icon-avatar"></i>
                             <p>Đăng nhập</p>
@@ -232,14 +249,6 @@ const Header = () => {
                         className="site-header-btn-menu">
                         <i className="btn-hamburger"><span></span></i>
                     </button>
-
-                    {showPopupCart && <div className="popup-cart" ref={popupCartRef}>
-                        <p className="txt">Thêm sản phẩm thành công</p>
-
-                        <Link href={PageUrl.ShoppingCart}>
-                            <button type="button" className="btn btn-green" onClick={hidepopupCart}>Xem giỏ hàng</button>
-                        </Link>
-                    </div>}
                 </div>
             </div >
         </header >

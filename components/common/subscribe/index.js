@@ -3,7 +3,7 @@
 import { useForm } from 'react-hook-form'
 import { useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
-import { updateUser } from 'lib/api/user-service'
+import { updateUser } from 'lib/api/user.api';
 import NProgress from 'nprogress'
 import { useState } from 'react'
 

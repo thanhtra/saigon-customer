@@ -221,27 +221,12 @@
                 margin: unset;
             }
 
-            &.btn-green {
-                margin-bottom: 30px;
-                order: 1;
-
-                @include breakpoint(tablet) {
-                    order: 2;
-                    margin-left: 25px;
-                }
-            }
-
             &.btn-border {
                 order: 2;
 
                 @include breakpoint(tablet) {
                     order: 1;
                 }
-            }
-
-            &.btn-disable {
-                pointer-events: none;
-                background-color: var(--color-gray);
             }
         }
     }

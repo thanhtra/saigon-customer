@@ -15,8 +15,6 @@ export async function getServerSideProps({ params }) {
     const { slug } = params;
     const res = await getRoomDetail(slug);
 
-    console.log('xxxxx', res);
-
     return {
         props: {
             room: res?.result || {}

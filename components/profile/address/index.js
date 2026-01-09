@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from "react-redux";
 import AddressItem from '../address-item'
-import { getAddresses } from 'lib/api/address-service';
+// import { getAddresses } from 'lib/api/address-service';
 import PopupAddress from 'components/common/popup-address';
 import NProgress from 'nprogress';
 import { POPUP_ADD_ADDRESS_OPEN, POPUP_ADD_ADDRESS_HIDE } from 'lib/store/type/common-type';
@@ -23,11 +23,11 @@ const Address = () => {
         const query = { userId: user?.id };
 
         try {
-            const res = await getAddresses(query);
+            // const res = await getAddresses(query);
 
-            if (res && res.success) {
-                setAddresses(res.result.data);
-            }
+            // if (res && res.success) {
+            //     setAddresses(res.result.data);
+            // }
 
             NProgress.done();
         } catch (err) {

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import NProgress from 'nprogress'
 import LandItem from '../../post-land/land-item';
-import { getMyPosts, removeMyPost } from 'lib/api/land.service';
+// import { getMyPosts, removeMyPost } from 'lib/api/land.service';
 import { LandStatus } from 'lib/constants/data';
 import Pagination from 'components/common/pagination';
 import { toast } from 'react-toastify';
@@ -28,13 +28,13 @@ const ManagePostLand = ({ editLand }) => {
                 size: 10
             }
 
-            const res = await getMyPosts(payload)
-            if (res && res.success) {
-                const { data, meta } = res.result;
+            // const res = await getMyPosts(payload)
+            // if (res && res.success) {
+            //     const { data, meta } = res.result;
 
-                setLands(data);
-                setMeta(meta);
-            }
+            //     setLands(data);
+            //     setMeta(meta);
+            // }
             NProgress.done()
         } catch (error) {
             NProgress.done()
@@ -61,14 +61,14 @@ const ManagePostLand = ({ editLand }) => {
             if (!landRemove) return;
 
             NProgress.start();
-            const res = await removeMyPost(landRemove);
+            // const res = await removeMyPost(landRemove);
 
-            if (res && res.success) {
-                getLands();
-                toast.success("Đã xóa tin đăng");
-            } else {
-                toast.error("Xóa tin đăng thất bại");
-            }
+            // if (res && res.success) {
+            //     getLands();
+            //     toast.success("Đã xóa tin đăng");
+            // } else {
+            //     toast.error("Xóa tin đăng thất bại");
+            // }
 
             setIsShowConfirm(false);
             NProgress.done()
