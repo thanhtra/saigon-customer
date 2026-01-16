@@ -43,12 +43,12 @@ const ProfilePage = () => {
                     </div>
 
                     <div className="profile-content">
-                        {activeTab === ProfileTab.account && <Account />}
-                        {activeTab === ProfileTab.change_password && <ChangePassword />}
-                        {activeTab === ProfileTab.address && <Address />}
-                        {activeTab === ProfileTab.manage_booking && <ManageOrder />}
-                        {activeTab === ProfileTab.manage_post_land && <ManagePostLand editLand={editLandHandle} />}
-                        {activeTab === ProfileTab.manage_post_product && <ManagePostProduct editProduct={editProductHandle} />}
+                        {activeTab === ProfileTab.Account && <Account />}
+                        {activeTab === ProfileTab.ManageBooking && <ManageOrder />}
+                        {activeTab === ProfileTab.ManagePostRental && <ManagePostLand editLand={editLandHandle} />}
+                        {activeTab === ProfileTab.ManagePostLand && <ManagePostLand editLand={editLandHandle} />}
+                        {activeTab === ProfileTab.ManagePostProduct && <ManagePostProduct editProduct={editProductHandle} />}
+                        {activeTab === ProfileTab.ChangePassword && <ChangePassword />}
                     </div>
                 </div>
             </section>

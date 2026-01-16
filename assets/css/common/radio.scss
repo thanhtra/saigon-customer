@@ -1,6 +1,7 @@
 .radio-wrapper {
     display: flex;
     align-items: center;
+    padding-top: 6px;
 
     &.inline {
         .radio {
@@ -33,7 +34,7 @@
         }
     }
 
-    > input {
+    >input {
         display: none !important;
     }
 
@@ -72,7 +73,7 @@
         }
     }
 
-    input:checked + .radio-check {
+    input:checked+.radio-check {
         border-color: var(--color-main-green);
 
         &:before {

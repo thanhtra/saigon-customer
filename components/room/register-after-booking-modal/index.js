@@ -52,7 +52,7 @@ export default function RegisterAfterBookingModal({
 
                 if (res?.success) {
                     toast.success(
-                        '🎉 Tạo tài khoản thành công!'
+                        'Tạo tài khoản thành công!'
                     );
                     onClose();
                 } else {

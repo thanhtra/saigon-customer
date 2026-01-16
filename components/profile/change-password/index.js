@@ -68,7 +68,7 @@ const ChangePassword = () => {
                 });
 
                 if (res.success) {
-                    toast.success('Cập nhật mật khẩu thành công');
+                    toast.success('Cập nhật mật khẩu thành công!');
                     logoutHandle();
                 } else {
                     toast.error('Cập nhật mật khẩu thất bại');

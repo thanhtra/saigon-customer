@@ -45,7 +45,7 @@ const RegisterPage = () => {
                 });
 
                 if (res?.success) {
-                    toast.success('Đăng ký thành công');
+                    toast.success('Đăng ký thành công!');
                     router.push(PageUrl.Login);
                 } else {
                     if (res?.message === 'PHONE_IS_EXISTED') {
@@ -148,7 +148,7 @@ const RegisterPage = () => {
                             required
                             options={convertObjectToOptions(CustomerTypeOptions)}
                             control={control}
-                            rules={{ required: 'Vui lòng chọn loại khách' }}
+                            rules={{ required: 'Vui lòng chọn loại tài khoản' }}
                             error={errors.customer_type}
                             inline
                         />

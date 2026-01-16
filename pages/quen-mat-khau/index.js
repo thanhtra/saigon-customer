@@ -120,7 +120,7 @@ export default ForgotPasswordPage;
 //                 });
 
 //                 if (res?.success) {
-//                     toast.success('Cập nhật mật khẩu thành công');
+//                     toast.success('Cập nhật mật khẩu thành công!');
 //                     logoutAndRedirect();
 //                 } else {
 //                     toast.error(res?.message || 'Cập nhật thất bại');

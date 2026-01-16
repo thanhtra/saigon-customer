@@ -26,7 +26,7 @@ const PostProductPage = () => {
     }, [user?.id]);
 
     const displayListHandle = () => {
-        router.push(`${PageUrl.Profile}?tab=${ProfileTab.manage_post_product}`)
+        router.push(`${PageUrl.Profile}?tab=${ProfileTab.ManagePostProduct}`)
     }
 
     return (

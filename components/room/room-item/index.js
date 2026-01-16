@@ -114,6 +114,7 @@ const RoomItem = ({ room }) => {
             </Link>
             <RoomActions
                 roomId={id}
+                rentalId={rental.id}
                 roomCode={room_code}
                 updatedAt={updatedAt}
             />

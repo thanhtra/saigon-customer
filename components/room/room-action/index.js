@@ -18,6 +18,7 @@ const PHONE_NUMBER = '0968922006';
 
 export default function RoomActions({
     roomId,
+    rentalId,
     roomCode,
     updatedAt,
     title = 'Thông tin phòng',
@@ -134,6 +135,7 @@ export default function RoomActions({
             <BookingModal
                 open={openBooking}
                 roomId={roomId}
+                rentalId={rentalId}
                 onClose={() => setOpenBooking(false)}
                 onRequireRegister={(prefill) => {
                     setOpenBooking(false);

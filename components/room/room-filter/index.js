@@ -14,11 +14,13 @@ import {
 
 import {
     INIT_ROOM_FILTER,
-    RentalTypeOptions,
     PriceLevelOptions,
     AcreageLevelOptions,
     isSameRoomFilter,
 } from 'lib/constants/roomFilters';
+
+import { RentalTypeOptions } from 'lib/constants/data';
+
 import { DEFAULT_PROVINCE_ID } from 'lib/locations/const';
 import { RentalAmenityOptions } from 'lib/constants/data';
 

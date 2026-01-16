@@ -38,7 +38,7 @@ const Subscribe = () => {
             })
 
             if (res?.success) {
-                toast.success('🎉 Đăng ký nhận tin thành công!')
+                toast.success('Đăng ký nhận tin thành công!')
                 reset()
             } else {
                 toast.error('Đăng ký thất bại, vui lòng thử lại.')

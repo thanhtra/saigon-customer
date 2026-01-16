@@ -9,9 +9,9 @@ import InputField from 'components/common/form/InputField';
 import { createBookingPublic } from 'lib/api/booking.api';
 import { PHONE_REGEX } from 'lib/constants/tech';
 import { handleApiError } from 'lib/utils/handleApiError';
-import { validateMinMinutesFromNow, getDatetimeLocalPlusMinutes } from 'lib/utils/date';
+import { validateMinMinutesFromNow, getDatetimeLocalPlusMinutes, toDatetimeLocal } from 'lib/utils/date';
 
-export default function BookingModal({ open, onClose, roomId, onRequireRegister }) {
+export default function BookingModal({ open, onClose, roomId, rentalId, onRequireRegister }) {
     const {
         control,
         handleSubmit,
@@ -23,6 +23,7 @@ export default function BookingModal({ open, onClose, roomId, onRequireRegister 
             customer_phone: '',
             viewing_at: '',
             customer_note: '',
+            referrer_phone: ''
         },
         mode: 'onBlur',
     });
@@ -34,6 +35,7 @@ export default function BookingModal({ open, onClose, roomId, onRequireRegister 
                 customer_phone: '',
                 viewing_at: getDatetimeLocalPlusMinutes(60),
                 customer_note: '',
+                referrer_phone: ''
             });
         }
     }, [open, reset]);
@@ -43,12 +45,17 @@ export default function BookingModal({ open, onClose, roomId, onRequireRegister 
             NProgress.start();
             try {
                 const res = await createBookingPublic({
+                    rental_id: rentalId,
                     room_id: roomId,
-                    ...data,
+                    customer_name: data.customer_name,
+                    customer_note: data.customer_note,
+                    customer_phone: data.customer_phone,
+                    viewing_at: toDatetimeLocal(data.viewing_at),
+                    ...(data.referrer_phone && { referrer_phone: data.referrer_phone })
                 });
 
                 if (res?.success) {
-                    toast.success('Đặt lịch xem phòng thành công');
+                    toast.success('Đặt lịch xem phòng thành công!');
                     reset({});
                     onClose();
 
@@ -115,6 +122,20 @@ export default function BookingModal({ open, onClose, roomId, onRequireRegister 
                                 validate: (value) => validateMinMinutesFromNow(value, 30),
                             }}
                             error={errors.viewing_at}
+                        />
+
+                        <InputField
+                            label="SĐT người giới thiệu (nếu có)"
+                            name="referrer_phone"
+                            placeholder="VD: 0909xxxxxx"
+                            control={control}
+                            rules={{
+                                pattern: {
+                                    value: PHONE_REGEX,
+                                    message: 'Số điện thoại chưa đúng',
+                                },
+                            }}
+                            error={errors.referrer_phone}
                         />
                     </div>
 

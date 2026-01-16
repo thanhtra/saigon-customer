@@ -188,20 +188,20 @@ const Header = ({ showSearchIcon = false }) => {
                                     <Link href={{ pathname: PageUrl.Profile, query: { tab: ProfileTab.account } }}>
                                         <a onClick={handleClosePopup} className={`${tab === ProfileTab.account ? 'active' : ''}`}>Thông tin</a>
                                     </Link>
-                                    <Link href={{ pathname: PageUrl.Profile, query: { tab: ProfileTab.manage_booking } }}>
-                                        <a onClick={handleClosePopup} className={`${tab === ProfileTab.manage_booking ? 'active' : ''}`}>Lịch xem nhà</a>
+                                    <Link href={{ pathname: PageUrl.Profile, query: { tab: ProfileTab.ManageBooking } }}>
+                                        <a onClick={handleClosePopup} className={`${tab === ProfileTab.ManageBooking ? 'active' : ''}`}>Lịch xem nhà</a>
                                     </Link>
-                                    <Link href={{ pathname: PageUrl.Profile, query: { tab: ProfileTab.manage_post_land } }}>
-                                        <a onClick={handleClosePopup} className={`${tab === ProfileTab.manage_post_land ? 'active' : ''}`}>Nhà của tôi</a>
+                                    <Link href={{ pathname: PageUrl.Profile, query: { tab: ProfileTab.ManagePostRental } }}>
+                                        <a onClick={handleClosePopup} className={`${tab === ProfileTab.ManagePostRental ? 'active' : ''}`}>Nhà ở cho thuê</a>
                                     </Link>
-                                    {/* <Link href={{ pathname: PageUrl.Profile, query: { tab: ProfileTab.manage_post_product } }}>
-                                        <a onClick={handleClosePopup} className={`${tab === ProfileTab.manage_post_product ? 'active' : ''}`}>Bài đăng sản phẩm</a>
+                                    {/* <Link href={{ pathname: PageUrl.Profile, query: { tab: ProfileTab.ManagePostProduct } }}>
+                                        <a onClick={handleClosePopup} className={`${tab === ProfileTab.ManagePostProduct ? 'active' : ''}`}>Bài đăng sản phẩm</a>
                                     </Link> */}
                                     {/* <Link href={{ pathname: PageUrl.Profile, query: { tab: ProfileTab.address } }}>
                                         <a onClick={handleClosePopup} className={`${tab === ProfileTab.address ? 'active' : ''}`}>Địa chỉ</a>
                                     </Link> */}
-                                    <Link href={{ pathname: PageUrl.Profile, query: { tab: ProfileTab.change_password } }}>
-                                        <a onClick={handleClosePopup} className={`${tab === ProfileTab.change_password ? 'active' : ''}`}>Đổi mật khẩu</a>
+                                    <Link href={{ pathname: PageUrl.Profile, query: { tab: ProfileTab.ChangePassword } }}>
+                                        <a onClick={handleClosePopup} className={`${tab === ProfileTab.ChangePassword ? 'active' : ''}`}>Đổi mật khẩu</a>
                                     </Link>
 
                                     <p className='logout' onClick={logoutHandle}>Đăng xuất</p>

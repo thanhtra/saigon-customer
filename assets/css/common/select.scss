@@ -1,91 +1,121 @@
-// .form-select {
-//     position: relative;
-//     height: 36px;
+/* ===============================
+   FORM SELECT (UNIFIED)
+================================ */
 
-//     @include breakpoint(tablet) {
-//         height: 40px;
-//     }
+.form-select {
+    position: relative;
+    height: 36px;
+    transition: all 0.2s ease;
 
-//     &:before {
-//         right: 15px;
-//         font-size: 14px;
-//         font-family: "icons";
-//         display: block;
-//         position: absolute;
-//         content: "\e801";
-//         top: 50%;
-//         color: #aaaaaa;
-//         transform: translateY(-50%);
+    @include breakpoint(tablet) {
+        height: 40px;
+    }
 
-//         @include breakpoint(tablet) {
-//             right: 20px;
-//             font-size: 16px;
-//         }
-//     }
+    /* ===== DROPDOWN ICON ===== */
+    &:before {
+        content: "\e801";
+        position: absolute;
+        top: 50%;
+        right: 14px;
+        transform: translateY(-50%);
+        font-family: "icons";
+        font-size: 13px;
+        color: $form-placeholder;
+        pointer-events: none;
+        transition: color 0.2s ease;
 
-//     &:hover {
-//         select {
-//             box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
-//         }
-//     }
+        @include breakpoint(tablet) {
+            right: 18px;
+            font-size: 15px;
+        }
+    }
 
-//     select {
-//         height: 100%;
-//         width: 100%;
-//         color: #000;
-//         padding: 0 13px;
-//         font-size: 14px;
-//         border: 1px solid #d8d8d8;
-//         border-radius: 50px;
-//         cursor: pointer;
-//         @include customScroll();
+    /* ===== SELECT BASE ===== */
+    select {
+        width: 100%;
+        height: 100%;
+        padding: 0 38px 0 14px;
+        font-family: inherit;
+        font-size: 14px;
+        color: #222;
+        background-color: #fff;
+        border: 1px solid $form-border;
+        border-radius: $form-radius-pill;
+        appearance: none;
+        cursor: pointer;
+        transition: all 0.2s ease;
 
-//         @include breakpoint(tablet) {
-//             padding: 0 22px;
-//             font-size: 16px;
-//         }
+        @include customScroll();
 
-//         option {
-//             font-size: 14px;
+        @include breakpoint(tablet) {
+            padding: 0px 20px;
+            font-size: 16px;
+        }
 
-//             @include breakpoint(tablet) {
-//                 font-size: 16px;
-//             }
+        &:hover {
+            border-color: $form-border-hover;
+        }
 
-//             &:first-of-type {
-//                 opacity: 0.8;
-//                 display: none;
-//             }
-//         }
+        &:focus {
+            outline: none;
+            border-color: $form-focus-color;
+            box-shadow: $form-focus-shadow;
+        }
 
-//         &[disabled],
-//         &:disabled {
-//             pointer-events: none;
-//             cursor: none;
-//         }
+        &:disabled {
+            background-color: var(--color-main-gray, #f5f5f5);
+            cursor: not-allowed;
+            color: #666;
+        }
 
-//         &:not(:focus):invalid {
-//             opacity: 0.8;
-//         }
-//     }
+        &:not(:focus):invalid {
+            color: $form-placeholder;
+            font-style: italic;
+        }
 
-//     &.has-label {
-//         height: 54px;
+        option {
+            font-size: 14px;
 
-//         @include breakpoint(tablet) {
-//             height: 60px;
-//         }
+            @include breakpoint(tablet) {
+                font-size: 16px;
+            }
 
-//         &:before {
-//             top: 39px;
-//         }
+            &:first-of-type {
+                display: none;
+            }
+        }
+    }
 
-//         select {
-//             height: 36px;
+    /* ===== LABEL MODE (GIỐNG .form-input) ===== */
+    &.has-label {
+        height: 54px;
 
-//             @include breakpoint(tablet) {
-//                 height: 40px;
-//             }
-//         }
-//     }
-// }
+        @include breakpoint(tablet) {
+            height: 60px;
+        }
+
+        select {
+            height: 36px;
+
+            @include breakpoint(tablet) {
+                height: 40px;
+            }
+        }
+
+        &:before {
+            top: 40px;
+        }
+    }
+
+    /* ===== ERROR STATE ===== */
+    &.has-error {
+        select {
+            border-color: $form-error-color;
+            box-shadow: $form-error-shadow;
+        }
+
+        &:before {
+            color: $form-error-color;
+        }
+    }
+}

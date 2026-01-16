@@ -62,7 +62,7 @@ $form-error-shadow: 0 0 0 3px rgba(229, 57, 53, 0.15);
         border-radius: $form-radius-pill;
 
         @include breakpoint(tablet) {
-            padding: 0 22px;
+            padding: 0 20px;
             font-size: 16px;
         }
     }

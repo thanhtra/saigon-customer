@@ -11,11 +11,11 @@ import { REMOVE_USER } from 'lib/store/type/user-type';
 
 const PROFILE_MENUS = [
     { tab: ProfileTab.account, label: 'Thông tin' },
-    { tab: ProfileTab.manage_booking, label: 'Lịch xem nhà' },
-    { tab: ProfileTab.manage_post_land, label: 'Nhà của tôi' },
-    // { tab: ProfileTab.manage_post_product, label: 'Bài đăng sản phẩm' },
+    { tab: ProfileTab.ManageBooking, label: 'Lịch xem nhà' },
+    { tab: ProfileTab.ManagePostRental, label: 'Nhà ở cho thuê' },
+    { tab: ProfileTab.ManagePostProduct, label: 'Bài đăng sản phẩm' },
     // { tab: ProfileTab.address, label: 'Địa chỉ' },
-    { tab: ProfileTab.change_password, label: 'Đổi mật khẩu' },
+    { tab: ProfileTab.ChangePassword, label: 'Đổi mật khẩu' },
     { tab: 'logout', label: 'Đăng xuất', danger: true },
 ];
 

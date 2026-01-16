@@ -5,6 +5,13 @@ import { useRouter } from 'next/router';
 import { LOGIN_SUCCESS, REMOVE_USER } from 'lib/store/type/user-type';
 import { getMe } from 'lib/api/auth.api';
 
+// Public pages, không cần gọi /auth/me
+const PUBLIC_ROUTES = [
+    '/dang-nhap',
+    '/dang-ky',
+    '/quen-mat-khau',
+];
+
 export const useAuthInit = () => {
     const dispatch = useDispatch();
     const router = useRouter();
@@ -13,17 +20,15 @@ export const useAuthInit = () => {
     const initialized = useRef(false);
 
     useEffect(() => {
-        // ❌ Không chạy nhiều lần
+        // Chỉ chạy 1 lần
         if (initialized.current) return;
+        initialized.current = true;
 
-        // ❌ Không gọi ở trang login
-        if (router.pathname === '/dang-nhap') return;
+        // ❌ Nếu đang ở public page → không gọi
+        if (PUBLIC_ROUTES.includes(router.pathname)) return;
 
         // ❌ Nếu đã có user → khỏi gọi
-        if (user) {
-            initialized.current = true;
-            return;
-        }
+        if (user) return;
 
         const initAuth = async () => {
             try {
@@ -36,14 +41,15 @@ export const useAuthInit = () => {
                     });
                 } else {
                     dispatch({ type: REMOVE_USER });
+                    // Redirect login nếu user không tồn tại
+                    router.replace('/dang-nhap');
                 }
             } catch {
                 dispatch({ type: REMOVE_USER });
-            } finally {
-                initialized.current = true;
+                router.replace('/dang-nhap');
             }
         };
 
         initAuth();
-    }, [dispatch, router.pathname, user]);
+    }, [dispatch, router]);
 };

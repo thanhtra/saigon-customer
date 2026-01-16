@@ -1,12 +1,11 @@
 import Breadcrumb from 'components/common/breadcrumb';
 import RoomFilter from 'components/room/room-filter';
 import RoomsContent from 'components/room/rooms-content';
-
+import Link from 'next/link';
 import { getRooms } from 'lib/api/room.api';
 import { normalizeRoomQuery } from 'lib/utils/normalizeRoomQuery';
 import { useRoomRouter } from 'hooks/useRoomRouter';
-
-/* ================= SSR ================= */
+import { PageUrl } from 'lib/constants/tech';
 
 export async function getServerSideProps({ query }) {
     try {
@@ -58,6 +57,14 @@ const RentalPage = ({ rooms, meta }) => {
                 </aside>
 
                 <main className="section-content">
+                    <div className='btn-head'>
+                        <Link href={PageUrl.PostRental}>
+                            <button type='button' className="btn">
+                                Đăng tin miễn phí
+                            </button>
+                        </Link>
+                    </div>
+
                     <RoomsContent
                         rooms={rooms}
                         meta={meta}

@@ -65,7 +65,7 @@ const Account = () => {
                 const res = await updateUser(payload);
 
                 if (res?.success) {
-                    toast.success('Cập nhật thành công');
+                    toast.success('Cập nhật thành công!');
                     dispatch({
                         type: UPDATE_USER,
                         payload: res.result,
