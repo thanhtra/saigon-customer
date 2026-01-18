@@ -56,7 +56,7 @@ export default function BookingModal({ open, onClose, roomId, rentalId, onRequir
 
                 if (res?.success) {
                     toast.success('Đặt lịch xem phòng thành công!');
-                    reset({});
+                    reset();
                     onClose();
 
                     if (!res.result.user_exists) {

@@ -1,0 +1,152 @@
+.image-upload {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    /* ===== UPLOAD BUTTON ===== */
+    &__button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        height: 44px;
+        padding: 0 16px;
+        border-radius: 8px;
+        border: 1px dashed #cbd5e1;
+        background: #f8fafc;
+        color: #0f172a;
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        width: fit-content;
+
+        &:hover {
+            background: #f1f5f9;
+            border-color: var(--color-main-green);
+            color: var(--color-main-green);
+        }
+
+        /* Tablet + Desktop */
+        @include breakpoint(tablet) {
+            width: 100%;
+        }
+    }
+
+    /* ===== GRID ===== */
+    &__grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+        gap: 12px;
+
+        @include breakpoint(tablet) {
+            gap: 16px;
+        }
+    }
+
+    /* ===== IMAGE ITEM ===== */
+    &__item {
+        position: relative;
+        border-radius: 10px;
+        overflow: hidden;
+
+        /* 🔥 luôn giữ border 2px */
+        border: 2px solid #e5e7eb;
+        background: #fff;
+
+        transition:
+            border-color 0.2s ease,
+            box-shadow 0.2s ease;
+
+        img {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+            display: block;
+
+            @include breakpoint(tablet) {
+                height: 160px;
+            }
+        }
+
+        &.is-cover {
+            border-color: var(--color-main-green);
+            box-shadow: 0 0 0 1px rgba(0, 128, 0, 0.2);
+        }
+
+        /* Desktop hover */
+        @include breakpoint(tablet) {
+            &:hover {
+                .image-upload__remove {
+                    opacity: 1;
+                    transform: scale(1);
+                }
+            }
+        }
+    }
+
+
+    /* ===== REMOVE BUTTON ===== */
+    &__remove {
+        position: absolute;
+        top: 6px;
+        right: 6px;
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        background: rgba(0, 0, 0, 0.6);
+        color: #fff;
+        border: none;
+        cursor: pointer;
+        font-size: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        transition: all 0.2s ease;
+
+        /* ===== MOBILE: luôn hiện ===== */
+        opacity: 1;
+        transform: scale(1);
+
+        &:hover {
+            background: #dc2626;
+        }
+
+        /* ===== DESKTOP: ẩn, hover item mới hiện ===== */
+        @include breakpoint(tablet) {
+            opacity: 0;
+            transform: scale(0.8);
+        }
+    }
+
+    /* ===== COVER ===== */
+    &__cover {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 32px;
+        background: rgba(0, 0, 0, 0.55);
+        color: #fff;
+        font-size: 13px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        user-select: none;
+        touch-action: manipulation;
+
+        transition: background 0.2s ease;
+
+        &:hover {
+            background: rgba(0, 0, 0, 0.75);
+        }
+
+        @include breakpoint(tablet) {
+            height: 36px;
+            font-size: 14px;
+        }
+    }
+
+}

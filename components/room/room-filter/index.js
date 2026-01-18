@@ -183,155 +183,149 @@ const RoomFilter = ({ searchRooms, query }) => {
                 </button>
             </div>
 
+            <div className="filter-desktop-body">
+                <div className="filter-block">
+                    <p className="filter-title">Tìm kiếm</p>
+                    <input
+                        type="text"
+                        className="filter-input"
+                        placeholder="Nhập từ khóa..."
+                        value={filters.keyword || ''}
+                        onChange={e =>
+                            setFilters(prev => ({
+                                ...prev,
+                                keyword: e.target.value,
+                            }))
+                        }
+                    />
+                </div>
 
-            {/* ===== KEYWORD ===== */}
-            <div className="filter-block">
-                <p className="filter-title">Tìm kiếm</p>
-                <input
-                    type="text"
-                    className="filter-input"
-                    placeholder="Nhập từ khóa..."
-                    value={filters.keyword || ''}
-                    onChange={e =>
-                        setFilters(prev => ({
-                            ...prev,
-                            keyword: e.target.value,
-                        }))
-                    }
-                />
-            </div>
+                <div className="filter-block">
+                    <p className="filter-title">Khu vực</p>
 
-            {/* ===== LOCATION ===== */}
-            <div className="filter-block">
-                <p className="filter-title">Khu vực</p>
+                    <select
+                        value={filters.province}
+                        disabled
+                        className="filter-select"
+                    >
+                        <option value="">Tỉnh / Thành</option>
+                        {provinces.map(p => (
+                            <option key={p.id} value={p.id}>
+                                {p.label}
+                            </option>
+                        ))}
+                    </select>
 
-                <select
-                    value={filters.province}
-                    disabled
-                    className="filter-select"
-                >
-                    <option value="">Tỉnh / Thành</option>
-                    {provinces.map(p => (
-                        <option key={p.id} value={p.id}>
-                            {p.label}
-                        </option>
-                    ))}
-                </select>
+                    <select
+                        value={filters.district}
+                        onChange={selectDistrict}
+                        disabled={!filters.province}
+                        className="filter-select"
+                    >
+                        <option value="">Quận / Huyện</option>
+                        {districts.map(d => (
+                            <option key={d.id} value={d.id}>
+                                {d.label}
+                            </option>
+                        ))}
+                    </select>
 
-                <select
-                    value={filters.district}
-                    onChange={selectDistrict}
-                    disabled={!filters.province}
-                    className="filter-select"
-                >
-                    <option value="">Quận / Huyện</option>
-                    {districts.map(d => (
-                        <option key={d.id} value={d.id}>
-                            {d.label}
-                        </option>
-                    ))}
-                </select>
+                    <select
+                        value={filters.ward}
+                        onChange={selectWard}
+                        disabled={!filters.district}
+                        className="filter-select"
+                    >
+                        <option value="">Phường / Xã</option>
+                        {wards.map(w => (
+                            <option key={w.id} value={w.id}>
+                                {w.label}
+                            </option>
+                        ))}
+                    </select>
+                </div>
 
-                <select
-                    value={filters.ward}
-                    onChange={selectWard}
-                    disabled={!filters.district}
-                    className="filter-select"
-                >
-                    <option value="">Phường / Xã</option>
-                    {wards.map(w => (
-                        <option key={w.id} value={w.id}>
-                            {w.label}
-                        </option>
-                    ))}
-                </select>
-            </div>
+                <div className="filter-block">
+                    <p className="filter-title">Loại nhà</p>
+                    <div className="filter-list">
+                        {RentalTypeOptions.map(item => {
+                            const active = filters.rental_type
+                                .split(',')
+                                .includes(item.value);
 
-            {/* ===== RENTAL TYPE ===== */}
-            <div className="filter-block">
-                <p className="filter-title">Loại nhà</p>
-                <div className="filter-list">
-                    {RentalTypeOptions.map(item => {
-                        const active = filters.rental_type
-                            .split(',')
-                            .includes(item.value);
+                            return (
+                                <div
+                                    key={item.value}
+                                    className={`filter-item ${active ? 'active' : ''}`}
+                                    onClick={() =>
+                                        toggleMultiValue('rental_type', item.value)
+                                    }
+                                >
+                                    {item.label}
+                                </div>
+                            );
+                        })}
+                    </div>
+                </div>
 
-                        return (
+                <div className="filter-block">
+                    <p className="filter-title">Mức giá (triệu)</p>
+                    <div className="filter-list">
+                        {PriceLevelOptions.map(p => (
                             <div
-                                key={item.value}
-                                className={`filter-item ${active ? 'active' : ''}`}
+                                key={p.value}
+                                className={`filter-item ${filters.price_level === p.value ? 'active' : ''
+                                    }`}
                                 onClick={() =>
-                                    toggleMultiValue('rental_type', item.value)
+                                    selectSingleValue('price_level', p.value)
                                 }
                             >
-                                {item.label}
+                                {p.label}
                             </div>
-                        );
-                    })}
+                        ))}
+                    </div>
                 </div>
-            </div>
 
-            {/* ===== PRICE ===== */}
-            <div className="filter-block">
-                <p className="filter-title">Mức giá (triệu)</p>
-                <div className="filter-list">
-                    {PriceLevelOptions.map(p => (
-                        <div
-                            key={p.value}
-                            className={`filter-item ${filters.price_level === p.value ? 'active' : ''
-                                }`}
-                            onClick={() =>
-                                selectSingleValue('price_level', p.value)
-                            }
-                        >
-                            {p.label}
-                        </div>
-                    ))}
+                <div className="filter-block">
+                    <p className="filter-title">Tiện ích</p>
+
+                    <div className="filter-list filter-list-2col">
+                        {Object.entries(RentalAmenityOptions).map(([value, label]) => {
+                            const active = filters.amenities
+                                ?.split(',')
+                                .includes(value);
+
+                            return (
+                                <div
+                                    key={value}
+                                    className={`filter-item ${active ? 'active' : ''}`}
+                                    onClick={() =>
+                                        toggleMultiValue('amenities', value)
+                                    }
+                                >
+                                    {label}
+                                </div>
+                            );
+                        })}
+                    </div>
                 </div>
-            </div>
 
-            {/* ===== AMENITIES ===== */}
-            <div className="filter-block">
-                <p className="filter-title">Tiện ích</p>
-
-                <div className="filter-list filter-list-2col">
-                    {Object.entries(RentalAmenityOptions).map(([value, label]) => {
-                        const active = filters.amenities
-                            ?.split(',')
-                            .includes(value);
-
-                        return (
+                <div className="filter-block">
+                    <p className="filter-title">Diện tích (m²)</p>
+                    <div className="filter-list">
+                        {AcreageLevelOptions.map(a => (
                             <div
-                                key={value}
-                                className={`filter-item ${active ? 'active' : ''}`}
+                                key={a.value}
+                                className={`filter-item ${filters.acreage_level === a.value ? 'active' : ''
+                                    }`}
                                 onClick={() =>
-                                    toggleMultiValue('amenities', value)
+                                    selectSingleValue('acreage_level', a.value)
                                 }
                             >
-                                {label}
+                                {a.label}
                             </div>
-                        );
-                    })}
-                </div>
-            </div>
-
-
-            {/* ===== ACREAGE ===== */}
-            <div className="filter-block">
-                <p className="filter-title">Diện tích (m²)</p>
-                <div className="filter-list">
-                    {AcreageLevelOptions.map(a => (
-                        <div
-                            key={a.value}
-                            className={`filter-item ${filters.acreage_level === a.value ? 'active' : ''
-                                }`}
-                            onClick={() =>
-                                selectSingleValue('acreage_level', a.value)
-                            }
-                        >
-                            {a.label}
-                        </div>
-                    ))}
+                        ))}
+                    </div>
                 </div>
             </div>
         </div>

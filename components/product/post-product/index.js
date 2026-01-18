@@ -36,7 +36,7 @@ const PostProduct = ({ slug = '', displayList }) => {
             getProductDetail(slug);
         } else {
             getCategoriesHandle();
-            reset({});
+            reset();
             setIsSubmited(false);
             setIsHaveVideo(false);
             setSavedImages([]);

@@ -578,76 +578,76 @@
 
     }
 
-    .upload-image-wrapper {
-        .image-upload {
-            height: 100px;
-            width: 100%;
-            background: rgb(255, 255, 255);
-            border: 1px dashed rgb(242, 242, 242);
-            box-sizing: border-box;
-            margin-bottom: 8px;
-            cursor: pointer;
-            text-align: center;
-            font-size: 12px;
+    // .upload-image-wrapper {
+    //     .image-upload {
+    //         height: 100px;
+    //         width: 100%;
+    //         background: rgb(255, 255, 255);
+    //         border: 1px dashed rgb(242, 242, 242);
+    //         box-sizing: border-box;
+    //         margin-bottom: 8px;
+    //         cursor: pointer;
+    //         text-align: center;
+    //         font-size: 12px;
 
-            @include breakpoint(tablet) {
-                font-size: 14px;
-            }
+    //         @include breakpoint(tablet) {
+    //             font-size: 14px;
+    //         }
 
-            .upload {
-                height: 52px;
-                width: 68px;
-                background-repeat: no-repeat;
-                background-position: center;
-                margin: 0 auto;
-                margin-top: 10px;
-                margin-bottom: 10px;
-                background-size: cover;
-            }
-        }
+    //         .upload {
+    //             height: 52px;
+    //             width: 68px;
+    //             background-repeat: no-repeat;
+    //             background-position: center;
+    //             margin: 0 auto;
+    //             margin-top: 10px;
+    //             margin-bottom: 10px;
+    //             background-size: cover;
+    //         }
+    //     }
 
-        .list-image-upload {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
+    //     .list-image-upload {
+    //         display: flex;
+    //         flex-wrap: wrap;
+    //         justify-content: space-between;
 
-            .image-item {
-                height: 120px;
-                width: 49%;
-                border: 1.5px solid #e4e4e4;
-                border-radius: 5px;
-                background-size: cover;
-                background-position: center;
-                position: relative;
-                margin-bottom: 8px;
+    //         .image-item {
+    //             height: 120px;
+    //             width: 49%;
+    //             border: 1.5px solid #e4e4e4;
+    //             border-radius: 5px;
+    //             background-size: cover;
+    //             background-position: center;
+    //             position: relative;
+    //             margin-bottom: 8px;
 
-                @include breakpoint(tablet) {
-                    height: 200px;
-                    margin-bottom: 15px;
-                }
+    //             @include breakpoint(tablet) {
+    //                 height: 200px;
+    //                 margin-bottom: 15px;
+    //             }
 
-                .icon-remove {
-                    position: absolute;
-                    color: #fa5e52;
-                    cursor: pointer;
-                    width: 25px;
-                    height: 25px;
-                    border-radius: 50%;
-                    right: 8px;
-                    top: 5px;
-                    padding: 5px;
-                    background-position: center;
-                    background-repeat: no-repeat;
-                }
-            }
-        }
+    //             .icon-remove {
+    //                 position: absolute;
+    //                 color: #fa5e52;
+    //                 cursor: pointer;
+    //                 width: 25px;
+    //                 height: 25px;
+    //                 border-radius: 50%;
+    //                 right: 8px;
+    //                 top: 5px;
+    //                 padding: 5px;
+    //                 background-position: center;
+    //                 background-repeat: no-repeat;
+    //             }
+    //         }
+    //     }
 
-        .check-video {
-            label {
-                display: inline-flex;
-            }
-        }
-    }
+    //     .check-video {
+    //         label {
+    //             display: inline-flex;
+    //         }
+    //     }
+    // }
 
     .show-menu-filter {
         position: fixed;

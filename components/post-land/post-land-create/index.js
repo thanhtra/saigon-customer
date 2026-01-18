@@ -34,7 +34,7 @@ const PostLandCreate = ({ slug = '', displayList }) => {
             getLandDetail(slug);
         } else {
             getCategoriesHandle();
-            reset({});
+            reset();
             setWards([]);
             setDistrict('');
             setIsSubmited(false);

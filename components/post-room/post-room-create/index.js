@@ -2,31 +2,37 @@
 
 import InputField from 'components/common/form/InputField';
 import LocationSelect from 'components/common/location-select';
+import {
+    createRoom,
+    getMyPost
+} from 'lib/api/room.api';
 import { convertObjectToOptions } from 'lib/utils';
 import NProgress from 'nprogress';
-import { useCallback, useEffect, useState, useRef, useMemo } from 'react';
-import { useForm, useWatch } from 'react-hook-form';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { Controller, useForm, useWatch } from 'react-hook-form';
 import { toast } from 'react-toastify';
-import {
-    createImages,
-    createRoom,
-    getMyPost,
-    updateMyRoomPost,
-    uploadImagesRoom
-} from 'lib/api/room.api';
 
-import { getMyBoardingHouses, createBoardingHouses } from 'lib/api/rental.api';
+import { createBoardingHouses, getMyBoardingHouses } from 'lib/api/rental.api';
 
+import FormAmenityCheckbox from 'components/common/form-amenity-checkbox';
+import FormImageUpload from 'components/common/form-image-upload';
+import InputFieldCurrency from 'components/common/form/InputFieldCurrency';
 import RadioGroupCheckbox from 'components/common/form/RadioGroupCheckbox';
 import SelectField from 'components/common/form/SelectField';
-import InputFieldCurrency from 'components/common/form/InputFieldCurrency';
-import { mapRoomFormToDto } from 'components/post-room/service';
-import { Position, RentalType, RentalTypeLabels } from 'lib/constants/data';
-import { buildSelectOptions, buildSelectOptionsFromList } from 'lib/utils';
+import { createUnitRental } from 'lib/api/rental.api';
+import { updateRoom } from 'lib/api/room.api';
+import useUploadImages from 'lib/api/upload.api';
+import { UploadDomain } from 'lib/constants/tech';
+import { buildSelectOptionsFromList } from 'lib/utils';
+
+import CardSelectField from 'components/common/card-select-field';
+import { RentalType } from 'lib/constants/data';
+import { RentalTypeOptions } from 'lib/constants/rental-type.options';
+
 
 import {
-    DEFAULT_PROVINCE_ID,
     DEFAULT_DISTRICT_ID,
+    DEFAULT_PROVINCE_ID,
 } from 'lib/locations/const';
 
 
@@ -40,22 +46,13 @@ export const BoardingHouseModeOptions = {
     [BoardingHouseMode.CREATE_NEW]: 'Tạo nhà trọ mới',
 };
 
-const RentalTypeOptions = buildSelectOptions(
-    RentalTypeLabels,
-    '-- Chọn loại hình cho thuê --'
-);
-
-
 const PostRoomCreate = ({ slug = '', displayList }) => {
-    const [images, setImages] = useState([]);
-    const [savedImages, setSavedImages] = useState([]);
-    const [isHaveVideo, setIsHaveVideo] = useState(false);
-    const [isOwner, setIsOwner] = useState(true);
-    const [roomId, setRoomId] = useState(null);
+    const fetchedRef = useRef(false);
     const [boardingHouses, setBoardingHouses] = useState([]);
     const [loadingBoardingHouses, setLoadingBoardingHouses] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const { uploadImages, loading: uploading } = useUploadImages();
 
-    const fetchedRef = useRef(false);
 
     const {
         control,
@@ -93,10 +90,14 @@ const PostRoomCreate = ({ slug = '', displayList }) => {
             room: {
                 title: '',
                 price: null,
-                area: '',
+                deposit: null,
+                area: null,
                 floor: '',
                 room_number: '',
+                max_people: null,
                 description: '',
+                amenities: [],
+                images: [],
             },
         },
     });
@@ -127,10 +128,6 @@ const PostRoomCreate = ({ slug = '', displayList }) => {
                 if (!mounted || !res?.success) return;
 
                 const r = res.result;
-
-                setRoomId(r.id);
-                setIsOwner(r.contact?.position === Position.Owner);
-                setSavedImages((r.images || []).map(i => i.name));
 
                 reset({
                     rental_type: r.rental_type || '',
@@ -226,27 +223,11 @@ const PostRoomCreate = ({ slug = '', displayList }) => {
         });
     }, [boardingMode, setValue]);
 
-
-    const resetLocationAndFee = (setValue) => {
-        setValue('location', {
-            province: '',
-            district: '',
-            ward: '',
-            street: '',
-            house_number: '',
-            address_detail: '',
-            address_detail_display: '',
-        }, { shouldDirty: false });
-
-        setValue('fee', {
-            electric: null,
-            water: null,
-            wifi: null,
-            service: null,
-            parking: null,
-            other: '',
-        }, { shouldDirty: false });
-    };
+    const isBoardingHouse = rentalType === RentalType.BOARDING_HOUSE;
+    const showCommonInfo = !isBoardingHouse || boardingMode === BoardingHouseMode.CREATE_NEW;
+    const hasBoardingHouse = boardingHouses.length > 0;
+    const showRoomForm = !isBoardingHouse || (boardingMode === BoardingHouseMode.SELECT_EXISTING && !!selectedBoardingHouseId);
+    const isCreateBoardingHouse = rentalType === RentalType.BOARDING_HOUSE && boardingMode === BoardingHouseMode.CREATE_NEW
 
     const submitLabel = useMemo(() => {
         if (!rentalType) return '';
@@ -290,15 +271,6 @@ const PostRoomCreate = ({ slug = '', displayList }) => {
         return false;
     }, [rentalType, boardingMode, selectedBoardingHouseId]);
 
-    const isBoardingHouse = rentalType === RentalType.BOARDING_HOUSE;
-    const showCommonInfo = !isBoardingHouse || boardingMode === BoardingHouseMode.CREATE_NEW;
-    const hasBoardingHouse = boardingHouses.length > 0;
-    const showRoomForm =
-        !isBoardingHouse ||
-        (boardingMode === BoardingHouseMode.SELECT_EXISTING && !!selectedBoardingHouseId);
-    const isCreateBoardingHouse = rentalType === RentalType.BOARDING_HOUSE && boardingMode === BoardingHouseMode.CREATE_NEW
-    const isCreateRoom = rentalType === RentalType.BOARDING_HOUSE && !!selectedBoardingHouseId;
-
     const displaySubmit = useMemo(() => {
         // Chưa chọn loại hình → không hiển thị
         if (!rentalType) return false;
@@ -316,6 +288,27 @@ const PostRoomCreate = ({ slug = '', displayList }) => {
 
         return false;
     }, [rentalType, boardingMode, selectedBoardingHouseId]);
+
+    const resetLocationAndFee = (setValue) => {
+        setValue('location', {
+            province: '',
+            district: '',
+            ward: '',
+            street: '',
+            house_number: '',
+            address_detail: '',
+            address_detail_display: '',
+        }, { shouldDirty: false });
+
+        setValue('fee', {
+            electric: null,
+            water: null,
+            wifi: null,
+            service: null,
+            parking: null,
+            other: '',
+        }, { shouldDirty: false });
+    };
 
     const handleCreateBoardingHouse = async () => {
         NProgress.start();
@@ -344,6 +337,8 @@ const PostRoomCreate = ({ slug = '', displayList }) => {
             if (!res?.success) {
                 if (res.message === 'BOARDING_HOUSE_ADDRESS_ALREADY_EXISTS') {
                     toast.error('Bạn đã tạo nhà trọ với địa chỉ nhày');
+                } else if (res.message === 'USER_IS_NOT_COLLABORATOR') {
+                    toast.error('Bạn chưa đăng kí cộng tác. Hãy liên hệ admin để được hỗ trợ');
                 } else {
                     toast.error('Tạo nhà trọ thất bại');
                 }
@@ -372,76 +367,165 @@ const PostRoomCreate = ({ slug = '', displayList }) => {
         }
     };
 
-    const onSubmit = useCallback(
-        async (formData) => {
+    const uploadRoomImages = async ({ roomId, images, uploadImages }) => {
+        if (!roomId || !images || !images.length) return;
 
-            if (
-                rentalType === RentalType.BOARDING_HOUSE &&
-                boardingMode === BoardingHouseMode.SELECT_EXISTING &&
-                !formData.boarding_house_id
-            ) {
-                toast.warning('Vui lòng chọn nhà trọ');
-                return;
-            }
+        const files = images
+            .map(img => img.file)
+            .filter(Boolean);
 
-            NProgress.start();
+        if (!files.length) return;
 
-            try {
-                const dto = mapRoomFormToDto(formData);
+        const uploadRes = await uploadImages(files, {
+            domain: UploadDomain.Rooms,
+            room_id: roomId,
+        });
 
-                const res = roomId
-                    ? await updateMyRoomPost(roomId, dto)
-                    : await createRoom(dto);
+        if (!uploadRes || !uploadRes.success || !uploadRes.result?.length) {
+            throw new Error('UPLOAD_FAILED');
+        }
 
-                if (!res?.success) {
-                    toast.error('Đăng tin thất bại');
+        const uploadIds = uploadRes.result.map(u => u.id);
+
+        const coverIndex =
+            images.findIndex(i => i.isCover) >= 0
+                ? images.findIndex(i => i.isCover)
+                : 0;
+
+        await updateRoom(roomId, {
+            upload_ids: uploadIds,
+            cover_index: coverIndex,
+        });
+    }
+
+    const onSubmit = async (data) => {
+        const {
+            boarding_house_id,
+            rental_type,
+            location,
+            fee,
+            room
+        } = data;
+
+        if (!room?.images?.length) {
+            toast.error('Cần ít nhất 1 hình ảnh');
+            return;
+        }
+
+        setLoading(true);
+        NProgress.start();
+
+        try {
+            /* =====================================================
+             * CASE 1: NHÀ TRỌ → CHỌN NHÀ → TẠO ROOM
+             * ===================================================== */
+
+            if (rental_type === RentalType.BOARDING_HOUSE) {
+
+                if (!boarding_house_id) {
+                    toast.warning('Vui lòng chọn nhà trọ');
                     return;
                 }
 
-                const postId = roomId || res.result.id;
+                const createRoomRes = await createRoom({
+                    rental_id: boarding_house_id,
+                    title: room.title,
+                    room_number: room.room_number,
+                    price: Number(room.price),
+                    deposit: Number(room.deposit),
+                    description: room.description,
+                    amenities: room.amenities,
+                    area: room.area ? Number(room.area) : undefined,
+                    max_people: room.max_people ? Number(room.max_people) : undefined,
+                    floor: room.floor ? Number(room.floor) : undefined,
+                });
 
-                // ===== OPTIONAL: UPLOAD IMAGES =====
-                if (images.length > 0) {
-                    try {
-                        const fd = new FormData();
-                        images.forEach(img =>
-                            fd.append('photos', img.file, img.file.name)
-                        );
+                console.log('yyyyyy', createRoomRes);
 
-                        const upload = await uploadImagesRoom(fd);
-
-                        if (upload?.success) {
-                            await createImages({
-                                imageList: upload.result,
-                                productId: postId,
-                                type: 'BatDongSan',
-                            });
-                        }
-                    } catch {
-                        toast.warning('Đăng tin thành công nhưng upload ảnh thất bại');
-                    }
+                if (!createRoomRes?.success || !createRoomRes.result?.id) {
+                    toast.error('Tạo phòng thất bại');
+                    return;
                 }
 
-                toast.success(roomId ? 'Cập nhật thành công' : 'Đăng tin thành công');
-                displayList();
+                const roomId = createRoomRes.result.id;
 
-            } catch (err) {
-                console.error(err);
-                toast.error('Có lỗi xảy ra');
-            } finally {
-                NProgress.done();
+                await uploadRoomImages({
+                    roomId,
+                    images: room.images,
+                    uploadImages,
+                });
+
+                toast.success('Tạo phòng thành công');
+                reset();
+                return;
             }
-        },
-        [
-            rentalType,
-            boardingMode,
-            images,
-            isHaveVideo,
-            isOwner,
-            roomId,
-            displayList,
-        ]
-    );
+
+            /* =====================================================
+             * CASE 2: KHÔNG PHẢI NHÀ TRỌ → TẠO RENTAL + ROOM
+             * ===================================================== */
+            const payload = {
+                rental_type: rental_type,
+
+                // ADDRESS
+                province: location.province,
+                district: location.district,
+                ward: location.ward,
+                street: location.street,
+                house_number: location.house_number,
+                address_detail: location.address_detail,
+                address_detail_display: location.address_detail_display,
+
+                // FEE
+                fee_electric: fee.electric,
+                fee_water: fee.water,
+                fee_wifi: fee.wifi,
+                fee_service: fee.service,
+                fee_parking: fee.parking,
+                fee_other: fee.other,
+
+                // ROOM
+                title: room.title,
+                price: room.price ? Number(room.price) : undefined,
+                deposit: room.deposit ? Number(room.deposit) : undefined,
+                floor: room.floor,
+                room_number: room.room_number,
+                area: room.area ? Number(room.area) : undefined,
+                max_people: room.max_people ? Number(room.max_people) : undefined,
+                amenities: room.amenities,
+                description: room.description,
+            };
+
+            const res = await createUnitRental(payload);
+
+            if (!res?.success) {
+                toast.error('Tạo tin thất bại');
+                return;
+            }
+
+            console.log('rererer', res);
+
+            const roomId = res.result?.roomId;
+
+            if (roomId) {
+                await uploadRoomImages({
+                    roomId,
+                    images: room.images,
+                    uploadImages,
+                });
+            }
+
+            toast.success('Tạo tin cho thuê thành công');
+            reset();
+
+        } catch (err) {
+            console.error(err);
+            toast.error('Có lỗi xảy ra');
+        } finally {
+            setLoading(false);
+            NProgress.done();
+        }
+    };
+
 
     return (
         <form
@@ -452,15 +536,13 @@ const PostRoomCreate = ({ slug = '', displayList }) => {
             <div className="card-post">
                 <p className="title">Loại hình cho thuê</p>
 
-                <div className="form-row">
-                    <SelectField
-                        label="Loại hình cho thuê"
-                        name="rental_type"
-                        control={control}
-                        options={RentalTypeOptions}
-                        required
-                    />
-                </div>
+                <CardSelectField
+                    label="Loại hình cho thuê"
+                    name="rental_type"
+                    control={control}
+                    options={RentalTypeOptions}
+                    required
+                />
             </div >
 
             {rentalType && <>
@@ -481,28 +563,32 @@ const PostRoomCreate = ({ slug = '', displayList }) => {
                             />
                         </div>
 
-                        {boardingMode === BoardingHouseMode.SELECT_EXISTING && hasBoardingHouse && (
-                            <div className="form-row inline">
-                                <SelectField
-                                    label="Nhà trọ của bạn"
-                                    name="boarding_house_id"
-                                    control={control}
-                                    options={boardingHouseOptions}
-                                    required
-                                />
-                            </div>
-                        )}
-
+                        {
+                            boardingMode === BoardingHouseMode.SELECT_EXISTING && (
+                                hasBoardingHouse ?
+                                    <div className="form-row inline">
+                                        <SelectField
+                                            label="Nhà trọ của bạn"
+                                            name="boarding_house_id"
+                                            control={control}
+                                            options={boardingHouseOptions}
+                                            required
+                                        />
+                                    </div> :
+                                    "Bạn chưa có nhà trọ, hãy tạo mới"
+                            )
+                        }
                     </div>
                 )}
 
                 {showRoomForm && (
                     <div className="card-post">
-                        <p className="title">{isCreateRoom ? 'Tạo phòng trọ (Tin đăng)' : 'Tạo tin đăng'} </p>
+                        <p className="title">Tạo tin đăng</p>
 
                         <div className="form-row inline">
                             <InputField
                                 label="Tiêu đề"
+                                placeholder="VD: Phòng trọ đẹp full nội thất gần ĐH Bách Khoa"
                                 name="room.title"
                                 control={control}
                                 required
@@ -510,10 +596,20 @@ const PostRoomCreate = ({ slug = '', displayList }) => {
                             />
                         </div>
 
-                        <div className="form-row">
+
+                        <div className="form-row four">
                             <InputFieldCurrency
                                 label="Giá thuê (VNĐ/tháng)"
                                 name="room.price"
+                                type="number"
+                                control={control}
+                                required
+                                rules={{ required: 'Vui lòng nhập giá thuê' }}
+                            />
+
+                            <InputFieldCurrency
+                                label="Cọc giữ chỗ (VNĐ)"
+                                name="room.deposit"
                                 type="number"
                                 control={control}
                                 required
@@ -526,24 +622,30 @@ const PostRoomCreate = ({ slug = '', displayList }) => {
                                 type="number"
                                 control={control}
                             />
+
+                            <InputField
+                                label="Số người tối đa"
+                                name="room.max_people"
+                                type="number"
+                                control={control}
+                            />
                         </div>
 
                         {
-                            rentalType === RentalType.APARTMENT && (
+                            (rentalType === RentalType.APARTMENT || rentalType === RentalType.BOARDING_HOUSE) && (
                                 <>
                                     <div className="form-row">
                                         <InputField
                                             label="Tầng"
-                                            name="rental.floor"
+                                            name="room.floor"
+                                            placeholder="Để trống nếu tầng trệt"
                                             type="number"
                                             control={control}
-                                            required
-                                            rules={{ required: 'Vui lòng nhập tầng' }}
                                         />
 
                                         <InputField
                                             label="Số căn trong toà nhà"
-                                            name="rental.room_number"
+                                            name="room.room_number"
                                             control={control}
                                             placeholder="Ví dụ: A12.03"
                                         />
@@ -552,32 +654,35 @@ const PostRoomCreate = ({ slug = '', displayList }) => {
                             )
                         }
 
-                        <div className="form-row">
-                            <InputField
-                                label="Số người tối đa (nếu có)"
-                                name="room.max_people"
-                                type="number"
+                        <div className="form-row inline">
+                            <FormAmenityCheckbox
+                                name="room.amenities"
                                 control={control}
                             />
                         </div>
 
-                        {/* ===== AMENITIES + IMAGES ===== */}
-                        <div className="form-row">
-                            {/* Amenities – bạn gắn component hiện có */}
-                            {/* <AmenityCheckbox control={control} name="rental.amenities" /> */}
-
-                            {/* Images – bạn đã xử lý ở ngoài */}
-                            {/* <RoomImageUpload ... /> */}
+                        <div className="form-row inline">
+                            <Controller
+                                name="room.images"
+                                control={control}
+                                defaultValue={[]}
+                                render={({ field }) => (
+                                    <FormImageUpload
+                                        value={field.value}
+                                        onChange={field.onChange}
+                                        label="Hình ảnh phòng"
+                                    />
+                                )}
+                            />
                         </div>
 
-                        {/* ===== DESCRIPTION ===== */}
                         <div className="form-row inline textarea-input">
                             <InputField
                                 label="Mô tả chi tiết"
-                                name="rental.description_detail"
+                                name="room.description"
+                                placeholder='VD: Phòng gần tiện ích chợ, bách hoá xanh, cách công viên Làng Hoa 200m'
                                 type="textarea"
                                 rows={6}
-
                                 control={control}
                                 rules={{
                                     required: 'Vui lòng nhập mô tả chi tiết',
@@ -694,7 +799,7 @@ const PostRoomCreate = ({ slug = '', displayList }) => {
                         <button
                             type="submit"
                             className="btn"
-                            disabled={isSubmitting || !canSubmit}
+                            disabled={isSubmitting || !canSubmit || loading}
                         >
                             {submitLabel}
                         </button>

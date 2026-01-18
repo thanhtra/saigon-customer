@@ -83,17 +83,14 @@ const RoomItem = ({ room }) => {
                                 </>
                             }
 
+                            <>
+                                <span className="point" />
+                                <span>Tầng {floor ? floor : "Trệt"}</span>
+                            </>
+
                             {area && <><span className="point" />
                                 <span>{formatArea(area)}</span>
                             </>}
-
-                            {
-                                floor && <>
-                                    <span className="point" />
-                                    <span>Tầng {floor}</span>
-                                </>
-                            }
-
 
                         </div>
 
