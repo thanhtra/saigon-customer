@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
 import { useMemo } from 'react';
 import clsx from 'clsx';
+import PostFreePopup from 'components/common/post-free-popup';
 
 const Layout = ({ children }) => {
     const { pathname } = useRouter();
@@ -11,12 +12,13 @@ const Layout = ({ children }) => {
     const {
         isPopupOpen,
         isPopupFilterOpen,
-        isPopupAddAddressOpen
+        isPopupAddAddressOpen,
+        isPopupPostFree
     } = useSelector((state) => state.commons);
 
     const isPopupActive = useMemo(
-        () => isPopupOpen || isPopupFilterOpen || isPopupAddAddressOpen,
-        [isPopupOpen, isPopupFilterOpen, isPopupAddAddressOpen]
+        () => isPopupOpen || isPopupFilterOpen || isPopupAddAddressOpen || isPopupPostFree,
+        [isPopupOpen, isPopupFilterOpen, isPopupAddAddressOpen, isPopupPostFree]
     );
 
     const isShowContact = useMemo(
@@ -37,6 +39,8 @@ const Layout = ({ children }) => {
         >
 
             <Header showSearchIcon={showSearchIcon} />
+
+            <PostFreePopup />
 
             <main className="main-page">
                 {children}

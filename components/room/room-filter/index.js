@@ -9,7 +9,7 @@ import {
 } from 'lib/locations/location.utils';
 
 import {
-    COMMON_POPUP_FILTER_HIDE,
+    POPUP_FILTER_HIDE,
 } from 'lib/store/type/common-type';
 
 import {
@@ -159,7 +159,7 @@ const RoomFilter = ({ searchRooms, query }) => {
 
     const applyFilter = () => {
         searchRooms(filters);
-        dispatch({ type: COMMON_POPUP_FILTER_HIDE });
+        dispatch({ type: POPUP_FILTER_HIDE });
     };
 
 
@@ -332,7 +332,7 @@ const RoomFilter = ({ searchRooms, query }) => {
 
         <Popup
             open={isPopupFilterOpen}
-            onClose={() => dispatch({ type: COMMON_POPUP_FILTER_HIDE })}
+            onClose={() => dispatch({ type: POPUP_FILTER_HIDE })}
             className="popup-filter-rooms"
         >
             <div className="filter-mobile">

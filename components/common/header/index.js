@@ -1,7 +1,7 @@
 import { PageUrl, ProfileTab } from 'lib/constants/tech'
 import {
-    COMMON_POPUP_FILTER_HIDE, COMMON_POPUP_HIDE, COMMON_POPUP_OPEN,
-    POPUP_ADD_ADDRESS_HIDE, COMMON_POPUP_FILTER_OPEN
+    POPUP_FILTER_HIDE, POPUP_HIDE, POPUP_OPEN,
+    POPUP_ADD_ADDRESS_HIDE, POPUP_FILTER_OPEN, POPUP_POST_FREE_OPEN
 } from 'lib/store/type/common-type'
 import { UPDATE_USER } from 'lib/store/type/user-type'
 import { removeAllLocalStorage } from 'lib/utils/index'
@@ -39,9 +39,9 @@ const Header = ({ showSearchIcon = false }) => {
 
 
     useEffect(() => {
-        dispatch({ type: COMMON_POPUP_HIDE });
+        dispatch({ type: POPUP_HIDE });
         dispatch({ type: POPUP_ADD_ADDRESS_HIDE });
-        dispatch({ type: COMMON_POPUP_FILTER_HIDE });
+        dispatch({ type: POPUP_FILTER_HIDE });
     }, []);
 
     useEffect(() => {
@@ -52,14 +52,14 @@ const Header = ({ showSearchIcon = false }) => {
 
     const handleOpenPopup = () => {
         setMenuOpen(true);
-        dispatch({ type: COMMON_POPUP_OPEN });
+        dispatch({ type: POPUP_OPEN });
     };
 
     const handleClosePopup = () => {
         setMenuOpen(false);
 
         if (isPopupOpen) {
-            dispatch({ type: COMMON_POPUP_HIDE });
+            dispatch({ type: POPUP_HIDE });
         }
     };
 
@@ -72,7 +72,7 @@ const Header = ({ showSearchIcon = false }) => {
     }
 
     const afterLogout = () => {
-        dispatch({ type: COMMON_POPUP_FILTER_HIDE });
+        dispatch({ type: POPUP_FILTER_HIDE });
         removeAllLocalStorage();
         dispatch({
             type: UPDATE_USER,
@@ -128,7 +128,7 @@ const Header = ({ showSearchIcon = false }) => {
             pathname.includes(PageUrl.Rental) ||
             pathname.includes(PageUrl.Lands)
         ) {
-            dispatch({ type: COMMON_POPUP_FILTER_OPEN });
+            dispatch({ type: POPUP_FILTER_OPEN });
             return;
         }
 
@@ -185,8 +185,8 @@ const Header = ({ showSearchIcon = false }) => {
                                 <p className='site-nav-btn' onClick={expandMenuAccount}>Tài khoản <span className='icon-expand'>{openMenuAccount ? '-' : '+'}</span></p>
 
                                 {openMenuAccount && <div className='menu-account'>
-                                    <Link href={{ pathname: PageUrl.Profile, query: { tab: ProfileTab.account } }}>
-                                        <a onClick={handleClosePopup} className={`${tab === ProfileTab.account ? 'active' : ''}`}>Thông tin</a>
+                                    <Link href={{ pathname: PageUrl.Profile, query: { tab: ProfileTab.Account } }}>
+                                        <a onClick={handleClosePopup} className={`${tab === ProfileTab.Account ? 'active' : ''}`}>Thông tin</a>
                                     </Link>
                                     <Link href={{ pathname: PageUrl.Profile, query: { tab: ProfileTab.ManageBooking } }}>
                                         <a onClick={handleClosePopup} className={`${tab === ProfileTab.ManageBooking ? 'active' : ''}`}>Lịch xem nhà</a>
@@ -211,6 +211,14 @@ const Header = ({ showSearchIcon = false }) => {
                 </nav>
 
                 <div className="site-header-actions" ref={searchRef}>
+                    <button
+                        className="site-header-btn-post"
+                        onClick={() => dispatch({ type: POPUP_POST_FREE_OPEN })}
+                    >
+                        <i className="icon-plus-css"></i>
+                        Đăng tin miễn phí
+                    </button>
+
                     {showSearchIcon && (
                         <button className={`search-form-wrapper ${searchOpen && !isFilterPage ? 'search-active' : ''}`}>
                             <form className='search-form' onSubmit={handleSubmit(onSubmit)} autoComplete="off">
@@ -234,6 +242,9 @@ const Header = ({ showSearchIcon = false }) => {
                             }
                         </button>
                     </Link> */}
+
+
+
                     {Object.keys(user || {}).length === 0 ? <Link href={PageUrl.Login}>
                         <button className="site-header-btn-avatar"><i className="icon-avatar"></i>
                             <p>Đăng nhập</p>

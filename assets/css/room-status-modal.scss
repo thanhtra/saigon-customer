@@ -1,0 +1,227 @@
+/* ===== OVERLAY RIÊNG ===== */
+.room-status-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1200;
+    background: rgba(0, 0, 0, 0.45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    animation: rsFadeIn 0.2s ease;
+}
+
+/* ===== MODAL ===== */
+.room-status-modal {
+    width: 100%;
+    max-width: 400px;
+    background: #fff;
+    border-radius: 16px;
+    padding: 24px 24px 28px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    animation: rsScaleIn 0.2s ease;
+
+    /* ===== HEADER ===== */
+    .modal-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 16px;
+
+        h3 {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--color-main-green);
+        }
+
+        .btn-close {
+            border: none;
+            background: transparent;
+            font-size: 20px;
+            cursor: pointer;
+            color: #666;
+        }
+    }
+
+    /* ===== ROOM INFO ===== */
+    .room-info {
+        margin-bottom: 18px;
+        padding: 12px 14px;
+        background: #f8f9fa;
+        border-radius: 10px;
+        text-align: center;
+
+        .room-title {
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 4px;
+            color: #333;
+        }
+
+        .room-address {
+            font-size: 13px;
+            color: #777;
+        }
+    }
+
+    /* ===== CURRENT STATUS ===== */
+    .current-status {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 22px;
+        padding: 12px 14px;
+        background: #f3f4f6;
+        border-radius: 10px;
+
+        .label {
+            font-size: 14px;
+            color: #555;
+        }
+
+        .status-chip {
+            font-size: 13px;
+            font-weight: 600;
+            padding: 4px 12px;
+            border-radius: 999px;
+
+            &.available {
+                background: #e6f7ff;
+                color: #1677ff;
+            }
+
+            &.rented {
+                background: #f6ffed;
+                color: #389e0d;
+            }
+
+            &.maintenance {
+                background: #fff7e6;
+                color: #d48806;
+            }
+
+            &.disabled {
+                background: #fff1f0;
+                color: #cf1322;
+            }
+
+            &.pending_approval {
+                background: #e5e7eb;
+                color: #374151;
+            }
+        }
+    }
+
+    /* ===== FORM ===== */
+    .form-label {
+        font-size: 14px;
+        font-weight: 600;
+        margin-bottom: 10px;
+    }
+
+    .status-options {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .status-option {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 12px 14px;
+        border-radius: 10px;
+        border: 1px solid #e5e7eb;
+        cursor: pointer;
+        transition: all 0.15s ease;
+
+        input {
+            display: none;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            border: 2px solid #bbb;
+        }
+
+        .text {
+            font-size: 14px;
+            color: #333;
+        }
+
+        &:hover {
+            background: #f9fafb;
+        }
+
+        &.active {
+            background: #f0fdf4;
+            border-color: var(--color-main-green);
+
+            .dot {
+                background: var(--color-main-green);
+                border-color: var(--color-main-green);
+            }
+
+            .text {
+                font-weight: 600;
+            }
+        }
+    }
+
+    .status-option.disabled {
+        cursor: not-allowed;
+        opacity: 0.6;
+        background: #f9fafb;
+
+        .dot {
+            border-color: #d1d5db;
+            background: #e5e7eb;
+        }
+
+        .text {
+            color: #9ca3af;
+            font-weight: 500;
+        }
+    }
+
+    .current-tag {
+        margin-left: 6px;
+        font-size: 12px;
+        color: #9ca3af;
+        font-style: italic;
+    }
+
+
+    /* ===== ACTIONS ===== */
+    .modal-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 12px;
+        margin-top: 26px;
+    }
+}
+
+/* ===== ANIMATION ===== */
+@keyframes rsFadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes rsScaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}

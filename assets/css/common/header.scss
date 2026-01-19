@@ -107,6 +107,86 @@
         }
     }
 
+    .site-header-btn-post {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+
+        height: 36px;
+        padding: 0 14px;
+        font-size: 12px;
+
+        border-radius: 20px;
+        border: 1.5px solid var(--color-main-green);
+
+        background: #fff;
+        color: var(--color-main-green);
+
+
+        font-weight: 600;
+        letter-spacing: .15px;
+
+        cursor: pointer;
+        transition: all .25s ease;
+
+        i {
+            font-size: 15px;
+            transition: transform .25s ease;
+        }
+
+        &:hover {
+            background: var(--color-main-green);
+            color: #fff;
+
+            i {
+                transform: rotate(90deg);
+            }
+        }
+
+        &:active {
+            transform: scale(0.98);
+        }
+
+        @include breakpoint(tablet) {
+            height: 40px;
+            padding: 0 18px;
+            font-size: 14px;
+        }
+
+
+        .icon-plus-css {
+            position: relative;
+            width: 12px;
+            height: 12px;
+            display: inline-block;
+        }
+
+        .icon-plus-css::before,
+        .icon-plus-css::after {
+            content: '';
+            position: absolute;
+            background: currentColor;
+            border-radius: 1px;
+        }
+
+        .icon-plus-css::before {
+            width: 12px;
+            height: 2px;
+            top: 5px;
+            left: 0;
+        }
+
+        .icon-plus-css::after {
+            width: 2px;
+            height: 12px;
+            top: 0;
+            left: 5px;
+        }
+
+    }
+
+
+
     .site-header-actions {
         margin-left: auto;
         display: flex;
@@ -353,7 +433,7 @@
     position: relative;
     z-index: 5000;
 
-    @include breakpoint(tablet) {  
+    @include breakpoint(tablet) {
         display: none;
     }
 
@@ -367,7 +447,7 @@
         transition: all 0.3s ease;
         background-color: #fff;
 
-        @include breakpoint(tablet) {            
+        @include breakpoint(tablet) {
             position: static;
             height: auto;
             top: auto;

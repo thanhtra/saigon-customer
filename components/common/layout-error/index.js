@@ -1,5 +1,5 @@
-import Head from 'next/head';
 import Header from 'components/common/header';
+import Head from 'next/head';
 import { useRouter } from 'next/router';
 
 const LayoutError = ({ children, title = 'Vị Rừng' }) => {

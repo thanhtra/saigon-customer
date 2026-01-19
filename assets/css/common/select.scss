@@ -9,6 +9,7 @@
 
     @include breakpoint(tablet) {
         height: 40px;
+        padding: 0px 10px;
     }
 
     /* ===== DROPDOWN ICON ===== */
@@ -116,6 +117,65 @@
 
         &:before {
             color: $form-error-color;
+        }
+    }
+
+    &.select-tiny {
+        width: fit-content;
+        height: auto;
+        font-size: 16px;
+        width: 150px;
+
+        @include breakpoint(tablet) {
+            padding: 0px;
+        }
+
+        &:before {
+            right: 12px;
+            top: 17px;
+            font-size: 12px;
+            color: var(--color-main-green);
+        }
+
+        label {
+            display: none;
+        }
+
+        select {
+            height: auto;
+            padding: 5px 32px 5px 20px; // giống btn-tiny
+            font-size: 14px;
+            border-radius: 15px;
+            border: 1px dotted gray;
+            background: #fff;
+            color: var(--color-main-green);
+
+            cursor: pointer;
+            transition: all 0.2s ease;
+            appearance: none;
+
+            &:hover {
+                background-color: rgba(0, 160, 120, 0.05);
+                border-style: solid;
+            }
+
+            &:focus {
+                outline: none;
+                border-color: var(--color-main-green);
+                box-shadow: none;
+            }
+
+            &:active {
+                transform: scale(0.97);
+            }
+
+            @include breakpoint(tablet) {
+                font-size: 16px;
+            }
+        }
+
+        &.has-error select {
+            border-color: red;
         }
     }
 }

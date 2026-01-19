@@ -4,7 +4,7 @@ import { CategoryType } from 'lib/constants/data';
 import { getDistrictOption } from 'lib/utils';
 import { useEffect, useState } from 'react';
 import Popup from 'reactjs-popup';
-import { COMMON_POPUP_FILTER_OPEN, COMMON_POPUP_FILTER_HIDE } from 'lib/store/type/common-type';
+import { POPUP_FILTER_OPEN, POPUP_FILTER_HIDE } from 'lib/store/type/common-type';
 import { useDispatch } from 'react-redux';
 
 const initDataSearch = {
@@ -36,9 +36,9 @@ const DiscoveryFilter = ({ searchDiscoveries, query }) => {
 
     useEffect(() => {
         if (activeAddress || activeCategory) {
-            dispatch({ type: COMMON_POPUP_FILTER_OPEN });
+            dispatch({ type: POPUP_FILTER_OPEN });
         } else {
-            dispatch({ type: COMMON_POPUP_FILTER_HIDE });
+            dispatch({ type: POPUP_FILTER_HIDE });
         }
     }, [activeAddress, activeCategory])
 

@@ -1,7 +1,6 @@
 'use client';
 
 import { useCallback, useEffect, useState } from 'react';
-import { formatDate } from 'lib/utils';
 import {
     CopyIcon,
     ShareIcon,
@@ -13,6 +12,7 @@ import {
 import BookingModal from 'components/room/booking-model';
 import RegisterAfterBookingModal from 'components/room/register-after-booking-modal';
 import { toast } from 'react-toastify';
+import RoomVideoModal from 'components/room/room-video-modal';
 
 const PHONE_NUMBER = '0968922006';
 
@@ -22,19 +22,20 @@ export default function RoomActions({
     roomCode,
     updatedAt,
     title = 'Thông tin phòng',
+    address = 'Địa chỉ'
 }) {
     const [copied, setCopied] = useState(false);
     const [openBooking, setOpenBooking] = useState(false);
     const [registerPrefill, setRegisterPrefill] = useState(null);
     const [isMobile, setIsMobile] = useState(false);
+    const [openVideo, setOpenVideo] = useState(false);
 
-    /* ===== DETECT MOBILE ===== */
+
     useEffect(() => {
         if (typeof window === 'undefined') return;
         setIsMobile(/Android|iPhone|iPad|iPod/i.test(navigator.userAgent));
     }, []);
 
-    /* ===== COPY ROOM CODE ===== */
     const handleCopy = useCallback(async () => {
         try {
             await navigator.clipboard.writeText(roomCode);
@@ -45,7 +46,6 @@ export default function RoomActions({
         }
     }, [roomCode]);
 
-    /* ===== SHARE ===== */
     const handleShare = useCallback(async () => {
         const url = window.location.href;
 
@@ -64,15 +64,8 @@ export default function RoomActions({
     return (
         <>
             <div className="room-actions">
-                <span className="room-updated">
-                    Cập nhật: {formatDate(updatedAt)}
-                </span>
-
-                {/* ===== ROOM CODE ===== */}
                 <div className="room-code" onClick={handleCopy}>
-                    <span>Mã phòng:</span>
-                    <b>{roomCode}</b>
-
+                    <span>Mã phòng: {roomCode} </span>
                     <button
                         type="button"
                         className="icon-btn"
@@ -83,7 +76,6 @@ export default function RoomActions({
                     </button>
                 </div>
 
-                {/* ===== SHARE ===== */}
                 <button
                     type="button"
                     className="action-btn"
@@ -93,7 +85,15 @@ export default function RoomActions({
                     <span className="label">Chia sẻ</span>
                 </button>
 
-                {/* ===== CALL ===== */}
+                <button
+                    type="button"
+                    className="action-btn video"
+                    onClick={() => setOpenVideo(true)}
+                >
+                    ▶️
+                    <span className="label">Xem video</span>
+                </button>
+
                 {isMobile ? (
                     <a
                         href={`tel:${PHONE_NUMBER}`}
@@ -109,7 +109,6 @@ export default function RoomActions({
                     </div>
                 )}
 
-                {/* ===== ZALO ===== */}
                 <a
                     href={`https://zalo.me/${PHONE_NUMBER}`}
                     target="_blank"
@@ -120,7 +119,6 @@ export default function RoomActions({
                     <span className="label">Zalo</span>
                 </a>
 
-                {/* ===== BOOKING ===== */}
                 <button
                     type="button"
                     className="action-btn booking"
@@ -129,13 +127,15 @@ export default function RoomActions({
                     <CalendarIcon />
                     <span className="label">Đặt lịch</span>
                 </button>
+
             </div>
 
-            {/* ===== BOOKING MODAL ===== */}
             <BookingModal
                 open={openBooking}
                 roomId={roomId}
                 rentalId={rentalId}
+                title={title}
+                address={address}
                 onClose={() => setOpenBooking(false)}
                 onRequireRegister={(prefill) => {
                     setOpenBooking(false);
@@ -143,12 +143,18 @@ export default function RoomActions({
                 }}
             />
 
-            {/* ===== REGISTER AFTER BOOKING ===== */}
             <RegisterAfterBookingModal
                 open={!!registerPrefill}
                 prefill={registerPrefill}
                 onClose={() => setRegisterPrefill(null)}
             />
+
+            <RoomVideoModal
+                open={openVideo}
+                onClose={() => setOpenVideo(false)}
+                videoUrl="https://www.youtube.com/embed/VIDEO_ID"
+            />
+
         </>
     );
 }

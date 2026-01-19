@@ -10,13 +10,13 @@ import { ProfileTab, PageUrl } from 'lib/constants/tech';
 import { REMOVE_USER } from 'lib/store/type/user-type';
 
 const PROFILE_MENUS = [
-    { tab: ProfileTab.account, label: 'Thông tin' },
+    { tab: ProfileTab.Account, label: 'Thông tin' },
     { tab: ProfileTab.ManageBooking, label: 'Lịch xem nhà' },
     { tab: ProfileTab.ManagePostRental, label: 'Nhà ở cho thuê' },
-    { tab: ProfileTab.ManagePostProduct, label: 'Bài đăng sản phẩm' },
+    // { tab: ProfileTab.ManagePostProduct, label: 'Bài đăng sản phẩm' },
     // { tab: ProfileTab.address, label: 'Địa chỉ' },
     { tab: ProfileTab.ChangePassword, label: 'Đổi mật khẩu' },
-    { tab: 'logout', label: 'Đăng xuất', danger: true },
+    { tab: ProfileTab.Logout, label: 'Đăng xuất', danger: true },
 ];
 
 const ProfileFilter = ({ tab }) => {
@@ -40,11 +40,8 @@ const ProfileFilter = ({ tab }) => {
 
     return (
         <div className="profiles-menu-desktop">
-            {/* <p className="filter-title">Tài khoản</p> */}
-
             {PROFILE_MENUS.map(({ tab: menuTab, label, danger }) => {
-                // ===== Logout tab =====
-                if (menuTab === 'logout') {
+                if (menuTab === ProfileTab.Logout) {
                     return (
                         <button
                             key="logout"
@@ -57,7 +54,6 @@ const ProfileFilter = ({ tab }) => {
                     );
                 }
 
-                // ===== Normal tabs =====
                 return (
                     <Link
                         key={menuTab}
@@ -67,7 +63,7 @@ const ProfileFilter = ({ tab }) => {
                             className={clsx('profile-item', {
                                 active:
                                     tab === menuTab ||
-                                    (!tab && menuTab === ProfileTab.account),
+                                    (!tab && menuTab === ProfileTab.Account),
                             })}
                         >
                             {label}

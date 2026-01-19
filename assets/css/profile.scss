@@ -4,7 +4,8 @@
     .p-header {
         display: flex;
         align-items: flex-start;
-        justify-content: space-between;
+        // justify-content: space-between;
+        // align-items: center;
         padding: 15px 0px 30px 0px;
 
         @include breakpoint(tablet) {
@@ -14,9 +15,11 @@
         .p-title {
             font-size: 14px;
             font-weight: 700;
+            min-width: fit-content;
 
             @include breakpoint(tablet) {
                 font-size: 16px;
+                margin-right: 30px;
             }
         }
     }
@@ -141,24 +144,12 @@
         }
     }
 
-    .manage-order {
+    .manage-booking {
         .form {
-            select {
-                width: 125px;
-                height: 35px;
+            width: fit-content;
 
-                @include breakpoint(tablet) {
-                    height: 100%;
-                    width: 150px;
-                }
-            }
-        }
-
-        .top {
-            margin-bottom: 20px;
-
-            @include breakpoint(tablet) {
-                margin-bottom: 50px;
+            .form-row {
+                margin-bottom: 0px !important;
             }
         }
 

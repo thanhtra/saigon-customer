@@ -11,7 +11,7 @@ import { PHONE_REGEX } from 'lib/constants/tech';
 import { handleApiError } from 'lib/utils/handleApiError';
 import { validateMinMinutesFromNow, getDatetimeLocalPlusMinutes, toDatetimeLocal } from 'lib/utils/date';
 
-export default function BookingModal({ open, onClose, roomId, rentalId, onRequireRegister }) {
+export default function BookingModal({ open, onClose, roomId, rentalId, title, address, onRequireRegister }) {
     const {
         control,
         handleSubmit,
@@ -80,6 +80,13 @@ export default function BookingModal({ open, onClose, roomId, rentalId, onRequir
         <div className="modal-overlay" onClick={onClose}>
             <div className="modal" onClick={(e) => e.stopPropagation()}>
                 <h3 className="modal-title">Đặt lịch xem phòng</h3>
+
+                {(title || address) && (
+                    <div className="modal-room-info">
+                        {title && <div className="room-title">{title}</div>}
+                        {address && <div className="room-address">{address}</div>}
+                    </div>
+                )}
 
                 <form className="form" onSubmit={handleSubmit(onSubmit)}>
                     <div className="form-row">

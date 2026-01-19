@@ -6,7 +6,7 @@ import { AdministrativeUnits } from 'lib/constants/administrativeUnits';
 import { getOptionFromObject } from 'lib/utils';
 import Popup from 'reactjs-popup';
 import { AcreageLevel, PriceLevel } from 'lib/constants/data';
-import { COMMON_POPUP_FILTER_OPEN, COMMON_POPUP_FILTER_HIDE } from 'lib/store/type/common-type';
+import { POPUP_FILTER_OPEN, POPUP_FILTER_HIDE } from 'lib/store/type/common-type';
 import { useSelector, useDispatch } from 'react-redux';
 
 const initData = {
@@ -54,9 +54,9 @@ const LandFilter = ({ searchLands, query }) => {
 
     useEffect(() => {
         if (activeAddress || activeCategory || activePrice || activeAcreage) {
-            dispatch({ type: COMMON_POPUP_FILTER_OPEN });
+            dispatch({ type: POPUP_FILTER_OPEN });
         } else {
-            dispatch({ type: COMMON_POPUP_FILTER_HIDE });
+            dispatch({ type: POPUP_FILTER_HIDE });
         }
     }, [activeAddress, activeCategory, activePrice, activeAcreage]);
 
@@ -520,8 +520,8 @@ export default LandFilter
 // } from 'lib/utils';
 
 // import {
-//     COMMON_POPUP_FILTER_OPEN,
-//     COMMON_POPUP_FILTER_HIDE,
+//     POPUP_FILTER_OPEN,
+//     POPUP_FILTER_HIDE,
 // } from 'lib/store/type/common-type';
 
 // /* ===================== CONST ===================== */
@@ -601,8 +601,8 @@ export default LandFilter
 //     useEffect(() => {
 //         dispatch({
 //             type: activePopup
-//                 ? COMMON_POPUP_FILTER_OPEN
-//                 : COMMON_POPUP_FILTER_HIDE,
+//                 ? POPUP_FILTER_OPEN
+//                 : POPUP_FILTER_HIDE,
 //         });
 //     }, [activePopup, dispatch]);
 

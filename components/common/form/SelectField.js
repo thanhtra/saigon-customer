@@ -9,6 +9,7 @@ const SelectField = ({
     disabled = false,
     required = false,
     rules,
+    className = '',
 }) => {
     const {
         field,
@@ -21,7 +22,7 @@ const SelectField = ({
 
     return (
         <div className="form-group">
-            <div className={`form-select has-label ${error ? 'has-error' : ''}`}>
+            <div className={`form-select ${className} has-label ${error ? 'has-error' : ''}`}>
                 <label htmlFor={name}>
                     {label}
                     {required && <span className="required">*</span>}

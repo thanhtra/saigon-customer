@@ -76,7 +76,7 @@ export default function RegisterAfterBookingModal({
                 onClick={(e) => e.stopPropagation()}
             >
                 <h3 className="modal-title">
-                    🎉 Đặt lịch thành công
+                    Đặt lịch thành công
                 </h3>
 
                 <p className="modal-desc">

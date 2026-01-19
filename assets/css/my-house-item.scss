@@ -1,0 +1,242 @@
+.house-item {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+
+    padding: 14px;
+    margin-bottom: 16px;
+
+    background: #ffffff;
+    border-radius: 14px;
+    border: 1px solid #f0f0f0;
+
+    transition: all 0.25s ease;
+
+    &:hover {
+        border-color: #e5e7eb;
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+        transform: translateY(-2px);
+    }
+
+    .house-images {
+        position: relative;
+
+        width: 100%;
+        height: 180px;
+
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr;
+
+        border-radius: 12px;
+        overflow: hidden;
+    }
+
+    .house-image {
+        width: 100%;
+        height: 100%;
+
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+
+        background-color: #f3f4f6; // fallback khi chưa load ảnh
+    }
+
+    .img-main {
+        grid-column: 1;
+        grid-row: 1;
+    }
+
+    .img-sub {
+        display: none;
+    }
+
+    .rental-type {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        z-index: 2;
+
+        padding: 4px 10px;
+        font-size: 12px;
+        font-weight: 600;
+
+        color: #ffffff;
+        background: rgba(0, 0, 0, 0.65);
+        border-radius: 999px;
+    }
+
+    .house-content {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .h-left {
+        .house-title {
+            font-size: 15px;
+            font-weight: 600;
+            color: #111111;
+            line-height: 1.4;
+            margin-bottom: 6px;
+
+            &:hover {
+                color: #2563eb;
+            }
+        }
+
+        .house-address {
+            font-size: 13px;
+            color: #6b7280;
+            line-height: 1.4;
+            margin-bottom: 8px;
+        }
+
+        .house-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+    }
+
+    .meta-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+
+        padding: 4px 10px;
+        font-size: 12px;
+        border-radius: 999px;
+
+        background: #f6f7f9;
+        color: #4b5563;
+        white-space: nowrap;
+    }
+
+    .meta-pill.price {
+        background: #fff4e6;
+        color: #d35400;
+        font-weight: 600;
+    }
+
+    .h-right {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .status {
+        padding: 6px 12px;
+        border-radius: 999px;
+        font-size: 12px;
+        font-weight: 600;
+    }
+
+    .status-action {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+
+        border: none;
+        cursor: pointer;
+
+        transition: all 0.15s ease;
+
+        &:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+    }
+
+    .status-caret {
+        font-size: 10px;
+        opacity: 0.6;
+    }
+
+    .status-pending_approval {
+        background: #fff7e6;
+        color: #b45309;
+    }
+
+    .status-available {
+        background: #ecfdf5;
+        color: #047857;
+    }
+
+    .status-rented {
+        background: #eef2ff;
+        color: #3730a3;
+    }
+
+    .status-disabled {
+        background: #fef2f2;
+        color: #991b1b;
+    }
+
+    .updated-at {
+        font-size: 11px;
+        color: #9ca3af;
+    }
+
+    a.action-link {
+        padding: 6px 0px 6px 12px;
+        border-radius: 8px;
+        text-decoration: none;
+
+        &:hover {
+            color: #047857;
+        }
+    }
+}
+
+
+@include breakpoint(tablet) {
+    .house-item {
+        flex-direction: row;
+        gap: 20px;
+        padding: 18px;
+
+        .house-images {
+            width: 260px;
+            height: 160px;
+
+            grid-template-columns: 2fr 1fr;
+            grid-template-rows: repeat(2, 1fr);
+            gap: 6px;
+
+            flex-shrink: 0;
+        }
+
+        .img-main {
+            grid-column: 1;
+            grid-row: 1 / span 2;
+        }
+
+        .img-sub {
+            display: block;
+            grid-column: 2;
+        }
+
+        .img-sub.img-0 {
+            grid-row: 1;
+        }
+
+        .img-sub.img-1 {
+            grid-row: 2;
+        }
+
+        .house-content {
+            flex: 1;
+            flex-direction: row;
+            justify-content: space-between;
+        }
+
+        .h-right {
+            min-width: 160px;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 8px;
+        }
+    }
+}
