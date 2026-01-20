@@ -33,7 +33,7 @@ const ForgotPasswordPage = () => {
                 </div>
 
                 <p class="auth-hint">
-                    Không cần OTP – Admin hỗ trợ nhanh qua Zalo
+                    Không cần OTP - Admin hỗ trợ nhanh qua Zalo
                 </p>
 
             </div>
@@ -126,7 +126,6 @@ export default ForgotPasswordPage;
 //                     toast.error(res?.message || 'Cập nhật thất bại');
 //                 }
 //             } catch (error) {
-//                 console.log('xxxx', error);
 //                 toast.error('Mã xác nhận không đúng hoặc đã hết hạn');
 //             } finally {
 //                 NProgress.done();

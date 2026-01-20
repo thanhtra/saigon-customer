@@ -1,62 +1,69 @@
-import { Swiper, SwiperSlide } from 'swiper/react'
-import { useState, useEffect } from 'react'
+'use client';
 
-const RoomGallery = ({ images }) => {
-    const [featImage, setFeatImage] = useState({});
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { useState, useEffect, useCallback } from 'react';
 
-    console.log('sfdafdsf', images)
+const RoomGallery = ({ images = [], room }) => {
+    const [activeIndex, setActiveIndex] = useState(0);
 
     useEffect(() => {
-        if (images && images.length) {
-            setFeatImage(images[0])
-        }
-    }, [JSON.stringify(images)])
+        if (images.length) setActiveIndex(0);
+    }, [images]);
 
-    const chooseImage = (image) => {
-        setFeatImage(image)
-    }
+    const imageUrl = useCallback(
+        (path) => `${process.env.NEXT_PUBLIC_REACT_APP_API}/uploads${path}`,
+        []
+    );
+
+    if (!images.length) return null;
 
     return (
         <section className="room-gallery">
-            <div className="room-gallery-thumbs">
-                <div className='p-g-mobile'>
-                    <Swiper
-                        slidesPerView={4.5}
-                        spaceBetween={3}
-                        pagination={{
-                            "clickable": true
-                        }}
-                        className="swiper-wrapper">
-
-                        {(images || []).map(image => (
-                            <SwiperSlide key={image?.id} className='room-gallery-thumb' onClick={() => chooseImage(image)}>
-                                <img src={`${process.env.NEXT_PUBLIC_REACT_APP_API}/uploads/` + image?.file_path} alt="" className={image?.file_path === featImage?.file_path ? 'active' : ''} />
-                            </SwiperSlide>
-                        ))}
-                    </Swiper>
-                </div>
-
-                <div className='p-g-desktop'>
-                    <Swiper
-                        spaceBetween={5}
-                        direction={'vertical'}
-                        watchOverflow={true}
-                        slidesPerView={4.5}
-                        effect={'slide'}
-                        pagination={true}
-                        className="swiper-wrapper">
-
-                        {(images || []).map(image => (
-                            <SwiperSlide key={image?.id} className="room-gallery-thumb" onMouseEnter={() => chooseImage(image)} onClick={() => chooseImage(image)}>
-                                <img src={`${process.env.NEXT_PUBLIC_REACT_APP_API}/uploads/` + image?.file_path} alt="" className={image?.file_path === featImage?.file_path ? 'active' : ''} />
-                            </SwiperSlide>
-                        ))}
-                    </Swiper>
-                </div>
-
+            {/* ===== MAIN IMAGE ===== */}
+            <div className="room-gallery-main">
+                <img
+                    src={imageUrl(images[activeIndex].file_path)}
+                    alt={room?.title || 'room'}
+                    loading="eager"
+                    draggable={false}
+                />
             </div>
 
-            <div className='room-gallery-image' style={{ backgroundImage: `url(${process.env.NEXT_PUBLIC_REACT_APP_API}/uploads/${featImage?.file_path})` }}></div>
+            {/* ===== THUMBNAILS ===== */}
+            <Swiper
+                slidesPerView={4.5}
+                spaceBetween={8}
+
+                /* 🔥 FIX LOOP RESIZE */
+                observer={false}
+                observeParents={false}
+                resizeObserver={false}
+
+                watchOverflow
+                breakpoints={{
+                    768: { slidesPerView: 5 },
+                    1024: { slidesPerView: 6 },
+                }}
+                className="room-gallery-thumbs"
+            >
+                {images.map((img, index) => (
+                    <SwiperSlide key={img.id}>
+                        <button
+                            type="button"
+                            className={`thumb ${index === activeIndex ? 'active' : ''}`}
+                            onClick={() => setActiveIndex(index)}
+                            aria-label="Xem ảnh"
+                        >
+                            <img
+                                src={imageUrl(img.file_path)}
+                                alt="thumbnail"
+                                loading="lazy"
+                                draggable={false}
+                            />
+                        </button>
+                    </SwiperSlide>
+                ))}
+            </Swiper>
         </section>
     );
 };

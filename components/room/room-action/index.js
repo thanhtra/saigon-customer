@@ -57,7 +57,7 @@ export default function RoomActions({
                 toast.success('Đã sao chép link phòng');
             }
         } catch {
-            toast.error('Không thể chia sẻ liên kết');
+            // toast.error('Không thể chia sẻ liên kết');
         }
     }, [title]);
 

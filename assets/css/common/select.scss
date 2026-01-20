@@ -124,10 +124,11 @@
         width: fit-content;
         height: auto;
         font-size: 16px;
-        width: 150px;
+        width: 120px;
 
         @include breakpoint(tablet) {
             padding: 0px;
+            width: 150px;
         }
 
         &:before {
@@ -143,7 +144,7 @@
 
         select {
             height: auto;
-            padding: 5px 32px 5px 20px; // giống btn-tiny
+            padding: 5px 25px 5px 20px;
             font-size: 14px;
             border-radius: 15px;
             border: 1px dotted gray;
@@ -171,6 +172,7 @@
 
             @include breakpoint(tablet) {
                 font-size: 16px;
+                padding: 5px 32px 5px 20px;
             }
         }
 

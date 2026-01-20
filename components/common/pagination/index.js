@@ -1,17 +1,29 @@
 import React from 'react';
-import classnames from 'classnames';
+import classNames from 'classnames';
 import { usePagination, DOTS } from './usePagination';
 
-const Pagination = props => {
-    const {
-        onPageChange,
-        totalCount,
-        siblingCount = 1,
-        currentPage,
-        pageSize,
-        className
-    } = props;
+const IconChevronLeft = () => (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+        stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+        <polyline points="15 18 9 12 15 6" />
+    </svg>
+);
 
+const IconChevronRight = () => (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+        stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+        <polyline points="9 18 15 12 9 6" />
+    </svg>
+);
+
+const Pagination = ({
+    onPageChange,
+    totalCount,
+    siblingCount = 1,
+    currentPage, // 0-based
+    pageSize,
+    className
+}) => {
     const paginationRange = usePagination({
         currentPage,
         totalCount,
@@ -19,60 +31,77 @@ const Pagination = props => {
         pageSize
     });
 
-    if (paginationRange?.length < 2) {
-        return null;
-    }
+    if (!paginationRange || paginationRange.length < 2) return null;
 
-    const onNext = () => {
-        onPageChange(currentPage + 1);
+    const lastPageNumber = paginationRange[paginationRange.length - 1];
+    const lastPageIndex = lastPageNumber - 1;
+
+    const handleNext = () => {
+        if (currentPage < lastPageIndex) {
+            onPageChange(currentPage + 1);
+        }
     };
 
-    const onPrevious = () => {
-        if (currentPage === 0) {
-            onPageChange(0);
-        } else {
+    const handlePrevious = () => {
+        if (currentPage > 0) {
             onPageChange(currentPage - 1);
         }
     };
 
-    let lastPage = paginationRange?.length - 1;
-
-
     return (
-        <ul
-            className={classnames('pagination-container', { [className]: className })}
-        >
+        <ul className={classNames('pagination-container', className)}>
+            {/* PREVIOUS */}
             <li
-                className={classnames('pagination-item', {
+                className={classNames('pagination-item', {
                     disabled: currentPage === 0
                 })}
-                onClick={onPrevious}
+                onClick={handlePrevious}
+                aria-disabled={currentPage === 0}
+                aria-label="Previous page"
             >
-                <div className="arrow left" />
+                <IconChevronLeft />
             </li>
-            {(paginationRange || []).map(pageNumber => {
+
+            {/* PAGE NUMBERS */}
+            {paginationRange.map((pageNumber, index) => {
                 if (pageNumber === DOTS) {
-                    return <li className="pagination-item dots">&#8230;</li>;
+                    return (
+                        <li
+                            key={`dots-${index}`}
+                            className="pagination-item dots"
+                        >
+                            &#8230;
+                        </li>
+                    );
                 }
+
+                const pageIndex = pageNumber - 1;
+                const isSelected = pageIndex === currentPage;
 
                 return (
                     <li
-                        className={classnames('pagination-item', {
-                            selected: (pageNumber - 1) === currentPage
+                        key={pageNumber}
+                        className={classNames('pagination-item', {
+                            selected: isSelected
                         })}
-                        onClick={() => onPageChange(pageNumber - 1)}
+                        onClick={() => onPageChange(pageIndex)}
+                        aria-current={isSelected ? 'page' : undefined}
                     >
                         {pageNumber}
                     </li>
                 );
             })}
+
+            {/* NEXT */}
             <li
-                className={classnames('pagination-item', {
-                    disabled: currentPage === lastPage
+                className={classNames('pagination-item', {
+                    disabled: currentPage === lastPageIndex
                 })}
-                onClick={onNext}
+                onClick={handleNext}
+                aria-disabled={currentPage === lastPageIndex}
+                aria-label="Next page"
             >
-                <div className="arrow right" />
+                <IconChevronRight />
             </li>
         </ul>
     );

@@ -4,16 +4,16 @@ import SelectField from 'components/common/form/SelectField';
 import Pagination from 'components/common/pagination';
 import MyHouseItem from 'components/profile/my-house-item';
 import { getMyRooms } from 'lib/api/room.api';
-import { RoomStatusLabels } from 'lib/constants/data';
+import { RoomStatusLabelsFilter } from 'lib/constants/data';
 import { buildSelectOptions } from 'lib/utils';
 import NProgress from 'nprogress';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
 import { toast } from 'react-toastify';
 
 const ManageMyHouses = () => {
     const [houses, setHouses] = useState([]);
-    const [meta, setMeta] = useState(null);
+    const [meta, setMeta] = useState({});
     const [page, setPage] = useState(1);
 
     const { control } = useForm({
@@ -27,32 +27,38 @@ const ManageMyHouses = () => {
         name: 'status',
     });
 
-    const getHouses = async ({ sts, pg }) => {
-        try {
-            NProgress.start();
 
-            const s = sts ?? status;
-            const payload = {
-                size: 10,
-                is_pagin: true,
-                page: pg ?? page,
-                ...(s && { status: s }),
-            };
+    const getHouses = useCallback(
+        async ({ sts, pg } = {}) => {
+            try {
+                NProgress.start();
 
-            const res = await getMyRooms(payload);
-            if (res?.success) {
-                const { data, meta } = res.result;
-                setHouses(data);
-                setMeta(meta);
-            } else {
+                const s = sts ?? status;
+                const currentPage = pg ?? page;
+
+                const payload = {
+                    size: 10,
+                    is_pagin: true,
+                    page: currentPage,
+                    ...(s && { status: s }),
+                };
+
+                const res = await getMyRooms(payload);
+                if (res?.success) {
+                    setHouses(res.result.data);
+                    setMeta(res.result.meta);
+                } else {
+                    toast.error('Có lỗi xảy ra');
+                }
+            } catch {
                 toast.error('Có lỗi xảy ra');
+            } finally {
+                NProgress.done();
             }
-        } catch (err) {
-            toast.error('Có lỗi xảy ra');
-        } finally {
-            NProgress.done();
-        }
-    };
+        },
+        [status, page]
+    );
+
 
     useEffect(() => {
         getHouses({
@@ -69,8 +75,15 @@ const ManageMyHouses = () => {
         setPage(1);
     }, [status]);
 
+    const changePage = useCallback((nextPage) => {
+        // nextPage là 1-based (đã convert từ Pagination)
+        if (nextPage === page) return; // tránh re-render & call API dư
+
+        setPage(nextPage);
+    }, [page]);
+
     const statusOptions = buildSelectOptions(
-        RoomStatusLabels,
+        RoomStatusLabelsFilter,
         '-- Tất cả trạng thái --'
     );
 
@@ -97,20 +110,20 @@ const ManageMyHouses = () => {
                         <MyHouseItem
                             key={item.id}
                             house={item}
+                            onStatusUpdated={() => {
+                                getHouses({ pg: page });
+                            }}
                         />
                     ))
                 )}
             </div>
 
-            {meta?.itemCount > 0 && (
-                <Pagination
-                    className="pagination-bar"
-                    currentPage={meta.page}
-                    totalCount={meta.itemCount}
-                    pageSize={meta.size}
-                    onPageChange={setPage}
-                />
-            )}
+            <Pagination
+                currentPage={meta.page - 1}          // 👈 convert 1-based → 0-based
+                totalCount={meta.itemCount}
+                pageSize={meta.size}
+                onPageChange={(pageIndex) => changePage(pageIndex + 1)} // 👈 trả lại BE
+            />
         </section>
     );
 };

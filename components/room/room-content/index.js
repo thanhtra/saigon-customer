@@ -1,43 +1,60 @@
-import { formatDate, formatVnd, formatArea } from 'lib/utils/index';
+import { formatVnd, formatArea } from 'lib/utils';
+import { RentalAmenityOptions } from 'lib/constants/data';
 
-
-const LandContent = ({ room = {} }) => {
-    const { title, price, area, rental, updatedAt } = room
+const RoomContent = ({ room }) => {
+    const {
+        title,
+        price,
+        deposit,
+        area,
+        max_people,
+        amenities = [],
+        rental,
+    } = room;
 
     return (
-        <section className="brief-content">
-            <h2 className="brief-content-name">{title}</h2>
+        <section className="room-summary-card">
+            <h1 className="room-title">{title}</h1>
 
-            <div className="brief-content-detail">
-                <div className="infor">
-                    <span className='title'>Giá bán: </span>
-                    <span>{formatVnd(price)}</span>
-                </div>
-
-                <div className="infor">
-                    <span className='title'>Diện tích: </span>
-                    <span>{formatArea(area)}</span>
-                </div>
-
-                <div className="infor">
-                    <span className='title'>Địa chỉ: </span>
-                    <span>{rental.address_detail_display}</span>
-                </div>
-
-                <div className="infor">
-                    <span className='title'>Ngày cập nhật: </span>
-                    <span>{formatDate(updatedAt)}</span>
-                </div>
-
-                <div className="contact-area">
-                    <p className="contact-area-title">Liên hệ:</p>
-
-                    <p className="infor"><span className='title'>Số điện thoại: </span>0968 922 006</p>
-                    <p className="infor"><span className='title'>Zalo: </span>0968 922 006</p>
-                </div>
+            <div className="room-price">
+                {formatVnd(price)}
+                <span>/tháng</span>
             </div>
-        </section >
+
+            <div className="room-meta">
+                <div><strong>Diện tích:</strong> {formatArea(area)}</div>
+                <div><strong>Đặt cọc giữ phòng:</strong> {formatVnd(deposit)}</div>
+                <div><strong>Sức chứa:</strong> {max_people} người</div>
+            </div>
+
+            <div className="room-address">
+                📍 {rental?.address_detail_display}
+            </div>
+
+            <div className="room-fees">
+                <h4>Chi phí khác</h4>
+                <ul>
+                    <li>Điện: {formatVnd(rental.fee_electric)}</li>
+                    <li>Nước: {formatVnd(rental.fee_water)}</li>
+                    <li>Wifi: {formatVnd(rental.fee_wifi)}</li>
+                    <li>Giữ xe: {formatVnd(rental.fee_parking)}</li>
+                </ul>
+            </div>
+
+            {!!amenities.length && (
+                <div className="room-amenities">
+                    <h4>Tiện ích</h4>
+                    <div className="amenities-grid">
+                        {amenities.map((item) => (
+                            <span key={item} className="amenity-tag">
+                                {RentalAmenityOptions[item]}
+                            </span>
+                        ))}
+                    </div>
+                </div>
+            )}
+        </section>
     );
 };
 
-export default LandContent
+export default RoomContent;

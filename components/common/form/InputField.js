@@ -117,6 +117,26 @@ const InputField = ({
             }}
           />
         ) : (
+          // <input
+          //   id={name}
+          //   type={type}
+          //   placeholder={placeholder}
+          //   autoComplete="off"
+          //   disabled={disabled}
+          //   value={field.value ?? ''}
+          //   min={0}
+          //   step={1000}
+          //   onChange={(e) => {
+          //     if (type === 'number') {
+          //       const v = e.target.value;
+          //       field.onChange(v === '' ? null : Number(v));
+          //     } else {
+          //       field.onChange(e.target.value);
+          //     }
+          //   }}
+          //   onBlur={field.onBlur}
+          //   ref={field.ref}
+          // />
           <input
             id={name}
             type={type}
@@ -124,8 +144,14 @@ const InputField = ({
             autoComplete="off"
             disabled={disabled}
             value={field.value ?? ''}
-            min={0}
-            step={1000}
+            min={type === 'number' ? 0 : undefined}
+            step={
+              type === 'number'
+                ? 1000
+                : type === 'datetime-local'
+                  ? 60
+                  : undefined
+            }
             onChange={(e) => {
               if (type === 'number') {
                 const v = e.target.value;
@@ -137,6 +163,7 @@ const InputField = ({
             onBlur={field.onBlur}
             ref={field.ref}
           />
+
         )}
       </div>
 

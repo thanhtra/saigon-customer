@@ -1,0 +1,182 @@
+/* ======================================
+ * ROOM ACTIONS - DETAIL PAGE
+ * Production Ready - Mobile First
+ * ====================================== */
+.room-actions-detail {
+    background: #fff;
+    border-radius: 14px;
+    padding: 14px;
+    border: 1px solid #eee;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 16px;
+
+    /* ===============================
+     * ROOM INFO LINE
+     * =============================== */
+    .room-code-box {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-wrap: wrap;
+
+        .label {
+            font-size: 13px;
+            color: #666;
+            white-space: nowrap;
+        }
+
+        .room-code {
+            border: none;
+            background: #f5f5f5;
+            padding: 6px 12px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.15s ease;
+
+            &:hover {
+                background: #eee;
+            }
+
+            &:active {
+                transform: scale(0.97);
+            }
+        }
+
+        .copied {
+            font-size: 12px;
+            color: #52c41a;
+            font-weight: 500;
+        }
+    }
+
+    /* ===============================
+     * ACTION BUTTONS - MOBILE FIRST
+     * =============================== */
+    .actions {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+
+        .action-btn {
+            height: 42px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+
+            border: 1px solid #ddd;
+            background: #fff;
+            color: #333;
+            cursor: pointer;
+            user-select: none;
+
+            transition: background 0.15s ease, color 0.15s ease,
+                border-color 0.15s ease, transform 0.1s ease;
+
+            &:hover {
+                background: #f8f8f8;
+            }
+
+            &:active {
+                transform: scale(0.97);
+            }
+
+            &.disabled {
+                opacity: 0.6;
+                cursor: default;
+                pointer-events: none;
+            }
+        }
+
+        /* ===== SHARE ===== */
+        .share {
+            border-color: #ccc;
+            color: #555;
+
+            &:hover {
+                background: #fafafa;
+            }
+        }
+
+        /* ===== VIDEO ===== */
+        .video {
+            border-color: #ffb703;
+            color: #b45309;
+
+            &:hover {
+                background: #fff7ed;
+            }
+        }
+
+        /* ===== CALL ===== */
+        .call {
+            border-color: #52c41a;
+            color: #389e0d;
+
+            &:hover {
+                background: #f6ffed;
+            }
+        }
+
+        /* ===== ZALO ===== */
+        .zalo {
+            border-color: #1677ff;
+            color: #1677ff;
+
+            &:hover {
+                background: #f0f7ff;
+            }
+        }
+
+        /* ===== BOOKING ===== */
+        .booking {
+            border-color: var(--main-red-2-color);
+            color: var(--main-red-2-color);
+            font-weight: 700;
+
+            &:hover {
+                background: rgba(255, 77, 79, 0.08);
+            }
+        }
+
+        /* ===== SAVE ===== */
+        .save {
+            border-color: #ddd;
+            color: #555;
+
+            &:hover {
+                background: #fafafa;
+            }
+        }
+    }
+
+    /* ===============================
+     * TABLET & UP
+     * =============================== */
+    @include breakpoint(tablet) {
+        margin-top: 0;
+
+        .actions {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    /* ===============================
+     * DESKTOP & UP
+     * =============================== */
+    @include breakpoint(desktop) {
+        .actions {
+            grid-template-columns: repeat(3, 1fr);
+        }
+    }
+}

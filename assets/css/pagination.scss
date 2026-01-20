@@ -1,142 +1,104 @@
 .pagination-container {
     display: flex;
-    list-style-type: none;
     justify-content: center;
-    padding-top: 30px;
-    width: 100%;
-
-    @include breakpoint(tablet) {
-        padding-top: 50px;
-    }
+    align-items: center;
+    gap: 8px;
+    padding-top: 32px;
 
     .pagination-item {
-        height: 32px;
-        width: 32px;
-        text-align: center;
-        margin: auto 4px;
-        color: rgba(0, 0, 0, 0.87);
-        display: flex;
-        box-sizing: border-box;
+        min-width: 36px;
+        height: 36px;
+        padding: 0 10px;
+        border-radius: 999px;
+
+        display: inline-flex;
         align-items: center;
-        letter-spacing: 0.01071em;
-        border-radius: 16px;
-        line-height: 1.43;
-        font-size: 14px;
-        display: flex;
         justify-content: center;
 
-        @include breakpoint(tablet) {
-            font-size: 16px;
-            height: 34px;
-            width: 34px;
-        }
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 1;
+        color: #444;
 
-        &:last-child,
-        &:first-child {
-            font-size: 16px;
+        background: #fff;
+        border: 1px solid #e6e6e6;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
 
-            @include breakpoint(tablet) {
-                font-size: 18px;
-            }
+        cursor: pointer;
+        user-select: none;
 
-            &:hover {
-                background-color: var(--color-main-gray-1);
-            }
-        }
+        transition:
+            background-color 0.2s ease,
+            color 0.2s ease,
+            border-color 0.2s ease,
+            box-shadow 0.2s ease,
+            transform 0.15s ease;
 
-        &:first-child {
-            @include breakpoint(tablet) {
-                padding: 0px 16px 0px 10px;
-            }
-        }
-
-        &.dots:hover {
-            background-color: transparent;
-            cursor: default;
-            color: unset;
-        }
-
+        /* ===== HOVER ===== */
         &:hover {
-            background-color: var(--color-main-green-light);
+            background: var(--color-main-green-light);
             color: #fff;
-            cursor: pointer;
+            border-color: var(--color-main-green-light);
+            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12);
+            transform: translateY(-1px);
         }
 
+        /* ===== ACTIVE / CURRENT PAGE ===== */
         &.selected {
-            // background-color: rgba(0, 0, 0, 0.08);
-            background-color: var(--color-main-coffee);
+            background: var(--color-main-coffee);
             color: #fff;
+            border-color: var(--color-main-coffee);
+            font-weight: 600;
             pointer-events: none;
+            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.16);
         }
 
-        .arrow {
-            &::before {
-                position: relative;
-                /* top: 3pt; Uncomment this to lower the icons as requested in comments*/
-                content: '';
-                /* By using an em scale, the arrows will size with the font */
-                display: inline-block;
-                width: 0.4em;
-                height: 0.4em;
-                border-right: 0.12em solid rgba(0, 0, 0, 0.87);
-                border-top: 0.12em solid rgba(0, 0, 0, 0.87);
-                top: -2px;
-            }
-
-            &.left {
-                transform: rotate(-135deg) translate(-50%);
-
-                &::before {
-                    right: -2px;
-
-                    @include breakpoint(tablet) {
-                        top: 0px;
-                        right: 0px;
-                    }
-                }
-            }
-
-            &.right {
-                transform: rotate(45deg);
-            }
-        }
-
-        &.disabled {
-            pointer-events: none;
-
-            .arrow::before {
-                border-right: 0.12em solid rgba(0, 0, 0, 0.43);
-                border-top: 0.12em solid rgba(0, 0, 0, 0.43);
-            }
+        /* ===== DOTS ===== */
+        &.dots {
+            min-width: auto;
+            padding: 0 6px;
+            border: none;
+            background: transparent;
+            box-shadow: none;
+            cursor: default;
+            color: #888;
 
             &:hover {
-                background-color: transparent;
-                cursor: default;
+                background: transparent;
+                box-shadow: none;
+                transform: none;
+                color: #888;
             }
+        }
+
+        /* ===== DISABLED (prev / next) ===== */
+        &.disabled {
+            opacity: 0.45;
+            cursor: not-allowed;
+            pointer-events: none;
+            box-shadow: none;
+            transform: none;
+        }
+
+        /* ===== ARROW ===== */
+        .arrow::before {
+            border-color: currentColor;
+            border-width: 0.14em;
         }
     }
-}
 
-.pagination {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
+    /* ===== RESPONSIVE ===== */
+    @include breakpoint(tablet) {
+        padding-top: 40px;
 
-    li {
-        width: 30px;
-        height: 30px;
-        background-color: var(--color-main-green);
-        margin: 0px 10px;
-        cursor: pointer;
-        border-radius: 50%;
-        text-align: center;
-        color: #fff;
-        border: 1px solid var(--color-gray);
-        line-height: 28px;
+        .pagination-item {
+            min-width: 40px;
+            height: 40px;
+            font-size: 15px;
 
-        &.selected {
-            background-color: var(--color-gray);
-            pointer-events: none;
+            svg {
+                display: block;
+            }
         }
     }
 }

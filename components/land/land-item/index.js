@@ -3,12 +3,7 @@ import { formatDate, formatVnd, formatArea } from 'lib/utils/index';
 const { NEXT_PUBLIC_REACT_APP_API } = process.env
 
 const LandItem = ({ land }) => {
-    console.log('ahihiii', land);
-
-
-
     const { slug, title, price, area, rental, updatedAt, uploads, cover_index } = land;
-    console.log('ahahaa', uploads[cover_index]);
 
     const bkImage = `${NEXT_PUBLIC_REACT_APP_API}/uploads/${uploads[cover_index].file_path}`
 

@@ -29,21 +29,21 @@
         line-height: 40px;
     }
 
-    /* Hover – nổi nhẹ */
+    /* Hover - nổi nhẹ */
     &:hover {
         background-color: var(--color-main-green-light);
         box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
         transform: translateY(-1px);
     }
 
-    /* Active – nhấn xuống */
+    /* Active - nhấn xuống */
     &:active {
         transform: translateY(0);
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
         background-color: var(--color-main-green-dark);
     }
 
-    /* Focus – accessibility */
+    /* Focus - accessibility */
     &:focus-visible {
         outline: none;
         box-shadow: 0 0 0 3px rgba(0, 160, 120, 0.25);

@@ -101,7 +101,6 @@ const Header = ({ showSearchIcon = false }) => {
 
         dispatch({ type: REMOVE_USER });
 
-        // 🔥 reset toàn bộ React tree → không còn useAuthInit
         window.location.href = '/';
     };
 
@@ -149,7 +148,9 @@ const Header = ({ showSearchIcon = false }) => {
                     </a>
                 </Link>
                 <nav ref={navRef} className={`site-nav ${menuOpen ? 'site-nav--open' : ''}`}>
-                    <div className='close'>
+
+                    <div className="mobile-nav-header">
+                        <span>Menu</span>
                         <i className="icon-cancel" onClick={handleClosePopup}></i>
                     </div>
 
@@ -192,14 +193,9 @@ const Header = ({ showSearchIcon = false }) => {
                                         <a onClick={handleClosePopup} className={`${tab === ProfileTab.ManageBooking ? 'active' : ''}`}>Lịch xem nhà</a>
                                     </Link>
                                     <Link href={{ pathname: PageUrl.Profile, query: { tab: ProfileTab.ManagePostRental } }}>
-                                        <a onClick={handleClosePopup} className={`${tab === ProfileTab.ManagePostRental ? 'active' : ''}`}>Nhà ở cho thuê</a>
+                                        <a onClick={handleClosePopup} className={`${tab === ProfileTab.ManagePostRental ? 'active' : ''}`}>Nhà của tôi</a>
                                     </Link>
-                                    {/* <Link href={{ pathname: PageUrl.Profile, query: { tab: ProfileTab.ManagePostProduct } }}>
-                                        <a onClick={handleClosePopup} className={`${tab === ProfileTab.ManagePostProduct ? 'active' : ''}`}>Bài đăng sản phẩm</a>
-                                    </Link> */}
-                                    {/* <Link href={{ pathname: PageUrl.Profile, query: { tab: ProfileTab.address } }}>
-                                        <a onClick={handleClosePopup} className={`${tab === ProfileTab.address ? 'active' : ''}`}>Địa chỉ</a>
-                                    </Link> */}
+
                                     <Link href={{ pathname: PageUrl.Profile, query: { tab: ProfileTab.ChangePassword } }}>
                                         <a onClick={handleClosePopup} className={`${tab === ProfileTab.ChangePassword ? 'active' : ''}`}>Đổi mật khẩu</a>
                                     </Link>

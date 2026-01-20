@@ -1,18 +1,21 @@
 'use client';
 
 import RoomStatusModal from 'components/room/room-status-modal';
-import { RentalTypeLabels, RoomStatusLabels } from 'lib/constants/data';
+import { RentalTypeLabels, RoomStatus, RoomStatusLabels } from 'lib/constants/data';
 import { PageUrl } from 'lib/constants/tech';
 import { formatDateTime, formatVnd } from 'lib/utils';
 import Link from 'next/link';
 import { useState } from 'react';
+import { updateRoom } from 'lib/api/room.api';
+import { toast } from 'react-toastify';
 
-const MyHouseItem = ({ house }) => {
+const MyHouseItem = ({ house, onStatusUpdated }) => {
     if (!house) return null;
 
     const [openStatusModal, setOpenStatusModal] = useState(false);
 
     const {
+        id,
         title,
         slug,
         room_code,
@@ -33,14 +36,27 @@ const MyHouseItem = ({ house }) => {
     const subImages = (uploads || []).filter((_, i) => i !== cover_index)?.slice(0, 2);
 
 
-    const handleChangeStatus = (newStatus) => {
-        console.log('Change status room:', id, newStatus);
+    const handleChangeStatus = async (newStatus) => {
+        if (status === newStatus && newStatus === RoomStatus.PENDING_APPROVAL) {
+            toast.error("Cập nhật trạng thái thất bại");
+            return;
+        }
 
-        // TODO: call API update status
-        // await roomService.updateStatus(id, newStatus);
+        const res = await updateRoom(id, {
+            status: newStatus,
+        });
+
+        if (res?.success) {
+            toast.success('Cập nhật trạng thái thành công');
+            onStatusUpdated?.();
+        } else {
+            toast.error("Cập nhật trạng thái thất bại");
+        }
 
         setOpenStatusModal(false);
     };
+
+    const isDisabled = status === RoomStatus.PENDING_APPROVAL;
 
     return (
         <>
@@ -119,18 +135,19 @@ const MyHouseItem = ({ house }) => {
                     <div className="h-right">
                         <button
                             type="button"
-                            className={`status status-${status} status-action`}
+                            className={`status status-${status} status-action ${isDisabled ? 'is-disabled' : ''}`}
                             onClick={() => setOpenStatusModal(true)}
+                            disabled={isDisabled}
                         >
                             {RoomStatusLabels[status]}
                             <span className="status-caret">▾</span>
                         </button>
 
-                        <Link href={`${PageUrl.Rental}/${slug}/edit`}>
+                        {/* <Link href={`${PageUrl.Rental}/${slug}/edit`}>
                             <a className="action-link">
                                 ✏️ Chỉnh sửa
                             </a>
-                        </Link>
+                        </Link> */}
 
                         <p className="updated-at">
                             🕒 Tạo lúc {formatDateTime(createdAt)}

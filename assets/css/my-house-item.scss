@@ -149,6 +149,12 @@
         }
     }
 
+    .status-action.is-disabled {
+        cursor: not-allowed;
+        opacity: 0.6;
+        pointer-events: none;
+    }
+
     .status-caret {
         font-size: 10px;
         opacity: 0.6;

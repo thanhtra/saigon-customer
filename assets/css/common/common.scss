@@ -656,7 +656,7 @@ button {
         }
     }
 
-    /* select thật – trong suốt */
+    /* select thật - trong suốt */
     .filter-select {
         width: 100%;
         border: none;
@@ -848,6 +848,7 @@ button {
         max-width: 300px;
 
         @include breakpoint(tablet) {
+            width: auto;
             max-width: 200px;
             margin-left: 20px;
         }

@@ -28,6 +28,8 @@ import { buildSelectOptionsFromList } from 'lib/utils';
 import CardSelectField from 'components/common/card-select-field';
 import { RentalType } from 'lib/constants/data';
 import { RentalTypeOptions } from 'lib/constants/rental-type.options';
+import { PageUrl, ProfileTab } from 'lib/constants/tech';
+import { useRouter } from 'next/router';
 
 
 import {
@@ -52,6 +54,7 @@ const PostRoomCreate = ({ slug = '', displayList }) => {
     const [loadingBoardingHouses, setLoadingBoardingHouses] = useState(false);
     const [loading, setLoading] = useState(false);
     const { uploadImages, loading: uploading } = useUploadImages();
+    const router = useRouter();
 
 
     const {
@@ -92,7 +95,7 @@ const PostRoomCreate = ({ slug = '', displayList }) => {
                 price: null,
                 deposit: null,
                 area: null,
-                floor: '',
+                floor: null,
                 room_number: '',
                 max_people: null,
                 description: '',
@@ -427,7 +430,7 @@ const PostRoomCreate = ({ slug = '', displayList }) => {
                     return;
                 }
 
-                const createRoomRes = await createRoom({
+                const res = await createRoom({
                     rental_id: boarding_house_id,
                     title: room.title,
                     room_number: room.room_number,
@@ -435,19 +438,17 @@ const PostRoomCreate = ({ slug = '', displayList }) => {
                     deposit: Number(room.deposit),
                     description: room.description,
                     amenities: room.amenities,
-                    area: room.area ? Number(room.area) : undefined,
-                    max_people: room.max_people ? Number(room.max_people) : undefined,
-                    floor: room.floor ? Number(room.floor) : undefined,
+                    ...(room?.area && { area: Number(room.area) }),
+                    ...(room?.max_people && { max_people: Number(room.max_people) }),
+                    ...(room?.floor && { floor: Number(room.floor) })
                 });
 
-                console.log('yyyyyy', createRoomRes);
-
-                if (!createRoomRes?.success || !createRoomRes.result?.id) {
+                if (!res?.success || !res.result?.id) {
                     toast.error('Tạo phòng thất bại');
                     return;
                 }
 
-                const roomId = createRoomRes.result.id;
+                const roomId = res.result.id;
 
                 await uploadRoomImages({
                     roomId,
@@ -502,8 +503,6 @@ const PostRoomCreate = ({ slug = '', displayList }) => {
                 return;
             }
 
-            console.log('rererer', res);
-
             const roomId = res.result?.roomId;
 
             if (roomId) {
@@ -516,6 +515,8 @@ const PostRoomCreate = ({ slug = '', displayList }) => {
 
             toast.success('Tạo tin cho thuê thành công');
             reset();
+
+            router.push(`${PageUrl.Profile}?tab=${ProfileTab.ManagePostRental}`)
 
         } catch (err) {
             console.error(err);
@@ -691,6 +692,7 @@ const PostRoomCreate = ({ slug = '', displayList }) => {
                                         message: 'Mô tả tối thiểu 10 ký tự',
                                     },
                                 }}
+                                required
                             />
                         </div>
                     </div>

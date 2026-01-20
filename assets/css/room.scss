@@ -93,7 +93,7 @@
 
 .room-item {
     width: 100%;
-    height: 300px;
+    height: 320px;
     margin-bottom: 10px;
     display: flex;
     flex-direction: column;
@@ -173,7 +173,7 @@
         padding-bottom: 10px;
 
         @include breakpoint(tablet) {
-            padding: 10px;
+            padding: 10px 10px 10px 0px;
         }
 
         .room-name {
@@ -320,6 +320,7 @@
         gap: 6px;
         padding: 6px 8px;
         font-size: 13px;
+        cursor: default;
 
         @include breakpoint(tablet) {
             width: 160px;
@@ -344,6 +345,7 @@
 
             @include breakpoint(tablet) {
                 flex-basis: auto; // Tablet: nằm chung hàng
+                cursor: pointer;
             }
         }
 
@@ -444,239 +446,6 @@
     }
 
 
-}
-
-.room-detail-page {
-    padding-top: 15px;
-
-    @include breakpoint(tablet) {
-        padding-top: 20px;
-    }
-
-    .room-single-content {
-        margin-bottom: 22px;
-        height: auto;
-
-        @include breakpoint(tablet) {
-            display: flex;
-            align-items: flex-start;
-            margin-bottom: 60px;
-            height: 370px;
-        }
-
-        .room-gallery {
-            display: flex;
-            flex-direction: column-reverse;
-            margin-bottom: 30px;
-
-            @include breakpoint(tablet) {
-                flex-direction: unset;
-                margin-bottom: 0;
-                margin-right: 60px;
-                height: 100%;
-            }
-
-            .room-gallery-image {
-                height: 300px;
-                width: 100%;
-                background-size: contain;
-                background-position: 50%;
-                border-radius: 5px;
-                background-repeat: no-repeat;
-                background-color: var(--color-main-gray);
-
-                @include breakpoint(tablet) {
-                    width: 600px;
-                    height: 100%;
-                    border-radius: 8px;
-                }
-
-                img {
-                    width: 100%;
-                    height: 100%;
-                    object-position: top center;
-                    object-fit: cover;
-                }
-            }
-
-            .room-gallery-thumbs {
-                height: 60px;
-
-                @include breakpoint(tablet) {
-                    width: 90px;
-                    height: 100%;
-                    margin-right: 10px;
-                }
-
-                .p-g-mobile {
-                    display: block;
-                    height: 100%;
-                    margin-top: 2px;
-
-                    @include breakpoint(tablet) {
-                        display: none;
-                    }
-                }
-
-                .p-g-desktop {
-                    display: none;
-
-                    @include breakpoint(tablet) {
-                        display: block;
-                        height: 100%;
-                    }
-                }
-
-                .room-gallery-thumb {
-                    img {
-                        width: 100%;
-                        height: 100%;
-                        object-position: top center;
-                        object-fit: cover;
-                        opacity: 0.7;
-                        cursor: pointer;
-                        border-radius: 3px;
-
-                        &.active,
-                        &:hover {
-                            opacity: 1;
-                        }
-                    }
-                }
-            }
-        }
-
-        .brief-content {
-            position: relative;
-            margin-bottom: 40px;
-
-            @include breakpoint(tablet) {
-                margin-bottom: 40px;
-                border: none;
-            }
-
-            .brief-content-name {
-                font-size: 14px;
-                margin-bottom: 15px;
-                color: var(--main-red-2-color);
-                line-height: 16px;
-                font-weight: 700;
-                text-align: center;
-
-                @include breakpoint(tablet) {
-                    font-size: 16px;
-                    line-height: 18px;
-                    margin-bottom: 20px;
-                }
-            }
-
-            .brief-content-detail {
-                margin-bottom: 15px;
-
-                .infor {
-                    font-weight: 700;
-                    margin-bottom: 5px;
-                    font-size: 14px;
-                    display: flex;
-                    line-height: 20px;
-                    color: var(--color-main-coffee);
-
-                    @include breakpoint(tablet) {
-                        font-size: 16px;
-                        margin-bottom: 14px;
-                    }
-
-                    .title {
-                        font-weight: normal;
-                        min-width: 70px;
-                        margin-right: 5px;
-                        color: #000;
-
-                        @include breakpoint(tablet) {
-                            margin-right: 12px;
-                            min-width: 75px;
-                        }
-
-                        &::before {
-                            content: "\A";
-                            width: 3px;
-                            height: 3px;
-                            border-radius: 50%;
-                            background: #999;
-                            display: inline-block;
-                            margin-right: 5px;
-                            margin-bottom: 3px;
-                        }
-                    }
-
-                }
-
-                .contact-area {
-                    display: none;
-                    padding-top: 70px;
-
-                    @include breakpoint(tablet) {
-                        display: block;
-                    }
-
-                    .contact-area-title {
-                        font-size: 16px;
-                        color: var(--color-main-coffee);
-                        margin-bottom: 20px;
-                        font-weight: bold;
-                    }
-                }
-            }
-        }
-    }
-
-    .room-single-info {
-
-        // .infor-detail {
-        //     font-size: 14px;
-        //     color: #000;
-        //     text-decoration: underline;
-        //     text-align: center;
-
-        //     @include breakpoint(tablet) {
-        //         font-size: 16px;
-        //     }
-        // }
-
-        .room-single-description {
-            line-height: 22px;
-            font-size: 14px;
-
-            @include breakpoint(tablet) {
-                display: flex;
-                line-height: 26px;
-                justify-content: center;
-                font-size: 16px;
-            }
-
-            img {
-                max-width: 100%;
-                width: 100%;
-                float: unset !important;
-
-                @include breakpoint(tablet) {
-                    width: unset;
-                }
-            }
-
-            a {
-                color: var(--color-main-green);
-            }
-        }
-
-        .infor-contact {
-            padding-top: 200px;
-
-            button {
-                width: 200px;
-            }
-        }
-    }
 }
 
 .popup-filter-rooms-content {

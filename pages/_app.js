@@ -1,3 +1,5 @@
+'use client';
+
 import Head from 'next/head';
 import Router from 'next/router';
 import { useEffect } from 'react';
@@ -14,8 +16,10 @@ import 'assets/css/main.scss';
 import 'nprogress/nprogress.css';
 import 'react-toastify/dist/ReactToastify.css';
 
-import 'swiper/swiper-bundle.min.css';
-import 'swiper/swiper.min.css';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/thumbs';
+
 
 NProgress.configure({ easing: 'ease', showSpinner: false });
 
@@ -60,7 +64,17 @@ function MyApp({ Component, ...rest }) {
                 >
                     <AuthInitializer>
                         <Layout>
-                            <ToastContainer autoClose={2500} hideProgressBar />
+                            <ToastContainer
+                                position="top-right"
+                                autoClose={2000}
+                                hideProgressBar={false}
+                                newestOnTop
+                                closeOnClick
+                                rtl={false}
+                                pauseOnFocusLoss
+                                draggable
+                                pauseOnHover
+                            />
                             <Component {...pageProps} />
                         </Layout>
                     </AuthInitializer>

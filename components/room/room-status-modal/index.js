@@ -21,7 +21,6 @@ const RoomStatusModal = ({
         }
     }, [open, currentStatus]);
 
-
     const handleConfirm = useCallback(async () => {
         if (!status || status === currentStatus) {
             onClose();

@@ -1,91 +1,143 @@
+'use client';
+
+import { useEffect, useState, useCallback } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+
 import Breadcrumb from 'components/common/breadcrumb';
 import PopupContact from 'components/common/popup-contact-room';
 import RoomContent from 'components/room/room-content';
 import Description from 'components/room/room-description';
 import RoomGallery from 'components/room/room-gallery';
-import { getContact } from 'lib/api/room.service';
-import { getRoomDetail } from 'lib/api/room.service';
+
+import { getRoomDetail, getContact } from 'lib/api/room.api';
 import { PageUrl } from 'lib/constants/tech';
-import { POPUP_ADD_ADDRESS_HIDE, POPUP_ADD_ADDRESS_OPEN } from 'lib/store/type/common-type';
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { toast } from 'react-toastify';
+import { UserRole } from 'lib/constants/tech';
+import {
+    POPUP_ADD_ADDRESS_HIDE,
+    POPUP_ADD_ADDRESS_OPEN,
+} from 'lib/store/type/common-type';
 
+import RoomActionsDetail from 'components/common/room-actions-detail';
+
+/* ======================================================
+ * SSR
+ * ====================================================== */
 export async function getServerSideProps({ params }) {
-    const { slug } = params;
-    const res = await getRoomDetail(slug);
+    try {
+        const { slug } = params;
+        const res = await getRoomDetail(slug);
 
-    return {
-        props: {
-            room: res?.result || {}
-        },
+        if (!res?.success || !res?.result) {
+            return { notFound: true };
+        }
+
+        return {
+            props: {
+                room: res.result,
+            },
+        };
+    } catch {
+        return { notFound: true };
     }
 }
 
-const Room = ({ room }) => {
+/* ======================================================
+ * PAGE
+ * ====================================================== */
+const RoomDetailPage = ({ room }) => {
     const dispatch = useDispatch();
-    const { user } = useSelector(state => state.users);
-    const { isPopupAddAddressOpen } = useSelector(state => state.commons)
-    const [openModal, setOpenModal] = useState(false);
-    const [contact, setContact] = useState({});
+    const { user } = useSelector((state) => state.users);
+
+    const [isContactOpen, setIsContactOpen] = useState(false);
+    const [loadingContact, setLoadingContact] = useState(false);
+    const [contact, setContact] = useState(null);
+
+    const isAdmin = user?.role === UserRole.Admin
 
 
+    /* ===============================
+     * SIDE EFFECT
+     * =============================== */
     useEffect(() => {
-        if (!openModal) {
+        if (!isContactOpen) {
             dispatch({ type: POPUP_ADD_ADDRESS_HIDE });
         }
-    }, openModal);
+    }, [isContactOpen, dispatch]);
 
-    const openModalHandle = async () => {
+    /* ===============================
+     * HANDLERS
+     * =============================== */
+    const openContactModal = useCallback(async () => {
+        if (!room?.id || loadingContact) return;
+
         try {
-            if (room && room?.id) {
-                const res = await getContact(room.id);
-                if (res && res?.success) {
-                    setContact(res.result);
-                    setOpenModal(true);
-                    dispatch({ type: POPUP_ADD_ADDRESS_OPEN });
-                } else {
-                    toast.error('Lấy thông tin thất bại')
-                }
-            }
-        } catch (error) {
-            toast.error('Lấy thông tin thất bại')
+            setLoadingContact(true);
+
+            const res = await getContact(room.id);
+            if (!res?.success) throw new Error();
+
+            setContact(res.result);
+            setIsContactOpen(true);
+            dispatch({ type: POPUP_ADD_ADDRESS_OPEN });
+        } catch {
+            toast.error('Không lấy được thông tin liên hệ');
+        } finally {
+            setLoadingContact(false);
         }
+    }, [room?.id, loadingContact, dispatch]);
 
-    }
+    const closeContactModal = useCallback(() => {
+        setIsContactOpen(false);
+        dispatch({ type: POPUP_ADD_ADDRESS_HIDE });
+    }, [dispatch]);
 
-    const closeModalContact = () => {
-        setOpenModal(false);
-
-        if (isPopupAddAddressOpen) {
-            dispatch({ type: POPUP_ADD_ADDRESS_HIDE });
-        }
-    }
-
+    /* ===============================
+     * RENDER
+     * =============================== */
     return (
-        <>
-            <section className="container room-detail-page">
-                <Breadcrumb menu={PageUrl.Rooms} title={room?.title} />
+        <section className="container room-detail-page">
+            <Breadcrumb menu={PageUrl.Rooms} title={room.title} />
 
-                <div className="room-single-content">
-                    <RoomGallery images={room?.uploads} />
+            {/* ===== MAIN GRID ===== */}
+            <div className="room-detail-grid">
+                {/* LEFT */}
+                <div className="room-detail-left">
+                    <RoomGallery
+                        images={room.uploads || []}
+                        room
+                    />
+
+                    <div className="room-section">
+                        <h3 className="section-title">Mô tả chi tiết</h3>
+                        <Description room={room} />
+                    </div>
+                </div>
+
+                {/* RIGHT */}
+                <aside className="room-detail-right">
                     <RoomContent room={room} />
-                </div>
 
-                <div className="room-single-info">
-                    <p className='title-description-detail'>Mô tả chi tiết</p>
+                    <RoomActionsDetail
+                        roomId={room.id}
+                        rentalId={room?.rental?.id}
+                        roomCode={room?.room_code}
+                        title={room?.title}
+                        address={room?.rental?.address_detail_display}
+                        updatedAt={room?.updatedAt}
+                    />
+                </aside>
+            </div>
 
-                    <Description room={room} />
 
-                    {user && user?.role === 'Admin_ViRung_DakNong' && room?.collaborator_id && < div className="group-btn infor-contact">
-                        <button type="button" className="btn btn-border" onClick={openModalHandle}>Thông tin</button>
-                    </div>}
-                </div>
+            <PopupContact
+                isShow={isContactOpen}
+                hideModal={closeContactModal}
+                contact={contact}
+            />
+        </section>
 
-                <PopupContact isShow={openModal} hideModal={closeModalContact} contact={contact} />
-            </section >
-        </>
-    )
-}
+    );
+};
 
-export default Room
+export default RoomDetailPage;
