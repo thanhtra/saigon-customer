@@ -1,18 +1,41 @@
-FROM node:16
+# =========================
+# BUILD STAGE
+# =========================
+FROM node:18-alpine AS builder
+
+WORKDIR /app
+
+# Chống lỗi network npm
+RUN npm config set registry https://registry.npmjs.org/ \
+    && npm config set fetch-retries 5 \
+    && npm config set fetch-retry-mintimeout 20000 \
+    && npm config set fetch-retry-maxtimeout 120000
+
+COPY package.json package-lock.json ./
+RUN npm ci --legacy-peer-deps
+
+COPY . .
+RUN npm run build
+
+
+# =========================
+# RUNTIME STAGE
+# =========================
+FROM node:18-alpine
+
+WORKDIR /app
 
 ENV NODE_ENV=production
-ENV PORT=3005
-ENV NEXT_PUBLIC_REACT_APP_API=https://api.daknong.info
 
-RUN mkdir -p /usr/src/app
-WORKDIR /usr/src/app
+RUN addgroup -S app && adduser -S app -G app
 
-COPY package*.json /usr/src/app/
-RUN npm install
+# Copy runtime artifacts
+COPY --from=builder /app/.next ./.next
+COPY --from=builder /app/public ./public
+COPY --from=builder /app/package.json ./package.json
+COPY --from=builder /app/node_modules ./node_modules
 
-COPY . /usr/src/app
-
-RUN npm run build
+USER app
 
 EXPOSE 3005
 
