@@ -29,8 +29,8 @@ const MyHouseItem = ({ house, onStatusUpdated }) => {
         uploads = [],
     } = house;
 
-    const { NEXT_PUBLIC_REACT_APP_API } = process.env;
-    const bkUrl = `${NEXT_PUBLIC_REACT_APP_API}/uploads`;
+    const { NEXT_PUBLIC_API_URL } = process.env;
+    const bkUrl = `${NEXT_PUBLIC_API_URL}/uploads`;
 
     const coverImage = uploads?.[cover_index] || uploads?.[0];
     const subImages = (uploads || []).filter((_, i) => i !== cover_index)?.slice(0, 2);

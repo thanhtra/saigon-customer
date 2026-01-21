@@ -10,7 +10,7 @@ const CheckoutItems = () => {
                 <li className="checkout-item" key={item.item}>
                     <div className="checkout-item-content">
                         <div className="checkout-item-img">
-                            <img src={`${process.env.NEXT_PUBLIC_REACT_APP_API}/uploads/product/` + item?.image} />
+                            <img src={`${process.env.NEXT_PUBLIC_API_URL}/uploads/product/` + item?.image} />
                         </div>
 
                         <div className="checkout-item-data">

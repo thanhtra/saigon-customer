@@ -11,7 +11,7 @@ const RoomGallery = ({ images = [], room }) => {
     }, [images]);
 
     const imageUrl = useCallback(
-        (path) => `${process.env.NEXT_PUBLIC_REACT_APP_API}/uploads${path}`,
+        (path) => `${process.env.NEXT_PUBLIC_API_URL}/uploads${path}`,
         []
     );
 

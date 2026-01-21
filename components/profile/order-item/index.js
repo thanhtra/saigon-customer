@@ -42,7 +42,7 @@ const OrderItem = ({ order_code, order_detail, status, updatedAt }) => {
             </div>
             {(order_detail || []).map((item, index) => <div className="o-i-product" key={index}>
                 <div className='name'>
-                    <div className='image' style={{ backgroundImage: `url(${process.env.NEXT_PUBLIC_REACT_APP_API}/uploads/product/${item?.image})` }}></div>
+                    <div className='image' style={{ backgroundImage: `url(${process.env.NEXT_PUBLIC_API_URL}/uploads/product/${item?.image})` }}></div>
 
                     <div className='name-area'>
                         <p className='name-title'>{item?.item}</p>

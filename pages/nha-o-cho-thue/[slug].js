@@ -100,7 +100,7 @@ const RoomDetailPage = ({ room }) => {
     const description =
         room.description_short ||
         `Cho thuê ${room.title}, ${room?.rental?.address_detail_display}. Giá tốt, pháp lý rõ ràng.`;
-    const bkUrl = `${process.env.NEXT_PUBLIC_REACT_APP_API}/uploads`;
+    const bkUrl = `${process.env.NEXT_PUBLIC_API_URL}/uploads`;
     const filePath = room?.uploads?.[room.cover_index]?.file_path;
 
     const ogImage = filePath ?

@@ -72,7 +72,7 @@
 //             <td>
 //                 <div className="cart-product">
 //                     <div className="cart-product-img" style={{
-//                         backgroundImage: "url(" + `${process.env.NEXT_PUBLIC_REACT_APP_API}/uploads/product/` + image + ")"
+//                         backgroundImage: "url(" + `${process.env.NEXT_PUBLIC_API_URL}/uploads/product/` + image + ")"
 //                     }}>
 //                         <i className="icon-cancel" onClick={() => removeCartItem()}></i>
 //                     </div>

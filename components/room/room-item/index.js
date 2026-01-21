@@ -3,12 +3,12 @@ import { RentalAmenityOptions, RentalTypeLabels } from 'lib/constants/data';
 import { PageUrl } from 'lib/constants/tech';
 import { formatArea, formatVnd } from 'lib/utils/index';
 import Link from 'next/link';
-const { NEXT_PUBLIC_REACT_APP_API } = process.env;
+const { NEXT_PUBLIC_API_URL } = process.env;
 
 const RoomItem = ({ room }) => {
     const { id, slug, title, price, area, rental, updatedAt, uploads, cover_index, amenities, floor, room_code } = room;
 
-    const bkUrl = `${NEXT_PUBLIC_REACT_APP_API}/uploads`;
+    const bkUrl = `${NEXT_PUBLIC_API_URL}/uploads`;
     const coverImage = uploads?.[cover_index];
     const subImages = uploads
         ?.filter((_, i) => i !== cover_index)
