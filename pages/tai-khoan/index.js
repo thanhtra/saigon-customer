@@ -1,16 +1,12 @@
 import Breadcrumb from 'components/common/breadcrumb';
 import Account from "components/profile/account";
-import Address from "components/profile/address";
 import ChangePassword from "components/profile/change-password";
 import ProfileFilter from 'components/profile/filter';
 import ManageBooking from "components/profile/manage-booking";
+import ManageMyHouses from 'components/profile/manage-my-houses';
 import { PageUrl, ProfileTab } from 'lib/constants/tech';
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
-import { useState } from 'react';
-import ManagePostLand from 'components/profile/manage-post-land';
-import ManagePostProduct from 'components/profile/manage-post-product';
-import ManageMyHouses from 'components/profile/manage-my-houses';
+import { useEffect, useState } from 'react';
 
 const ProfilePage = () => {
     const router = useRouter();
@@ -47,8 +43,6 @@ const ProfilePage = () => {
                         {activeTab === ProfileTab.Account && <Account />}
                         {activeTab === ProfileTab.ManageBooking && <ManageBooking />}
                         {activeTab === ProfileTab.ManagePostRental && <ManageMyHouses />}
-                        {/* {activeTab === ProfileTab.ManagePostLand && <ManagePostLand editLand={editLandHandle} />} */}
-                        {/* {activeTab === ProfileTab.ManagePostProduct && <ManagePostProduct editProduct={editProductHandle} />} */}
                         {activeTab === ProfileTab.ChangePassword && <ChangePassword />}
                     </div>
                 </div>

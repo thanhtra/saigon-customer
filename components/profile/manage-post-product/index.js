@@ -1,10 +1,9 @@
-import { useEffect, useState } from 'react'
-import NProgress from 'nprogress'
-// import { getMyPosts, removeMyPost } from 'lib/api/product-service';
-import { LandStatus } from 'lib/constants/data';
 import Pagination from 'components/common/pagination';
-import { toast } from 'react-toastify';
 import PopupConfirm from 'components/common/popup-confirm';
+import { LandStatus } from 'lib/constants/data';
+import NProgress from 'nprogress';
+import { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 import PostProductItem from '../../product/post-product-item';
 
 const ManagePostProduct = ({ editProduct }) => {

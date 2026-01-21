@@ -14,16 +14,16 @@ const PostRoomPage = () => {
     const { slug = '' } = router.query || {};
     const dispatch = useDispatch();
 
-    // useEffect(() => {
-    //     if (!user || !user?.id) {
-    //         router.push(PageUrl.Login);
-    //     } else {
-    //         dispatch({
-    //             type: COMMON_URL_REDIRECT_LOGIN,
-    //             payload: ''
-    //         })
-    //     }
-    // }, [user?.id]);
+    useEffect(() => {
+        if (!user || !user?.id) {
+            router.push(PageUrl.Login);
+        } else {
+            dispatch({
+                type: COMMON_URL_REDIRECT_LOGIN,
+                payload: ''
+            })
+        }
+    }, [user?.id]);
 
     const displayListHandle = () => {
         router.push(`${PageUrl.Profile}?tab=${ProfileTab.ManagePostRental}`)
