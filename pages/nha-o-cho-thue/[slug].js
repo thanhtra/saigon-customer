@@ -4,12 +4,13 @@ import { useEffect, useState, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 
+import Head from 'next/head';
 import Breadcrumb from 'components/common/breadcrumb';
 import PopupContact from 'components/common/popup-contact-room';
 import RoomContent from 'components/room/room-content';
 import Description from 'components/room/room-description';
 import RoomGallery from 'components/room/room-gallery';
-
+import { formatVnd } from 'lib/utils';
 import { getRoomDetail, getContact } from 'lib/api/room.api';
 import { PageUrl } from 'lib/constants/tech';
 import { UserRole } from 'lib/constants/tech';
@@ -95,48 +96,80 @@ const RoomDetailPage = ({ room }) => {
     /* ===============================
      * RENDER
      * =============================== */
+    const title = `${room.title} - ${formatVnd(room.price) || ''}`;
+    const description =
+        room.description_short ||
+        `Cho thuê ${room.title}, ${room?.rental?.address_detail_display}. Giá tốt, pháp lý rõ ràng.`;
+    const bkUrl = `${process.env.NEXT_PUBLIC_REACT_APP_API}/uploads`;
+    const filePath = room?.uploads?.[room.cover_index]?.file_path;
+
+    const ogImage = filePath ?
+        `${bkUrl}/${filePath}` :
+        'https://tratimnha.com/images/intro/phong-tro-sai-gon.jpg';
+
     return (
-        <section className="container room-detail-page">
-            <Breadcrumb menu={PageUrl.Rooms} title={room.title} />
+        <>
+            <Head>
+                {/* ===== BASIC SEO ===== */}
+                <title>{title}</title>
+                <meta name="description" content={description} />
+                <link rel="canonical" href={`https://tratimnha.com/nha-o-cho-thue/${room.slug}`} />
 
-            {/* ===== MAIN GRID ===== */}
-            <div className="room-detail-grid">
-                {/* LEFT */}
-                <div className="room-detail-left">
-                    <RoomGallery
-                        images={room.uploads || []}
-                        room
-                    />
+                {/* ===== OPEN GRAPH ===== */}
+                <meta property="og:type" content="article" />
+                <meta property="og:title" content={title} />
+                <meta property="og:description" content={description} />
+                <meta property="og:image" content={ogImage} />
+                <meta property="og:image:width" content="1200" />
+                <meta property="og:image:height" content="630" />
+                <meta property="og:url" content={`https://tratimnha.com/nha-o-cho-thue/${room.slug}`} />
 
-                    <div className="room-section">
-                        <h3 className="section-title">Mô tả chi tiết</h3>
-                        <Description room={room} />
+                {/* ===== OPTIONAL ===== */}
+                <meta property="og:site_name" content="Thuê phòng giá tốt" />
+            </Head>
+
+
+            <section className="container room-detail-page">
+                <Breadcrumb menu={PageUrl.Rooms} title={room.title} />
+
+                {/* ===== MAIN GRID ===== */}
+                <div className="room-detail-grid">
+                    {/* LEFT */}
+                    <div className="room-detail-left">
+                        <RoomGallery
+                            images={room.uploads || []}
+                            room
+                        />
+
+                        <div className="room-section">
+                            <h3 className="section-title">Mô tả chi tiết</h3>
+                            <Description room={room} />
+                        </div>
                     </div>
+
+                    {/* RIGHT */}
+                    <aside className="room-detail-right">
+                        <RoomContent room={room} />
+
+                        <RoomActionsDetail
+                            roomId={room.id}
+                            rentalId={room?.rental?.id}
+                            roomCode={room?.room_code}
+                            title={room?.title}
+                            address={room?.rental?.address_detail_display}
+                            updatedAt={room?.updatedAt}
+                        />
+                    </aside>
                 </div>
 
-                {/* RIGHT */}
-                <aside className="room-detail-right">
-                    <RoomContent room={room} />
 
-                    <RoomActionsDetail
-                        roomId={room.id}
-                        rentalId={room?.rental?.id}
-                        roomCode={room?.room_code}
-                        title={room?.title}
-                        address={room?.rental?.address_detail_display}
-                        updatedAt={room?.updatedAt}
-                    />
-                </aside>
-            </div>
-
-
-            <PopupContact
-                isShow={isContactOpen}
-                hideModal={closeContactModal}
-                contact={contact}
-            />
-        </section>
-
+                <PopupContact
+                    isShow={isContactOpen}
+                    hideModal={closeContactModal}
+                    contact={contact}
+                />
+            </section>
+        </>
     );
 };
 
