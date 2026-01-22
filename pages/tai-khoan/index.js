@@ -51,4 +51,6 @@ const ProfilePage = () => {
     )
 }
 
+ProfilePage.requireAuth = true;
+
 export default ProfilePage

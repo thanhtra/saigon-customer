@@ -42,4 +42,5 @@ const PostRoomPage = () => {
     )
 }
 
+PostRoomPage.requireAuth = true;
 export default PostRoomPage

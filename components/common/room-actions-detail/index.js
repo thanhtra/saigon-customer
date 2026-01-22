@@ -7,8 +7,8 @@ import BookingModal from 'components/room/booking-model';
 import RegisterAfterBookingModal from 'components/room/register-after-booking-modal';
 import RoomVideoModal from 'components/room/room-video-modal';
 
-const PHONE_NUMBER = process.env.NEXT_PUBLIC_SUPPORT_PHONE || '';
-const ZALO_NUMBER = process.env.NEXT_PUBLIC_ZALO_PHONE || '';
+const PHONE_NUMBER = '0968922006';
+const ZALO_NUMBER = '0968922006';
 
 const RoomActionsDetail = ({
     roomId,

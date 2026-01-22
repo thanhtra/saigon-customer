@@ -1,35 +1,26 @@
 'use client';
 
+import 'assets/css/main.scss';
+import Layout from 'components/common/layout-main';
+import { wrapper } from 'lib/store';
 import Head from 'next/head';
 import Router from 'next/router';
-import { useEffect } from 'react';
 import NProgress from 'nprogress';
-import { ToastContainer } from 'react-toastify';
-import { PersistGate } from 'redux-persist/integration/react';
-import { Provider } from 'react-redux';
-
-import { wrapper } from 'lib/store';
-import Layout from 'components/common/layout-main';
-import { useAuthInit } from 'hooks/useAuthInit';
-
-import 'assets/css/main.scss';
 import 'nprogress/nprogress.css';
+import { useEffect } from 'react';
+import { Provider } from 'react-redux';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { PersistGate } from 'redux-persist/integration/react';
+import AuthInitializer from 'components/auth/AuthInitializer';
 
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/thumbs';
 
-
 NProgress.configure({ easing: 'ease', showSpinner: false });
 
-/* =====================
-   Auth Initializer
-===================== */
-function AuthInitializer({ children }) {
-    useAuthInit(); // ✅ BÂY GIỜ ĐÃ CÓ PROVIDER
-    return children;
-}
+
 
 function MyApp({ Component, ...rest }) {
     const { store, props } = wrapper.useWrappedStore(rest);
@@ -50,6 +41,7 @@ function MyApp({ Component, ...rest }) {
         };
     }, []);
 
+
     return (
         <>
             <Head>
@@ -60,21 +52,11 @@ function MyApp({ Component, ...rest }) {
             <Provider store={store}>
                 <PersistGate
                     persistor={store.__persistor}
-                    loading={<div style={{ paddingTop: 300, textAlign: 'center' }}>Đang tải...</div>}
+                    loading={<div style={{ paddingTop: 200, textAlign: 'center' }}>Đang tải...</div>}
                 >
                     <AuthInitializer>
                         <Layout>
-                            <ToastContainer
-                                position="top-right"
-                                autoClose={2000}
-                                hideProgressBar={false}
-                                newestOnTop
-                                closeOnClick
-                                rtl={false}
-                                pauseOnFocusLoss
-                                draggable
-                                pauseOnHover
-                            />
+                            <ToastContainer autoClose={2000} />
                             <Component {...pageProps} />
                         </Layout>
                     </AuthInitializer>
