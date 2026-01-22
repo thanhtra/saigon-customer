@@ -43,7 +43,7 @@ export default class CustomDocument extends Document {
           <meta httpEquiv="Content-Type" content="text/html; charset=UTF-8" />
           <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-          <meta property="fb:app_id" content="1234567890" />
+          <meta property="fb:app_id" content="588186160811740" />
 
           {/* Optional: favicon */}
           <link rel="icon" href="/favicon.ico" />

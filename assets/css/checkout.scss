@@ -80,7 +80,7 @@
 
                             .txt-edit {
                                 color: var(--color-main-green);
-                                font-weight: 700;
+                                font-weight: 500;
 
                                 &:hover {
                                     text-decoration: underline;
@@ -305,7 +305,7 @@
                         margin-bottom: 4px;
                         color: var(--color-main-coffee);
                         font-size: 14px;
-                        font-weight: 700;
+                        font-weight: 500;
 
                         @include breakpoint(tablet) {
                             line-height: 18px;

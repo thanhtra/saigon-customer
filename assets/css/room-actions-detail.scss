@@ -35,7 +35,7 @@
             padding: 6px 12px;
             border-radius: 10px;
             font-size: 13px;
-            font-weight: 600;
+            font-weight: 300;
             cursor: pointer;
             transition: background 0.15s ease;
 
@@ -67,7 +67,7 @@
             height: 42px;
             border-radius: 10px;
             font-size: 14px;
-            font-weight: 600;
+            font-weight: 300;
 
             display: flex;
             align-items: center;
@@ -142,7 +142,7 @@
         .booking {
             border-color: var(--main-red-2-color);
             color: var(--main-red-2-color);
-            font-weight: 700;
+            font-weight: 500;
 
             &:hover {
                 background: rgba(255, 77, 79, 0.08);

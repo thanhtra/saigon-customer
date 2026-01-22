@@ -323,7 +323,7 @@ button {
 
         button {
             font-size: 23px;
-            font-weight: 700;
+            font-weight: 500;
             line-height: 20px;
             padding: 8px;
             color: var(--color-main-green);
@@ -596,7 +596,7 @@ button {
 .filter-title {
     margin-bottom: 15px;
     align-items: center;
-    font-weight: 600;
+    font-weight: 300;
     width: 100%;
     text-transform: uppercase;
     display: flex;
@@ -742,7 +742,7 @@ button {
 
     .c-title {
         margin-bottom: 25px;
-        font-weight: 700;
+        font-weight: 500;
     }
 
     .phone-lable {
@@ -762,7 +762,7 @@ button {
 
             span {
                 margin-left: 20px;
-                font-weight: 700;
+                font-weight: 500;
             }
         }
 
@@ -771,14 +771,14 @@ button {
             margin-bottom: 10px;
 
             span {
-                font-weight: 700;
+                font-weight: 500;
                 margin-left: 10px;
             }
         }
     }
 
     .phone-val {
-        font-weight: 700;
+        font-weight: 500;
         padding-left: 10px;
     }
 
@@ -825,7 +825,7 @@ button {
 
     .content-title {
         font-size: 14px;
-        font-weight: 700;
+        font-weight: 500;
 
         @include breakpoint(tablet) {
             font-size: 16px;
@@ -871,7 +871,7 @@ button {
 
 .title-description-detail {
     text-align: center;
-    font-weight: 700;
+    font-weight: 500;
     border-bottom: 1px dotted gray;
     padding-bottom: 5px;
     width: 120px;

@@ -159,14 +159,14 @@ const RoomItem = ({ room }) => {
                         </span>
 
 
-                        {amenities?.slice(0, 20).map(item => (
+                        {amenities?.slice(0, 8).map(item => (
                             <span key={item} className="amenity-chip">
                                 {RentalAmenityOptions[item]}
                             </span>
                         ))}
-                        {amenities?.length > 20 && (
+                        {amenities?.length > 8 && (
                             <span className="amenity-more">
-                                +{amenities.length - 20}
+                                +{amenities.length - 8}
                             </span>
                         )}
                     </div>

@@ -151,7 +151,7 @@
             display: block;
             color: var(--main-red-2-color);
             line-height: 15px;
-            font-weight: 700;
+            font-weight: 500;
 
             @include breakpoint(tablet) {
                 font-size: 16px;
@@ -324,7 +324,7 @@
                 margin-bottom: 15px;
                 color: var(--main-red-2-color);
                 line-height: 16px;
-                font-weight: 700;
+                font-weight: 500;
                 text-align: center;
 
                 @include breakpoint(tablet) {
@@ -338,7 +338,7 @@
                 margin-bottom: 15px;
 
                 .infor {
-                    font-weight: 700;
+                    font-weight: 500;
                     margin-bottom: 5px;
                     font-size: 14px;
                     display: flex;
@@ -458,7 +458,7 @@
 
         .p-title {
             font-size: 14px;
-            font-weight: 700;
+            font-weight: 500;
 
             @include breakpoint(tablet) {
                 font-size: 16px;

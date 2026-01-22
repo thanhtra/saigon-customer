@@ -123,7 +123,7 @@
         color: var(--color-main-green);
 
 
-        font-weight: 600;
+        font-weight: 300;
         letter-spacing: .15px;
 
         cursor: pointer;
@@ -318,7 +318,7 @@
 
             span {
                 font-size: 16px;
-                font-weight: 600;
+                font-weight: 300;
                 color: #222;
             }
 
@@ -336,7 +336,7 @@
             margin: 8px 0;
 
             .site-nav-btn {
-                font-weight: 600;
+                font-weight: 300;
             }
 
             .icon-expand {
@@ -368,7 +368,7 @@
 
                 .logout {
                     color: #d93025;
-                    font-weight: 600;
+                    font-weight: 300;
                     text-align: center;
                 }
             }
@@ -607,7 +607,7 @@
     }
 
     .txt {
-        font-weight: 700;
+        font-weight: 500;
         color: var(--color-black) !important;
         margin-bottom: 20px;
     }

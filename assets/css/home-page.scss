@@ -8,7 +8,7 @@
 
 .section-title {
   font-size: 22px;
-  font-weight: 700;
+  font-weight: 500;
   margin-bottom: 40px;
   text-align: center;
   position: relative;
@@ -191,7 +191,7 @@
 
     .p-i-title {
       font-size: 28px;
-      font-weight: 700;
+      font-weight: 500;
       color: #fff;
 
       @include breakpoint(tablet) {
@@ -392,7 +392,7 @@
         .btn {
           width: unset;
           border-radius: 999px;
-          font-weight: 700;
+          font-weight: 500;
           color: #fff;
           background: linear-gradient(135deg,
               var(--color-main-green),
@@ -521,7 +521,7 @@
   background: linear-gradient(135deg, #5dd39e, #38a169);
   border: none;
   color: #fff;
-  font-weight: 700;
+  font-weight: 500;
   cursor: pointer;
   transition: all .35s ease;
 
@@ -537,7 +537,7 @@
   background: transparent;
   border: 1px solid rgba(255, 255, 255, .6);
   color: #fff;
-  font-weight: 600;
+  font-weight: 300;
   cursor: pointer;
   transition: all .35s ease;
 
@@ -650,7 +650,7 @@
 
   h4 {
     font-size: 17px;
-    font-weight: 700;
+    font-weight: 500;
     margin-bottom: 10px;
 
     @include breakpoint(tablet) {
@@ -746,7 +746,7 @@
 
     h3 {
       font-size: 22px;
-      font-weight: 700;
+      font-weight: 500;
       margin-bottom: 14px;
 
       @include breakpoint(tablet) {
@@ -839,7 +839,7 @@
       padding: 0 28px;
       border-radius: 999px;
 
-      font-weight: 600;
+      font-weight: 300;
       font-size: 14px;
       color: #fff;
 
@@ -899,7 +899,7 @@
 
     span {
       font-size: 32px;
-      font-weight: 700;
+      font-weight: 500;
       color: var(--color-main-green);
       display: block;
       margin-bottom: 10px;
@@ -907,7 +907,7 @@
 
     p {
       font-size: 15px;
-      font-weight: 600;
+      font-weight: 300;
     }
 
     &:hover {

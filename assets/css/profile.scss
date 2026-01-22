@@ -14,7 +14,7 @@
 
         .p-title {
             font-size: 14px;
-            font-weight: 700;
+            font-weight: 500;
             min-width: fit-content;
 
             @include breakpoint(tablet) {
@@ -176,7 +176,7 @@
                         text-transform: capitalize;
 
                         span {
-                            font-weight: 700;
+                            font-weight: 500;
                             margin-left: 10px;
                         }
                     }
@@ -248,7 +248,7 @@
 
                         span {
                             margin-left: 5px;
-                            font-weight: 700;
+                            font-weight: 500;
 
                             &:first-child {
                                 margin-right: 5px;
@@ -294,7 +294,7 @@
 
                     .l-a-action {
                         display: flex;
-                        font-weight: 700;
+                        font-weight: 500;
 
                         .edit {
                             cursor: pointer;
@@ -411,7 +411,7 @@
             .filter-title {
                 margin-bottom: 24px;
                 font-size: 16px;
-                font-weight: 600;
+                font-weight: 300;
                 color: #111;
                 cursor: default;
             }
@@ -444,7 +444,7 @@
                 &.active {
                     color: var(--color-main-coffee);
                     background-color: rgba(110, 74, 54, 0.08);
-                    font-weight: 600;
+                    font-weight: 300;
                 }
 
                 &:focus-visible {
