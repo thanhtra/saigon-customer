@@ -1,2 +1,25 @@
+# =====================================
+# ROBOTS.TXT - tratimnha.com
+# =====================================
+
 User-agent: *
-Sitemap: /sitemap.xml
+Allow: /
+
+# Social Media Crawlers
+User-agent: facebookexternalhit
+Allow: /
+
+User-agent: Facebot
+Allow: /
+
+User-agent: Twitterbot
+Allow: /
+
+User-agent: LinkedInBot
+Allow: /
+
+User-agent: Slackbot
+Allow: /
+
+# Sitemap
+Sitemap: https://tratimnha.com/sitemap.xml

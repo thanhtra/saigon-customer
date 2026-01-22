@@ -55,6 +55,7 @@ const PostRoomCreate = ({ slug = '', displayList }) => {
     const [loading, setLoading] = useState(false);
     const { uploadImages, loading: uploading } = useUploadImages();
     const router = useRouter();
+    const [creatingBoardingHouses, setCreateBoardingHouses] = useState(false);
 
 
     const {
@@ -315,6 +316,7 @@ const PostRoomCreate = ({ slug = '', displayList }) => {
 
     const handleCreateBoardingHouse = async () => {
         NProgress.start();
+        setCreateBoardingHouses(true);
 
         try {
             const formData = getValues();
@@ -346,6 +348,7 @@ const PostRoomCreate = ({ slug = '', displayList }) => {
                     toast.error('Tạo nhà trọ thất bại');
                 }
 
+                setCreateBoardingHouses(false);
                 return;
             }
 
@@ -363,9 +366,9 @@ const PostRoomCreate = ({ slug = '', displayList }) => {
             toast.success('Tạo nhà trọ thành công, hãy tiếp tục tạo phòng');
 
         } catch (error) {
-            console.error(error);
             toast.error('Có lỗi khi tạo nhà trọ');
         } finally {
+            setCreateBoardingHouses(false);
             NProgress.done();
         }
     };
@@ -427,6 +430,7 @@ const PostRoomCreate = ({ slug = '', displayList }) => {
 
                 if (!boarding_house_id) {
                     toast.warning('Vui lòng chọn nhà trọ');
+                    setLoading(false);
                     return;
                 }
 
@@ -445,6 +449,7 @@ const PostRoomCreate = ({ slug = '', displayList }) => {
 
                 if (!res?.success || !res.result?.id) {
                     toast.error('Tạo phòng thất bại');
+                    setLoading(false);
                     return;
                 }
 
@@ -458,6 +463,8 @@ const PostRoomCreate = ({ slug = '', displayList }) => {
 
                 toast.success('Tạo phòng thành công');
                 reset();
+
+                setLoading(false);
                 return;
             }
 
@@ -500,6 +507,7 @@ const PostRoomCreate = ({ slug = '', displayList }) => {
 
             if (!res?.success) {
                 toast.error('Tạo tin thất bại');
+                setLoading(false);
                 return;
             }
 
@@ -519,7 +527,6 @@ const PostRoomCreate = ({ slug = '', displayList }) => {
             router.push(`${PageUrl.Profile}?tab=${ProfileTab.ManagePostRental}`)
 
         } catch (err) {
-            console.error(err);
             toast.error('Có lỗi xảy ra');
         } finally {
             setLoading(false);
@@ -785,25 +792,24 @@ const PostRoomCreate = ({ slug = '', displayList }) => {
                         Huỷ
                     </button>
 
-                    {/* TẠO DÃY TRỌ */}
                     {isCreateBoardingHouse && (
                         <button
                             type="button"
                             className="btn"
                             onClick={handleCreateBoardingHouse}
+                            disabled={creatingBoardingHouses}
                         >
-                            Tạo nhà trọ mới
+                            {creatingBoardingHouses ? 'Đang lưu...' : 'Tạo nhà trọ mới'}
                         </button>
                     )}
 
-                    {/* TẠO PHÒNG / ĐĂNG TIN */}
                     {displaySubmit && (
                         <button
                             type="submit"
                             className="btn"
                             disabled={isSubmitting || !canSubmit || loading}
                         >
-                            {submitLabel}
+                            {loading ? "Đang lưu..." : submitLabel}
                         </button>
                     )}
                 </div>

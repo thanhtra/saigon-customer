@@ -3,9 +3,6 @@ import RoomItem from '../room-item';
 import Pagination from 'components/common/pagination';
 
 const RoomsContent = ({ rooms, meta, changePage }) => {
-
-    console.log('metameta', meta);
-
     return (
         <>
             {rooms && rooms.map((item) => (
@@ -13,10 +10,10 @@ const RoomsContent = ({ rooms, meta, changePage }) => {
             ))}
 
             <Pagination
-                currentPage={meta.page - 1}          // 👈 convert 1-based → 0-based
+                currentPage={meta.page - 1}
                 totalCount={meta.itemCount}
                 pageSize={meta.size}
-                onPageChange={(pageIndex) => changePage(pageIndex + 1)} // 👈 trả lại BE
+                onPageChange={(pageIndex) => changePage(pageIndex + 1)}
             />
 
         </>

@@ -29,14 +29,21 @@ export default class CustomDocument extends Document {
             property="og:description"
             content="Nền tảng mua bán, cho thuê nhà phố và phòng trọ tại Sài Gòn. Minh bạch - Uy tín - Hiệu quả."
           />
-          <meta property="og:image" content="https://tratimnha.com/images/intro/phong-tro-sai-gon.jpg" />
-          <meta property="og:locale" content="vi_VN" />
-          <meta property="og:url" content="https://tratimnha.com" />
+
+          <meta property="og:image" content="https://tratimnha.com/og/home.jpg" />
+          <meta property="og:image:width" content="1200" />
+          <meta property="og:image:height" content="630" />
+          <meta property="og:image:type" content="image/jpeg" />
+
+          <meta property="og:url" content="https://tratimnha.com/" />
           <meta property="og:site_name" content="Bất động sản Sài Gòn" />
+          <meta property="og:locale" content="vi_VN" />
 
           {/* ===== TECH ===== */}
           <meta httpEquiv="Content-Type" content="text/html; charset=UTF-8" />
           <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+          <meta property="fb:app_id" content="1234567890" />
 
           {/* Optional: favicon */}
           <link rel="icon" href="/favicon.ico" />
