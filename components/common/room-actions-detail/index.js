@@ -17,7 +17,7 @@ const RoomActionsDetail = ({
     title,
     address,
     updatedAt,
-    videoUrl, // optional
+    videoUrl,
 }) => {
     const [copied, setCopied] = useState(false);
     const [openBooking, setOpenBooking] = useState(false);

@@ -596,7 +596,7 @@ button {
 .filter-title {
     margin-bottom: 15px;
     align-items: center;
-    font-weight: 300;
+    font-weight: 500;
     width: 100%;
     text-transform: uppercase;
     display: flex;
@@ -622,11 +622,10 @@ button {
     gap: 10px;
     margin-bottom: 20px;
 
-    /* wrapper giống filter-item */
     .filter-select-wrap {
         position: relative;
         border: 1px dotted var(--color-main-coffee);
-        padding: 6px 30px 6px 10px;
+        padding: 6px 20px 6px 10px;
         border-radius: 15px;
         min-width: 120px;
         flex: 1;
@@ -635,7 +634,7 @@ button {
 
         i {
             position: absolute;
-            top: 6px;
+            top: 8px;
             right: 8px;
             font-size: 14px;
             transform: rotate(270deg);

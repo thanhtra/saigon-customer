@@ -38,6 +38,14 @@ const RoomItem = ({ room }) => {
                                 }}
                             />
                         ))}
+
+                        {rental?.rental_type && (
+                            <div className="room-badges">
+                                <span className="badge">
+                                    {RentalTypeLabels[rental.rental_type]}
+                                </span>
+                            </div>
+                        )}
                     </div>
                 </Link>
 
@@ -46,8 +54,10 @@ const RoomItem = ({ room }) => {
                     rentalId={rental.id}
                     roomCode={room_code}
                     title={title}
+                    slug={slug}
                     address={rental?.address_detail_display}
                     updatedAt={updatedAt}
+                    videoUrl={room?.video_url}
                 />
             </div>
 
@@ -85,26 +95,15 @@ const RoomItem = ({ room }) => {
                     </p>
 
                     <div className="room-price">
-                        <span className="icon-price">
-                            <svg
-                                width="12"
-                                height="12"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                xmlns="http://www.w3.org/2000/svg"
-                            >
-                                <path
-                                    d="M12 2v20"
-                                    stroke="currentColor"
-                                    strokeWidth="2"
-                                    strokeLinecap="round"
-                                />
+                        <span className="icon icon-price">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
+                                <path d="M12 2v20" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
                                 <path
                                     d="M16 6.5c0-2-1.8-3.5-4-3.5s-4 1.5-4 3.5
-               1.8 3.5 4 3.5
-               4 1.5 4 3.5
-               -1.8 3.5-4 3.5
-               -2.2 0-4-1.5"
+                1.8 3.5 4 3.5
+                4 1.5 4 3.5
+                -1.8 3.5-4 3.5
+                -2.2 0-4-1.5"
                                     stroke="currentColor"
                                     strokeWidth="2"
                                     strokeLinecap="round"
@@ -112,26 +111,69 @@ const RoomItem = ({ room }) => {
                                 />
                             </svg>
                         </span>
+                        <span className="price">{formatVnd(price)}</span>
 
-                        <span className='price'>{formatVnd(price)}</span>
 
-                        {
-                            rental.rental_type &&
+                        <span className="point" />
+                        <span className="meta">
+                            <span className="icon icon-floor">
+
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
+                                    <path
+                                        d="M4 21h16M6 21V7l6-4 6 4v14M9 21v-6h6v6"
+                                        stroke="currentColor"
+                                        strokeWidth="2"
+                                        strokeLinejoin="round"
+                                    />
+                                </svg>
+                            </span>
+                            <span>Tầng {floor ? floor : 'Trệt'}</span>
+                        </span>
+
+                        {room?.room_number && (
                             <>
                                 <span className="point" />
-                                <span>{RentalTypeLabels[rental.rental_type]}</span>
+                                <span className="meta">
+                                    <span className="icon">
+                                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
+                                            <path
+                                                d="M6 3h12v18H6z"
+                                                stroke="currentColor"
+                                                strokeWidth="2"
+                                            />
+                                            <circle cx="14" cy="12" r="1" fill="currentColor" />
+                                        </svg>
+                                    </span>
+                                    <span>Phòng {room.room_number}</span>
+                                </span>
                             </>
-                        }
+                        )}
 
-                        <>
-                            <span className="point" />
-                            <span>Tầng {floor ? floor : "Trệt"}</span>
-                        </>
-
-                        {area && <><span className="point" />
-                            <span>{formatArea(area)}</span>
-                        </>}
-
+                        {area && (
+                            <>
+                                <span className="point" />
+                                <span className="meta">
+                                    <span className="icon icon-area">
+                                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
+                                            <rect
+                                                x="4"
+                                                y="4"
+                                                width="16"
+                                                height="16"
+                                                stroke="currentColor"
+                                                strokeWidth="2"
+                                            />
+                                            <path
+                                                d="M9 9h6v6H9z"
+                                                stroke="currentColor"
+                                                strokeWidth="2"
+                                            />
+                                        </svg>
+                                    </span>
+                                    <span>{formatArea(area)}</span>
+                                </span>
+                            </>
+                        )}
                     </div>
 
                     <div className="room-amenities">

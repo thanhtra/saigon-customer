@@ -11,6 +11,7 @@ import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { UserRole } from 'lib/constants/tech';
+import Portal from 'components/common/portal';
 
 
 export default function BookingModal({ open, onClose, roomId, rentalId, title, address, onRequireRegister }) {
@@ -109,104 +110,106 @@ export default function BookingModal({ open, onClose, roomId, rentalId, title, a
     if (!open) return null;
 
     return (
-        <div className="modal-overlay" onClick={onClose}>
-            <div className="modal" onClick={(e) => e.stopPropagation()}>
-                <h3 className="modal-title">Đặt lịch xem phòng</h3>
+        <Portal>
+            <div className="modal-overlay" onClick={onClose}>
+                <div className="modal" onClick={(e) => e.stopPropagation()}>
+                    <h3 className="modal-title">Đặt lịch xem phòng</h3>
 
-                {(title || address) && (
-                    <div className="modal-room-info">
-                        {title && <div className="room-title">{title}</div>}
-                        {address && <div className="room-address">{address}</div>}
-                    </div>
-                )}
+                    {(title || address) && (
+                        <div className="modal-room-info">
+                            {title && <div className="room-title">{title}</div>}
+                            {address && <div className="room-address">{address}</div>}
+                        </div>
+                    )}
 
-                <form className="form" onSubmit={handleSubmit(onSubmit)}>
-                    <div className="form-row">
-                        <InputField
-                            label="Tên liên hệ"
-                            name="customer_name"
-                            required
-                            placeholder="Nhập tên"
-                            control={control}
-                            rules={{ required: 'Vui lòng nhập tên' }}
-                            error={errors.customer_name}
-                        />
+                    <form className="form" onSubmit={handleSubmit(onSubmit)}>
+                        <div className="form-row">
+                            <InputField
+                                label="Tên liên hệ"
+                                name="customer_name"
+                                required
+                                placeholder="Nhập tên"
+                                control={control}
+                                rules={{ required: 'Vui lòng nhập tên' }}
+                                error={errors.customer_name}
+                            />
 
-                        <InputField
-                            label="Số điện thoại"
-                            name="customer_phone"
-                            required
-                            placeholder="Nhập số điện thoại"
-                            control={control}
-                            rules={{
-                                required: 'Vui lòng nhập số điện thoại',
-                                pattern: {
-                                    value: PHONE_REGEX,
-                                    message: 'Số điện thoại chưa đúng',
-                                },
-                            }}
-                            error={errors.customer_phone}
-                        />
-                    </div>
+                            <InputField
+                                label="Số điện thoại"
+                                name="customer_phone"
+                                required
+                                placeholder="Nhập số điện thoại"
+                                control={control}
+                                rules={{
+                                    required: 'Vui lòng nhập số điện thoại',
+                                    pattern: {
+                                        value: PHONE_REGEX,
+                                        message: 'Số điện thoại chưa đúng',
+                                    },
+                                }}
+                                error={errors.customer_phone}
+                            />
+                        </div>
 
-                    <div className="form-row">
-                        <InputField
-                            label="Thời gian xem phòng"
-                            name="viewing_at"
-                            type="datetime-local"
-                            required
-                            control={control}
-                            rules={{
-                                required: 'Vui lòng chọn thời gian',
-                                validate: (value) => validateMinMinutesFromNow(value, 30),
-                            }}
-                            error={errors.viewing_at}
-                        />
+                        <div className="form-row">
+                            <InputField
+                                label="Thời gian xem phòng"
+                                name="viewing_at"
+                                type="datetime-local"
+                                required
+                                control={control}
+                                rules={{
+                                    required: 'Vui lòng chọn thời gian',
+                                    validate: (value) => validateMinMinutesFromNow(value, 30),
+                                }}
+                                error={errors.viewing_at}
+                            />
 
-                        <InputField
-                            label="SĐT người giới thiệu (nếu có)"
-                            name="referrer_phone"
-                            placeholder="VD: 0909xxxxxx"
-                            control={control}
-                            rules={{
-                                pattern: {
-                                    value: PHONE_REGEX,
-                                    message: 'Số điện thoại chưa đúng',
-                                },
-                            }}
-                            error={errors.referrer_phone}
-                        />
-                    </div>
+                            <InputField
+                                label="SĐT người giới thiệu (nếu có)"
+                                name="referrer_phone"
+                                placeholder="VD: 0909xxxxxx"
+                                control={control}
+                                rules={{
+                                    pattern: {
+                                        value: PHONE_REGEX,
+                                        message: 'Số điện thoại chưa đúng',
+                                    },
+                                }}
+                                error={errors.referrer_phone}
+                            />
+                        </div>
 
-                    <div className="form-row inline textarea-input">
-                        <InputField
-                            label="Ghi chú"
-                            name="customer_note"
-                            type="textarea"
-                            placeholder="VD: Tôi muốn xem phòng buổi tối, khoảng 19h - 20h"
-                            control={control}
-                        />
-                    </div>
+                        <div className="form-row inline textarea-input">
+                            <InputField
+                                label="Ghi chú"
+                                name="customer_note"
+                                type="textarea"
+                                placeholder="VD: Tôi muốn xem phòng buổi tối, khoảng 19h - 20h"
+                                control={control}
+                            />
+                        </div>
 
-                    <div className="form-row inline m-action">
-                        <button
-                            type="button"
-                            className="btn btn-border mr-20"
-                            onClick={onClose}
-                        >
-                            Huỷ
-                        </button>
+                        <div className="form-row inline m-action">
+                            <button
+                                type="button"
+                                className="btn btn-border mr-20"
+                                onClick={onClose}
+                            >
+                                Huỷ
+                            </button>
 
-                        <button
-                            type="submit"
-                            className="btn"
-                            disabled={isSubmitting}
-                        >
-                            {isSubmitting ? 'Đang gửi...' : 'Xác nhận'}
-                        </button>
-                    </div>
-                </form>
+                            <button
+                                type="submit"
+                                className="btn"
+                                disabled={isSubmitting}
+                            >
+                                {isSubmitting ? 'Đang gửi...' : 'Xác nhận'}
+                            </button>
+                        </div>
+                    </form>
+                </div>
             </div>
-        </div>
+        </Portal>
     );
 }

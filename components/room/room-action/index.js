@@ -14,6 +14,8 @@ import RegisterAfterBookingModal from 'components/room/register-after-booking-mo
 import { toast } from 'react-toastify';
 import RoomVideoModal from 'components/room/room-video-modal';
 
+import { PageUrl } from 'lib/constants/tech';
+
 const PHONE_NUMBER = '0968922006';
 
 export default function RoomActions({
@@ -21,6 +23,8 @@ export default function RoomActions({
     rentalId,
     roomCode,
     updatedAt,
+    slug,
+    videoUrl,
     title = 'Thông tin phòng',
     address = 'Địa chỉ'
 }) {
@@ -47,19 +51,26 @@ export default function RoomActions({
     }, [roomCode]);
 
     const handleShare = useCallback(async () => {
-        const url = window.location.href;
-
         try {
+            const origin = window.location.origin;
+            const detailUrl = `${origin}${PageUrl.Rental}/${slug}`;
+
             if (navigator.share) {
-                await navigator.share({ title, text: title, url });
+                await navigator.share({
+                    title,
+                    text: title,
+                    url: detailUrl,
+                });
             } else {
-                await navigator.clipboard.writeText(url);
+                await navigator.clipboard.writeText(detailUrl);
                 toast.success('Đã sao chép link phòng');
             }
-        } catch {
+        } catch (error) {
+            console.log('dsafasdf', error)
             // toast.error('Không thể chia sẻ liên kết');
         }
-    }, [title]);
+    }, [slug, title]);
+
 
     return (
         <>
@@ -85,14 +96,14 @@ export default function RoomActions({
                     <span className="label">Chia sẻ</span>
                 </button>
 
-                <button
+                {videoUrl && <button
                     type="button"
                     className="action-btn video"
                     onClick={() => setOpenVideo(true)}
                 >
                     ▶️
                     <span className="label">Xem video</span>
-                </button>
+                </button>}
 
                 {isMobile ? (
                     <a
@@ -149,11 +160,11 @@ export default function RoomActions({
                 onClose={() => setRegisterPrefill(null)}
             />
 
-            <RoomVideoModal
+            {videoUrl && <RoomVideoModal
                 open={openVideo}
                 onClose={() => setOpenVideo(false)}
-                videoUrl="https://www.youtube.com/embed/VIDEO_ID"
-            />
+                videoUrl={videoUrl}
+            />}
 
         </>
     );

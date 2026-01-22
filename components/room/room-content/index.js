@@ -23,8 +23,8 @@ const RoomContent = ({ room }) => {
 
             <div className="room-meta">
                 <div><strong>Diện tích:</strong> {formatArea(area)}</div>
-                <div><strong>Đặt cọc giữ phòng:</strong> {formatVnd(deposit)}</div>
-                <div><strong>Sức chứa:</strong> {max_people} người</div>
+                {deposit && <div><strong>Đặt cọc giữ phòng:</strong> {formatVnd(deposit)}</div>}
+                {max_people && <div><strong>Ở tối đa:</strong> {max_people} người</div>}
             </div>
 
             <div className="room-address">
@@ -38,6 +38,7 @@ const RoomContent = ({ room }) => {
                     <li>Nước: {formatVnd(rental.fee_water)}</li>
                     <li>Wifi: {formatVnd(rental.fee_wifi)}</li>
                     <li>Giữ xe: {formatVnd(rental.fee_parking)}</li>
+                    <li>Phí khác: {rental.fee_other || "Miễn phí"}</li>
                 </ul>
             </div>
 

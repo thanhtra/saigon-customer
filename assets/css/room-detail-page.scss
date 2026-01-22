@@ -29,6 +29,39 @@
             top: 90px;
         }
     }
+
+    .admin-contact-box {
+        margin-top: 30px;
+        display: flex;
+        justify-content: flex-end;
+
+        .btn-contact-owner {
+            width: 200px;
+            height: 44px;
+            margin-right: 30px;
+            border-radius: 12px;
+            border: 1px solid rgba(0, 0, 0, 0.10);
+            color: #076836;
+
+            background: #fff;
+            cursor: pointer;
+
+            font-weight: 700;
+            font-size: 14px;
+
+            transition: all 0.18s ease;
+
+            &:hover {
+                border-color: var(--color-main-green);
+                box-shadow: 0 0 0 3px rgba(0, 150, 90, 0.08);
+            }
+
+            &.is-loading {
+                opacity: 0.75;
+                cursor: wait;
+            }
+        }
+    }
 }
 
 .room-gallery {
@@ -135,7 +168,7 @@
 
     .room-title {
         font-size: 22px;
-        font-weight: 800;
+        font-weight: 500;
         margin-bottom: 12px;
         line-height: 1.3;
     }

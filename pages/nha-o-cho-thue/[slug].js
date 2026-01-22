@@ -1,29 +1,21 @@
 'use client';
 
-import { useEffect, useState, useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 
-import Head from 'next/head';
 import Breadcrumb from 'components/common/breadcrumb';
 import PopupContact from 'components/common/popup-contact-room';
 import RoomContent from 'components/room/room-content';
 import Description from 'components/room/room-description';
 import RoomGallery from 'components/room/room-gallery';
+import { getContact, getRoomDetail } from 'lib/api/room.api';
+import { PageUrl, UserRole } from 'lib/constants/tech';
 import { formatVnd } from 'lib/utils';
-import { getRoomDetail, getContact } from 'lib/api/room.api';
-import { PageUrl } from 'lib/constants/tech';
-import { UserRole } from 'lib/constants/tech';
-import {
-    POPUP_ADD_ADDRESS_HIDE,
-    POPUP_ADD_ADDRESS_OPEN,
-} from 'lib/store/type/common-type';
+import Head from 'next/head';
 
 import RoomActionsDetail from 'components/common/room-actions-detail';
 
-/* ======================================================
- * SSR
- * ====================================================== */
 export async function getServerSideProps({ params }) {
     try {
         const { slug } = params;
@@ -43,9 +35,6 @@ export async function getServerSideProps({ params }) {
     }
 }
 
-/* ======================================================
- * PAGE
- * ====================================================== */
 const RoomDetailPage = ({ room }) => {
     const dispatch = useDispatch();
     const { user } = useSelector((state) => state.users);
@@ -56,46 +45,32 @@ const RoomDetailPage = ({ room }) => {
 
     const isAdmin = user?.role === UserRole.Admin
 
+    const closeContactModal = useCallback(() => {
+        setIsContactOpen(false);
+    }, []);
 
-    /* ===============================
-     * SIDE EFFECT
-     * =============================== */
-    useEffect(() => {
-        if (!isContactOpen) {
-            dispatch({ type: POPUP_ADD_ADDRESS_HIDE });
-        }
-    }, [isContactOpen, dispatch]);
-
-    /* ===============================
-     * HANDLERS
-     * =============================== */
     const openContactModal = useCallback(async () => {
-        if (!room?.id || loadingContact) return;
+        const rentalId = room?.rental?.id;
+        if (!rentalId || loadingContact) return;
 
         try {
             setLoadingContact(true);
 
-            const res = await getContact(room.id);
+            const res = await getContact(rentalId);
+
             if (!res?.success) throw new Error();
+
 
             setContact(res.result);
             setIsContactOpen(true);
-            dispatch({ type: POPUP_ADD_ADDRESS_OPEN });
         } catch {
             toast.error('Không lấy được thông tin liên hệ');
         } finally {
             setLoadingContact(false);
         }
-    }, [room?.id, loadingContact, dispatch]);
+    }, [room?.id, loadingContact, contact, dispatch]);
 
-    const closeContactModal = useCallback(() => {
-        setIsContactOpen(false);
-        dispatch({ type: POPUP_ADD_ADDRESS_HIDE });
-    }, [dispatch]);
 
-    /* ===============================
-     * RENDER
-     * =============================== */
     const title = `${room.title} - ${formatVnd(room.price) || ''}`;
     const description =
         room.description_short ||
@@ -123,8 +98,6 @@ const RoomDetailPage = ({ room }) => {
                 <meta property="og:image:width" content="1200" />
                 <meta property="og:image:height" content="630" />
                 <meta property="og:url" content={`https://tratimnha.com/nha-o-cho-thue/${room.slug}`} />
-
-                {/* ===== OPTIONAL ===== */}
                 <meta property="og:site_name" content="Thuê phòng giá tốt" />
             </Head>
 
@@ -132,9 +105,7 @@ const RoomDetailPage = ({ room }) => {
             <section className="container room-detail-page">
                 <Breadcrumb menu={PageUrl.Rooms} title={room.title} />
 
-                {/* ===== MAIN GRID ===== */}
                 <div className="room-detail-grid">
-                    {/* LEFT */}
                     <div className="room-detail-left">
                         <RoomGallery
                             images={room.uploads || []}
@@ -147,7 +118,6 @@ const RoomDetailPage = ({ room }) => {
                         </div>
                     </div>
 
-                    {/* RIGHT */}
                     <aside className="room-detail-right">
                         <RoomContent room={room} />
 
@@ -158,7 +128,22 @@ const RoomDetailPage = ({ room }) => {
                             title={room?.title}
                             address={room?.rental?.address_detail_display}
                             updatedAt={room?.updatedAt}
+                            videoUrl={room?.video_url}
                         />
+
+                        {isAdmin && (
+                            <div className="admin-contact-box">
+                                <button
+                                    type="button"
+                                    className={`btn btn-contact-owner ${loadingContact ? 'is-loading' : ''}`}
+                                    onClick={openContactModal}
+                                    disabled={loadingContact}
+                                >
+                                    {loadingContact ? 'Đang tải...' : 'Thông tin'}
+                                </button>
+                            </div>
+                        )}
+
                     </aside>
                 </div>
 

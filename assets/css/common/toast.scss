@@ -4,7 +4,7 @@
 
 /* ========== CONTAINER ========== */
 .Toastify__toast-container {
-    width: auto !important;
+    // width: auto !important;
     padding: 8px;
 }
 
@@ -104,11 +104,11 @@
 }
 
 /* ========== MOBILE & DESKTOP SIZE ========== */
-@media (min-width: 768px) {
-    .Toastify__toast {
-        max-width: 360px;
-    }
-}
+// @media (min-width: 768px) {
+//     .Toastify__toast {
+//         max-width: 360px;
+//     }
+// }
 
 /* ========== NEXT.JS DEV TOAST ========== */
 .nextjs-toast-errors-parent {

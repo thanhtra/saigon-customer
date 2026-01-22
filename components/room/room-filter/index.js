@@ -1,10 +1,10 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import Popup from 'reactjs-popup';
+import { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import Popup from 'reactjs-popup';
 
 import {
-    getProvinceOptions,
     getDistrictOptions,
+    getProvinceOptions,
     getWardOptions,
 } from 'lib/locations/location.utils';
 
@@ -13,24 +13,22 @@ import {
 } from 'lib/store/type/common-type';
 
 import {
-    INIT_ROOM_FILTER,
-    PriceLevelOptions,
     AcreageLevelOptions,
+    INIT_ROOM_FILTER,
     isSameRoomFilter,
+    PriceLevelOptions,
 } from 'lib/constants/roomFilters';
 
 import { RentalTypeOptions } from 'lib/constants/data';
 
-import { DEFAULT_PROVINCE_ID } from 'lib/locations/const';
 import { RentalAmenityOptions } from 'lib/constants/data';
+import { DEFAULT_PROVINCE_ID } from 'lib/locations/const';
 
 const RESET_FILTER_WITH_DEFAULT_PROVINCE = {
     ...INIT_ROOM_FILTER,
-    province: DEFAULT_PROVINCE_ID,
+    province: String(DEFAULT_PROVINCE_ID)
 };
 
-
-/* ===================== COMPONENT ===================== */
 
 const RoomFilter = ({ searchRooms, query }) => {
     const dispatch = useDispatch();
@@ -50,42 +48,77 @@ const RoomFilter = ({ searchRooms, query }) => {
             const provinceOptions = await getProvinceOptions();
             setProvinces(provinceOptions);
 
-            // nếu chưa có province từ query
-            if (!filters.province) {
-                setFilters(prev => ({
-                    ...prev,
-                    province: DEFAULT_PROVINCE_ID,
-                }));
+            const provinceId = String(DEFAULT_PROVINCE_ID);
 
-                const districts = await getDistrictOptions(DEFAULT_PROVINCE_ID);
-                setDistricts(districts);
-            }
+            setFilters(prev => ({
+                ...prev,
+                province: prev.province || provinceId,
+            }));
+
+            const districts = await getDistrictOptions(provinceId);
+            setDistricts(districts);
         };
 
         initProvince();
     }, []);
 
-
-    /* ===================== SYNC QUERY → STATE ===================== */
-
     useEffect(() => {
-        if (!query) return;
+        const applyQuery = async () => {
+            if (!query) return;
 
-        const next = {
-            ...INIT_ROOM_FILTER,
-            ...query,
-            province: query?.province || DEFAULT_PROVINCE_ID,
+            const provinceId = String(query?.province || DEFAULT_PROVINCE_ID);
+
+            const next = {
+                ...INIT_ROOM_FILTER,
+                ...query,
+                province: provinceId,
+            };
+
+            setFilters(prev => (isSameRoomFilter(prev, next) ? prev : next));
+
+            const ds = await getDistrictOptions(provinceId);
+            setDistricts(ds);
+
+            if (query?.district) {
+                const ws = await getWardOptions(provinceId, query.district);
+                setWards(ws);
+            } else {
+                setWards([]);
+            }
         };
 
-
-        setFilters(prev =>
-            isSameRoomFilter(prev, next) ? prev : next
-        );
+        applyQuery();
     }, [query]);
 
-    /* ===================== HANDLERS ===================== */
+    useEffect(() => {
+        const initDefaultWhenOpenPopup = async () => {
+            if (!isPopupFilterOpen) return;
 
-    // multi select (rental_type)
+            if (!provinces.length) {
+                const provinceOptions = await getProvinceOptions();
+                setProvinces(provinceOptions);
+            }
+
+            const provinceId = filters.province || String(DEFAULT_PROVINCE_ID);
+
+            if (!filters.province) {
+                setFilters(prev => ({
+                    ...prev,
+                    province: provinceId,
+                    district: '',
+                    ward: '',
+                }));
+            }
+
+            if (!districts.length) {
+                const ds = await getDistrictOptions(provinceId);
+                setDistricts(ds);
+            }
+        };
+
+        initDefaultWhenOpenPopup();
+    }, [isPopupFilterOpen]);
+
     const toggleMultiValue = useCallback((key, value) => {
         setFilters(prev => {
             const current = prev[key].split(',').filter(Boolean);
@@ -97,7 +130,6 @@ const RoomFilter = ({ searchRooms, query }) => {
         });
     }, []);
 
-    // single select (price, acreage)
     const selectSingleValue = useCallback((key, value) => {
         setFilters(prev => ({
             ...prev,
@@ -106,32 +138,38 @@ const RoomFilter = ({ searchRooms, query }) => {
     }, []);
 
     const selectProvince = async e => {
-        const value = e.target.value;
+        const provinceId = String(e.target.value);
 
         setFilters(prev => ({
             ...prev,
-            province: value,
+            province: provinceId,
             district: '',
             ward: '',
         }));
 
         setWards([]);
-        setDistricts(value ? await getDistrictOptions(value) : []);
+        const ds = provinceId ? await getDistrictOptions(provinceId) : [];
+        setDistricts(ds);
     };
 
+
     const selectDistrict = async e => {
-        const value = e.target.value;
+        const districtId = e.target.value;
+        const provinceId = String(filters.province || DEFAULT_PROVINCE_ID);
 
         setFilters(prev => ({
             ...prev,
-            district: value,
+            district: districtId,
             ward: '',
         }));
 
-        setWards(
-            value ? await getWardOptions(filters.province, value) : []
-        );
+        const ws = districtId
+            ? await getWardOptions(provinceId, districtId)
+            : [];
+
+        setWards(ws);
     };
+
 
     const selectWard = e => {
         setFilters(prev => ({
@@ -166,7 +204,6 @@ const RoomFilter = ({ searchRooms, query }) => {
     return (<>
         <div className="filter-desktop">
 
-            {/* ===== HEADER ===== */}
             <div className="filter-desktop-header">
                 <button
                     className="btn-reset-desktop"
@@ -208,9 +245,9 @@ const RoomFilter = ({ searchRooms, query }) => {
                         disabled
                         className="filter-select"
                     >
-                        <option value="">Tỉnh / Thành</option>
+                        <option key={"999"} value="">Tỉnh / Thành</option>
                         {provinces.map(p => (
-                            <option key={p.id} value={p.id}>
+                            <option key={p.id} value={String(p.value)}>
                                 {p.label}
                             </option>
                         ))}
@@ -224,7 +261,7 @@ const RoomFilter = ({ searchRooms, query }) => {
                     >
                         <option value="">Quận / Huyện</option>
                         {districts.map(d => (
-                            <option key={d.id} value={d.id}>
+                            <option key={d.value} value={d.value}>
                                 {d.label}
                             </option>
                         ))}
@@ -336,188 +373,369 @@ const RoomFilter = ({ searchRooms, query }) => {
             className="popup-filter-rooms"
         >
             <div className="filter-mobile">
-                <div className="filter-content">
-                    {/* ===== ACTION ===== */}
-                    <div className="filter-actions-row">
+
+                {/* ===== HEADER ===== */}
+                <div className="filter-header">
+                    <span>Bộ lọc</span>
+                    <i
+                        className="icon-cancel"
+                        onClick={() => dispatch({ type: POPUP_FILTER_HIDE })}
+                    />
+                </div>
+
+                {/* ===== CONTENT ===== */}
+                <div className="filter-body">
+
+                    {/* SEARCH */}
+                    <div className="filter-card">
                         <input
                             type="text"
                             className="filter-search-input"
-                            placeholder="Nhập từ khóa..."
+                            placeholder="Nhập từ khóa (đường, khu vực...)"
                             value={filters.keyword || ''}
                             onChange={e =>
-                                setFilters(prev => ({
-                                    ...prev,
-                                    keyword: e.target.value,
-                                }))
+                                setFilters(prev => ({ ...prev, keyword: e.target.value }))
                             }
                         />
-
-                        <button
-                            className="btn-filter btn-reset"
-                            onClick={resetFilter}
-                        >
-                            Xóa lọc
-                        </button>
-
-                        <button
-                            className="btn-filter btn-apply"
-                            onClick={applyFilter}
-                        >
-                            Áp dụng
-                        </button>
                     </div>
 
+                    {/* LOCATION */}
+                    <div className="filter-card">
+                        <p className="filter-card-title">📍 Khu vực</p>
 
-                    {/* ===== LOCATION ===== */}
-                    <p className='filter-title'>Khu vực</p>
-                    <div className="filter-list">
-                        <div className={`filter-select-wrap ${filters.province ? 'has-value' : ''}`}>
-                            <select
-                                value={filters.province}
-                                onChange={selectProvince}
-                                className="filter-select"
-                                disabled={true}
-                            >
-                                <option value="">Tỉnh / Thành</option>
+                        <div className="filter-select-wrap has-value">
+                            <select value={filters.province} disabled className="filter-select">
                                 {provinces.map(p => (
-                                    <option key={p.id} value={p.id}>
+                                    <option key={p.value} value={p.value}>
                                         {p.label}
                                     </option>
                                 ))}
                             </select>
-                            <i className="icon-down-open" />
                         </div>
 
-                        <div className={`filter-select-wrap ${filters.district ? 'has-value' : ''}`}>
+                        <div className="filter-select-wrap">
                             <select
                                 value={filters.district}
                                 onChange={selectDistrict}
-                                disabled={!filters.province}
                                 className="filter-select"
                             >
-                                <option value="">Quận / Huyện</option>
+                                <option value="">Chọn quận / huyện</option>
                                 {districts.map(d => (
-                                    <option key={d.id} value={d.id}>
+                                    <option key={d.value} value={d.value}>
                                         {d.label}
                                     </option>
                                 ))}
                             </select>
-                            <i className="icon-down-open" />
                         </div>
 
-                        <div className={`filter-select-wrap ${filters.ward ? 'has-value' : ''}`}>
+                        <div className="filter-select-wrap">
                             <select
                                 value={filters.ward}
                                 onChange={selectWard}
                                 disabled={!filters.district}
                                 className="filter-select"
                             >
-                                <option value="">Phường / Xã</option>
+                                <option value="">Chọn phường / xã</option>
                                 {wards.map(w => (
-                                    <option key={w.id} value={w.id}>
+                                    <option key={w.value} value={w.value}>
                                         {w.label}
                                     </option>
                                 ))}
                             </select>
-                            <i className="icon-down-open" />
                         </div>
                     </div>
 
+                    {/* RENTAL TYPE */}
+                    <div className="filter-card">
+                        <p className="filter-card-title">🏠 Loại nhà</p>
+                        <div className="filter-pill-group">
+                            {RentalTypeOptions.map(item => {
+                                const isActive = filters.rental_type
+                                    .split(',')
+                                    .includes(item.value);
 
-
-                    {/* ===== RENTAL TYPE (MULTI) ===== */}
-                    <p className='filter-title'>Loại nhà</p>
-                    <div className="filter-list filter-list-2col">
-                        {RentalTypeOptions.map(item => {
-                            const isActive = filters.rental_type
-                                .split(',')
-                                .includes(item.value);
-
-                            return (
-                                <div
-                                    key={item.value}
-                                    className={`filter-item ${isActive ? 'active' : ''}`}
-                                    onClick={() =>
-                                        toggleMultiValue('rental_type', item.value)
-                                    }
-                                >
-                                    {item.label}
-                                </div>
-                            );
-                        })}
+                                return (
+                                    <div
+                                        key={item.value}
+                                        className={`pill ${isActive ? 'active' : ''}`}
+                                        onClick={() =>
+                                            toggleMultiValue('rental_type', item.value)
+                                        }
+                                    >
+                                        {item.label}
+                                    </div>
+                                );
+                            })}
+                        </div>
                     </div>
 
-                    {/* ===== PRICE (SINGLE) ===== */}
-                    <p className='filter-title'>Mức giá (triệu)</p>
-                    <div className="filter-list filter-list-3col">
-                        {PriceLevelOptions.map(p => {
-                            const isActive = filters.price_level === p.value;
-
-                            return (
+                    {/* PRICE */}
+                    <div className="filter-card">
+                        <p className="filter-card-title">💰 Mức giá (triệu)</p>
+                        <div className="filter-pill-group grid-3">
+                            {PriceLevelOptions.map(p => (
                                 <div
                                     key={p.value}
-                                    className={`filter-item ${isActive ? 'active' : ''}`}
+                                    className={`pill ${filters.price_level === p.value ? 'active' : ''}`}
                                     onClick={() =>
                                         selectSingleValue('price_level', p.value)
                                     }
                                 >
                                     {p.label}
                                 </div>
-                            );
-                        })}
+                            ))}
+                        </div>
                     </div>
 
-                    {/* ===== AMENITIES (MULTI) ===== */}
-                    <p className="filter-title">Tiện ích</p>
-                    <div className="filter-list filter-list-2col">
-                        {Object.entries(RentalAmenityOptions).map(([value, label]) => {
-                            const isActive = filters.amenities
-                                .split(',')
-                                .includes(value);
+                    {/* AMENITIES */}
+                    <div className="filter-card">
+                        <p className="filter-card-title">✨ Tiện ích</p>
 
-                            return (
-                                <div
-                                    key={value}
-                                    className={`filter-item ${isActive ? 'active' : ''}`}
-                                    onClick={() =>
-                                        toggleMultiValue('amenities', value)
-                                    }
-                                >
-                                    {label}
-                                </div>
-                            );
-                        })}
+                        <div className="amenities-grid">
+                            {Object.entries(RentalAmenityOptions).map(([value, label]) => {
+                                const isActive = (filters.amenities || '')
+                                    .split(',')
+                                    .filter(Boolean)
+                                    .includes(value);
+
+                                return (
+                                    <div
+                                        key={value}
+                                        className={`amenity-item ${isActive ? 'active' : ''}`}
+                                        onClick={() => toggleMultiValue('amenities', value)}
+                                    >
+                                        <span className="amenity-check">
+                                            <i className="icon-check" />
+                                        </span>
+
+                                        <span className="amenity-label">{label}</span>
+                                    </div>
+                                );
+                            })}
+                        </div>
                     </div>
 
+                    {/* ACREAGE */}
+                    <div className="filter-card">
+                        <p className="filter-card-title">📐 Diện tích (m²)</p>
 
-                    {/* ===== ACREAGE (SINGLE) ===== */}
-                    <p className='filter-title'>Diện tích (m²)</p>
-                    <div className="filter-list filter-list-2col">
-                        {AcreageLevelOptions.map(a => {
-                            const isActive =
-                                filters.acreage_level === a.value;
-
-                            return (
+                        <div className="filter-pill-group grid-2">
+                            {AcreageLevelOptions.map(a => (
                                 <div
                                     key={a.value}
-                                    className={`filter-item ${isActive ? 'active' : ''}`}
-                                    onClick={() =>
-                                        selectSingleValue(
-                                            'acreage_level',
-                                            a.value
-                                        )
-                                    }
+                                    className={`pill ${filters.acreage_level === a.value ? 'active' : ''}`}
+                                    onClick={() => selectSingleValue('acreage_level', a.value)}
                                 >
                                     {a.label}
                                 </div>
-                            );
-                        })}
+                            ))}
+                        </div>
                     </div>
+
                 </div>
+
+                {/* ===== FOOTER ===== */}
+                <div className="filter-footer">
+                    <button className="btn-reset" onClick={resetFilter}>
+                        Xóa lọc
+                    </button>
+                    <button className="btn-apply" onClick={applyFilter}>
+                        Áp dụng
+                    </button>
+                </div>
+
             </div>
         </Popup>
+
+
+
     </>
     );
 };
 
 export default RoomFilter;
+
+
+
+
+
+// <Popup
+// open={isPopupFilterOpen}
+// onClose={() => dispatch({ type: POPUP_FILTER_HIDE })}
+// className="popup-filter-rooms"
+// >
+// <div className="filter-mobile">
+//     <div className="filter-content">
+
+//         <div className="filter-actions-row">
+//             <input
+//                 type="text"
+//                 className="filter-search-input"
+//                 placeholder="Nhập từ khóa..."
+//                 value={filters.keyword || ''}
+//                 onChange={e =>
+//                     setFilters(prev => ({
+//                         ...prev,
+//                         keyword: e.target.value,
+//                     }))
+//                 }
+//             />
+
+//             <button
+//                 className="btn-filter btn-reset"
+//                 onClick={resetFilter}
+//             >
+//                 Xóa lọc
+//             </button>
+
+//             <button
+//                 className="btn-filter btn-apply"
+//                 onClick={applyFilter}
+//             >
+//                 Áp dụng
+//             </button>
+//         </div>
+
+//         <p className='filter-title'>Khu vực</p>
+//         <div className="filter-list">
+//             <div className={`filter-select-wrap ${filters.province ? 'has-value' : ''}`}>
+//                 <select
+//                     value={filters.province}
+//                     onChange={selectProvince}
+//                     className="filter-select"
+//                     disabled={true}
+//                 >
+//                     <option key={"0009"} value="">Tỉnh / Thành</option>
+//                     {provinces.map(p => (
+//                         <option key={p.id} value={String(p.value)}>
+//                             {p.label}
+//                         </option>
+//                     ))}
+//                 </select>
+//                 <i className="icon-down-open" />
+//             </div>
+
+//             <div className={`filter-select-wrap ${filters.district ? 'has-value' : ''}`}>
+//                 <select
+//                     value={filters.district}
+//                     onChange={selectDistrict}
+//                     disabled={!filters.province}
+//                     className="filter-select"
+//                 >
+//                     <option value="">Quận / Huyện</option>
+//                     {districts.map(d => (
+//                         <option key={d.value} value={d.value}>
+//                             {d.label}
+//                         </option>
+//                     ))}
+//                 </select>
+//                 <i className="icon-down-open" />
+//             </div>
+
+//             <div className={`filter-select-wrap ${filters.ward ? 'has-value' : ''}`}>
+//                 <select
+//                     value={filters.ward}
+//                     onChange={selectWard}
+//                     disabled={!filters.district}
+//                     className="filter-select"
+//                 >
+//                     <option value="">Phường / Xã</option>
+//                     {wards.map(w => (
+//                         <option key={w.id} value={w.id}>
+//                             {w.label}
+//                         </option>
+//                     ))}
+//                 </select>
+//                 <i className="icon-down-open" />
+//             </div>
+//         </div>
+
+
+
+//         <p className='filter-title'>Loại nhà</p>
+//         <div className="filter-list filter-list-2col">
+//             {RentalTypeOptions.map(item => {
+//                 const isActive = filters.rental_type
+//                     .split(',')
+//                     .includes(item.value);
+
+//                 return (
+//                     <div
+//                         key={item.value}
+//                         className={`filter-item ${isActive ? 'active' : ''}`}
+//                         onClick={() =>
+//                             toggleMultiValue('rental_type', item.value)
+//                         }
+//                     >
+//                         {item.label}
+//                     </div>
+//                 );
+//             })}
+//         </div>
+
+//         <p className='filter-title'>Mức giá (triệu)</p>
+//         <div className="filter-list filter-list-3col">
+//             {PriceLevelOptions.map(p => {
+//                 const isActive = filters.price_level === p.value;
+
+//                 return (
+//                     <div
+//                         key={p.value}
+//                         className={`filter-item ${isActive ? 'active' : ''}`}
+//                         onClick={() =>
+//                             selectSingleValue('price_level', p.value)
+//                         }
+//                     >
+//                         {p.label}
+//                     </div>
+//                 );
+//             })}
+//         </div>
+
+//         <p className="filter-title">Tiện ích</p>
+//         <div className="filter-list filter-list-2col">
+//             {Object.entries(RentalAmenityOptions).map(([value, label]) => {
+//                 const isActive = filters.amenities
+//                     .split(',')
+//                     .includes(value);
+
+//                 return (
+//                     <div
+//                         key={value}
+//                         className={`filter-item ${isActive ? 'active' : ''}`}
+//                         onClick={() =>
+//                             toggleMultiValue('amenities', value)
+//                         }
+//                     >
+//                         {label}
+//                     </div>
+//                 );
+//             })}
+//         </div>
+
+
+//         <p className='filter-title'>Diện tích (m²)</p>
+//         <div className="filter-list filter-list-2col">
+//             {AcreageLevelOptions.map(a => {
+//                 const isActive =
+//                     filters.acreage_level === a.value;
+
+//                 return (
+//                     <div
+//                         key={a.value}
+//                         className={`filter-item ${isActive ? 'active' : ''}`}
+//                         onClick={() =>
+//                             selectSingleValue(
+//                                 'acreage_level',
+//                                 a.value
+//                             )
+//                         }
+//                     >
+//                         {a.label}
+//                     </div>
+//                 );
+//             })}
+//         </div>
+//     </div>
+// </div>
+// </Popup>
