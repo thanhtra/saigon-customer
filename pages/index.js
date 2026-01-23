@@ -2,7 +2,7 @@ import PageIntro from 'components/common/page-intro';
 import Subscribe from 'components/common/subscribe';
 import Link from 'next/link';
 import { PageUrl } from 'lib/constants/tech';
-import SeoHead from 'components/common/seo-head';
+// import SeoHead from 'components/common/seo-head';
 
 const IndexPage = () => {
   const handleScrollContact = () => {
@@ -14,12 +14,12 @@ const IndexPage = () => {
 
   return (
     <>
-      <SeoHead
+      {/* <SeoHead
         title="Bất động sản Sài Gòn - Nhà phố & Phòng trọ"
         description="Nền tảng mua bán, cho thuê nhà phố và phòng trọ tại Sài Gòn. Minh bạch - Uy tín - Hiệu quả."
         image="https://tratimnha.com/og/home.jpg"
         url="https://tratimnha.com/"
-      />
+      /> */}
 
       <PageIntro />
 
