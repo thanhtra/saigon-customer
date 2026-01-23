@@ -2,6 +2,7 @@ import PageIntro from 'components/common/page-intro';
 import Subscribe from 'components/common/subscribe';
 import Link from 'next/link';
 import { PageUrl } from 'lib/constants/tech';
+import SeoHead from 'components/common/seo-head';
 
 const IndexPage = () => {
   const handleScrollContact = () => {
@@ -13,6 +14,13 @@ const IndexPage = () => {
 
   return (
     <>
+      <SeoHead
+        title="Bất động sản Sài Gòn - Nhà phố & Phòng trọ"
+        description="Nền tảng mua bán, cho thuê nhà phố và phòng trọ tại Sài Gòn. Minh bạch - Uy tín - Hiệu quả."
+        image="https://tratimnha.com/og/home.jpg"
+        url="https://tratimnha.com/"
+      />
+
       <PageIntro />
 
       <section className="container">
@@ -56,19 +64,19 @@ const IndexPage = () => {
               <div className="overlay" />
 
               <div className="h-content">
-                <p className="f-i-title">Phòng trọ Sài Gòn</p>
+                <p className="f-i-title">Nhà ở cho thuê</p>
                 <Link href={PageUrl.Rental}>
-                  <button className="btn">Xem phòng trọ</button>
+                  <button className="btn">Xem ngay</button>
                 </Link>
               </div>
             </div>
 
             <div className="col-4 right">
               <Link href={PageUrl.Rental}>
-                <p className="des-title">Phòng trọ Sài Gòn - Dễ tìm, dễ thuê</p>
+                <p className="des-title">Nhà ở cho thuê - Dễ tìm, dễ thuê</p>
               </Link>
 
-              <div className="item"><p className="txt-des-title">Phòng sạch sẽ - thông tin rõ ràng</p></div>
+              <div className="item"><p className="txt-des-title">Nhà sạch sẽ - thông tin rõ ràng</p></div>
               <div className="item"><p className="txt-des-title">Khu vực an ninh - sinh hoạt thuận tiện</p></div>
               <div className="item"><p className="txt-des-title">Giá công khai - hạn chế phát sinh</p></div>
               <div className="item"><p className="txt-des-title">Gần chợ - trường - khu dân cư</p></div>
@@ -177,7 +185,6 @@ const IndexPage = () => {
         </div>
       </section>
 
-
       <section className="section section-why-us">
         <div className="container">
           <header className="section-intro">
@@ -270,7 +277,6 @@ const IndexPage = () => {
         </div>
       </section>
 
-
       <section className="section testimonials">
         <div className="container">
           <h2 className="section-title">Khách hàng nói gì?</h2>
@@ -288,7 +294,6 @@ const IndexPage = () => {
           </div>
         </div>
       </section>
-
 
       <section className="cta-banner">
         <div className="container">
@@ -315,7 +320,6 @@ const IndexPage = () => {
           </div>
         </div>
       </section>
-
 
       <Subscribe />
     </>

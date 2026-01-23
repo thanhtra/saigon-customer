@@ -66,7 +66,6 @@ export default function RoomActions({
                 toast.success('Đã sao chép link phòng');
             }
         } catch (error) {
-            console.log('dsafasdf', error)
             // toast.error('Không thể chia sẻ liên kết');
         }
     }, [slug, title]);
@@ -76,7 +75,7 @@ export default function RoomActions({
         <>
             <div className="room-actions">
                 <div className="room-code" onClick={handleCopy}>
-                    <span>Mã phòng: {roomCode} </span>
+                    <span>Mã: {roomCode} </span>
                     <button
                         type="button"
                         className="icon-btn"
@@ -105,30 +104,28 @@ export default function RoomActions({
                     <span className="label">Xem video</span>
                 </button>}
 
-                {isMobile ? (
-                    <a
-                        href={`tel:${PHONE_NUMBER}`}
-                        className="action-btn call"
-                    >
-                        <PhoneIcon />
-                        <span className="label">Gọi</span>
-                    </a>
-                ) : (
-                    <div className="action-btn call disabled">
-                        <PhoneIcon />
-                        <span className="label">{PHONE_NUMBER}</span>
-                    </div>
-                )}
+                <div className='action-btn-inline'>
+                    {isMobile &&
+                        <a
+                            href={`tel:${PHONE_NUMBER}`}
+                            className="action-btn call"
+                        >
+                            <PhoneIcon />
+                            <span className="label">Gọi</span>
+                        </a>
+                    }
 
-                <a
-                    href={`https://zalo.me/${PHONE_NUMBER}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="action-btn zalo"
-                >
-                    <ZaloIcon />
-                    <span className="label">Zalo</span>
-                </a>
+                    <a
+                        href={`https://zalo.me/${PHONE_NUMBER}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="action-btn zalo"
+                    >
+                        <ZaloIcon />
+                        <span className="label">{isMobile ? 'Zalo' : PHONE_NUMBER}</span>
+                    </a>
+                </div>
+
 
                 <button
                     type="button"

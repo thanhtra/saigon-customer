@@ -50,7 +50,7 @@
     //     border-radius: 999px;
 
     //     font-size: 12px;
-    //     font-weight: 700;
+    //     font-weight: 500;
     //     line-height: 1;
 
     //     color: #fff;
@@ -69,7 +69,7 @@
         border-radius: 999px;
 
         font-size: 12px;
-        font-weight: 700;
+        font-weight: 500;
         line-height: 1;
 
         color: #111;
@@ -185,7 +185,7 @@
         /* Title */
         .room-name {
             font-size: 16px;
-            font-weight: 700;
+            font-weight: 500;
             color: #1f1f1f;
             line-height: 1.25;
 
@@ -233,54 +233,6 @@
             }
         }
 
-        /* Price line */
-        // .room-price {
-        //     display: flex;
-        //     align-items: center;
-        //     flex-wrap: wrap;
-        //     gap: 6px;
-
-        //     font-size: 13px;
-        //     font-weight: 600;
-        //     color: #333;
-        //     line-height: 1.2;
-
-        //     @include breakpoint(tablet) {
-        //         font-size: 14px;
-        //     }
-
-        //     .icon-price {
-        //         display: inline-flex;
-        //         align-items: center;
-        //         color: #777;
-        //         margin-right: 2px;
-
-        //         svg {
-        //             display: block;
-        //         }
-        //     }
-
-        //     .price {
-        //         font-size: 16px;
-        //         font-weight: 800;
-        //         color: var(--color-main-green);
-        //         letter-spacing: 0.1px;
-
-        //         @include breakpoint(tablet) {
-        //             font-size: 18px;
-        //         }
-        //     }
-
-        //     .point {
-        //         width: 3px;
-        //         height: 3px;
-        //         border-radius: 99px;
-        //         background: #b8b8b8;
-        //         display: inline-block;
-        //         margin: 0 6px;
-        //     }
-        // }
-
         .room-price {
             display: flex;
             align-items: center;
@@ -291,7 +243,7 @@
             color: #374151;
 
             .price {
-                font-weight: 700;
+                font-weight: 500;
                 color: #d35400;
             }
         }
@@ -349,7 +301,7 @@
 
         .amenity-chip {
             font-size: 12px;
-            font-weight: 600;
+            font-weight: 500;
 
             padding: 2px 6px;
             border-radius: 999px;
@@ -369,7 +321,7 @@
 
         .amenity-more {
             font-size: 12px;
-            font-weight: 700;
+            font-weight: 500;
             color: var(--color-main-green);
         }
     }
@@ -383,7 +335,7 @@
         align-content: flex-start;
         gap: 6px;
 
-        padding: 10px 10px;
+        padding: 10px 5px;
         font-size: 13px;
         cursor: default;
 
@@ -394,8 +346,8 @@
         background: linear-gradient(180deg, #ffffff 0%, #fafafa 100%);
 
         @include breakpoint(tablet) {
-            width: 156px;
-            min-width: 156px;
+            width: 130px;
+            min-width: 130px;
             padding: 12px 10px;
         }
 
@@ -412,7 +364,7 @@
             border: 1px solid rgba(0, 0, 0, 0.06);
 
             font-size: 12px;
-            font-weight: 700;
+            font-weight: 500;
             color: #333;
 
             white-space: nowrap;
@@ -456,7 +408,7 @@
                 color: #fff;
 
                 font-size: 11px;
-                font-weight: 600;
+                font-weight: 500;
 
                 padding: 4px 8px;
                 border-radius: 8px;
@@ -464,6 +416,12 @@
 
                 box-shadow: rgba(0, 0, 0, 0.18) 0px 8px 20px;
             }
+        }
+
+        .action-btn-inline {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
         }
 
         /* Action button base */
@@ -478,7 +436,7 @@
             border-radius: 999px;
 
             font-size: 12px;
-            font-weight: 700;
+            font-weight: 500;
 
             border: 1px solid rgba(0, 0, 0, 0.12);
             background: #fff;

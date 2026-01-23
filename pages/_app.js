@@ -52,7 +52,9 @@ function MyApp({ Component, ...rest }) {
             <Provider store={store}>
                 <PersistGate
                     persistor={store.__persistor}
-                    loading={<div style={{ paddingTop: 200, textAlign: 'center' }}>Đang tải...</div>}
+                // loading={
+                //     <div style={{ paddingTop: 200, textAlign: 'center' }}>Đang tải...</div>
+                // }
                 >
                     <AuthInitializer>
                         <Layout>

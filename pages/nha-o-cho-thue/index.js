@@ -4,6 +4,7 @@ import RoomsContent from 'components/room/rooms-content';
 import { useRoomRouter } from 'hooks/useRoomRouter';
 import { getRooms } from 'lib/api/room.api';
 import { normalizeRoomQuery } from 'lib/utils/normalizeRoomQuery';
+import SeoHead from 'components/common/seo-head';
 
 export async function getServerSideProps({ query }) {
     try {
@@ -39,28 +40,38 @@ const RentalPage = ({ rooms, meta }) => {
     const { query, search, paginate } = useRoomRouter();
 
     return (
-        <section className="container rooms-page">
-            <Breadcrumb
-                title={`Tất cả ${meta?.itemCount ?? 0} nhà ở cho thuê`}
+        <>
+            <SeoHead
+                title="Nhà ở cho thuê tại Sài Gòn | Phòng trọ, căn hộ, nhà nguyên căn"
+                description="Tổng hợp nhà ở cho thuê tại Sài Gòn: phòng trọ, căn hộ, nhà nguyên căn chính chủ. Giá tốt, pháp lý rõ ràng, cập nhật liên tục."
+                image="https://tratimnha.com/og/home.jpg"
+                url="https://tratimnha.com/nha-o-cho-thue"
+                type="website"
             />
 
-            <div className="rooms-main">
-                <aside className="section-filter">
-                    <RoomFilter
-                        query={query}
-                        searchRooms={search}
-                    />
-                </aside>
+            <section className="container rooms-page">
+                <Breadcrumb
+                    title={`Tất cả ${meta?.itemCount ?? 0} nhà ở cho thuê`}
+                />
 
-                <main className="section-content">
-                    <RoomsContent
-                        rooms={rooms}
-                        meta={meta}
-                        changePage={paginate}
-                    />
-                </main>
-            </div>
-        </section>
+                <div className="rooms-main">
+                    <aside className="section-filter">
+                        <RoomFilter
+                            query={query}
+                            searchRooms={search}
+                        />
+                    </aside>
+
+                    <main className="section-content">
+                        <RoomsContent
+                            rooms={rooms}
+                            meta={meta}
+                            changePage={paginate}
+                        />
+                    </main>
+                </div>
+            </section>
+        </>
     );
 };
 
