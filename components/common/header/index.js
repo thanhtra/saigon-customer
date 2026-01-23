@@ -197,55 +197,44 @@ const Header = ({ showSearchIcon = false }) => {
                         </Link>
 
 
-                        {!isLoggedIn ? (
-                            <Link href={PageUrl.Login}>
-                                <a
-                                    className={`site-nav-btn ${pathname.includes(PageUrl.Profile) ? 'active' : ''}`}
-                                    onClick={onClickNavItem}
-                                >
-                                    Tài khoản
-                                </a>
-                            </Link>
-                        ) : (
-                            <div className="menu-item-account">
-                                <button type="button" className="site-nav-btn btn-account" onClick={toggleMenuAccount}>
-                                    Tài khoản <span className="icon-expand">{openMenuAccount ? '−' : '+'}</span>
+                        <div className="menu-item-account">
+                            <button type="button" className="site-nav-btn btn-account" onClick={toggleMenuAccount}>
+                                Tài khoản <span className="icon-expand">{openMenuAccount ? '-' : '+'}</span>
+                            </button>
+
+                            <div className={`menu-account ${openMenuAccount ? 'open' : ''}`}>
+                                <Link href={{ pathname: PageUrl.Profile, query: { tab: ProfileTab.Account } }}>
+                                    <a onClick={onClickNavItem} className={tab === ProfileTab.Account ? 'active' : ''}>
+                                        Thông tin
+                                    </a>
+                                </Link>
+
+                                <Link href={{ pathname: PageUrl.Profile, query: { tab: ProfileTab.ManageBooking } }}>
+                                    <a onClick={onClickNavItem} className={tab === ProfileTab.ManageBooking ? 'active' : ''}>
+                                        Lịch xem nhà
+                                    </a>
+                                </Link>
+
+                                <Link href={{ pathname: PageUrl.Profile, query: { tab: ProfileTab.ManagePostRental } }}>
+                                    <a
+                                        onClick={onClickNavItem}
+                                        className={tab === ProfileTab.ManagePostRental ? 'active' : ''}
+                                    >
+                                        Nhà của tôi
+                                    </a>
+                                </Link>
+
+                                <Link href={{ pathname: PageUrl.Profile, query: { tab: ProfileTab.ChangePassword } }}>
+                                    <a onClick={onClickNavItem} className={tab === ProfileTab.ChangePassword ? 'active' : ''}>
+                                        Đổi mật khẩu
+                                    </a>
+                                </Link>
+
+                                <button type="button" className="logout" onClick={logoutHandle}>
+                                    Đăng xuất
                                 </button>
-
-                                <div className={`menu-account ${openMenuAccount ? 'open' : ''}`}>
-                                    <Link href={{ pathname: PageUrl.Profile, query: { tab: ProfileTab.Account } }}>
-                                        <a onClick={onClickNavItem} className={tab === ProfileTab.Account ? 'active' : ''}>
-                                            Thông tin
-                                        </a>
-                                    </Link>
-
-                                    <Link href={{ pathname: PageUrl.Profile, query: { tab: ProfileTab.ManageBooking } }}>
-                                        <a onClick={onClickNavItem} className={tab === ProfileTab.ManageBooking ? 'active' : ''}>
-                                            Lịch xem nhà
-                                        </a>
-                                    </Link>
-
-                                    <Link href={{ pathname: PageUrl.Profile, query: { tab: ProfileTab.ManagePostRental } }}>
-                                        <a
-                                            onClick={onClickNavItem}
-                                            className={tab === ProfileTab.ManagePostRental ? 'active' : ''}
-                                        >
-                                            Nhà của tôi
-                                        </a>
-                                    </Link>
-
-                                    <Link href={{ pathname: PageUrl.Profile, query: { tab: ProfileTab.ChangePassword } }}>
-                                        <a onClick={onClickNavItem} className={tab === ProfileTab.ChangePassword ? 'active' : ''}>
-                                            Đổi mật khẩu
-                                        </a>
-                                    </Link>
-
-                                    <button type="button" className="logout" onClick={logoutHandle}>
-                                        Đăng xuất
-                                    </button>
-                                </div>
                             </div>
-                        )}
+                        </div>
                     </div>
                 </nav>
 
