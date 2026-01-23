@@ -153,7 +153,7 @@ export default function RoomActions({
             <RegisterAfterBookingModal
                 open={!!registerPrefill}
                 prefill={registerPrefill}
-                onClose={() => setRegisterPrefill(null)}
+                onClose={() => { setRegisterPrefill(null) }}
             />
 
             {videoUrl && <RoomVideoModal

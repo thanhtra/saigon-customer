@@ -1,17 +1,16 @@
 
-import { useCallback, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { toast } from 'react-toastify';
-
 import Breadcrumb from 'components/common/breadcrumb';
 import PopupContact from 'components/common/popup-contact-room';
-import SeoHead from 'components/common/seo-head';
 import RoomContent from 'components/room/room-content';
 import Description from 'components/room/room-description';
 import RoomGallery from 'components/room/room-gallery';
 import { getContact, getRoomDetail } from 'lib/api/room.api';
 import { PageUrl, UserRole } from 'lib/constants/tech';
 import { formatVnd } from 'lib/utils';
+import Head from 'next/head';
+import { useCallback, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 
 import RoomActionsDetail from 'components/common/room-actions-detail';
 
@@ -75,16 +74,29 @@ const RoomDetailPage = ({ room }) => {
     const bkUrl = `${process.env.NEXT_PUBLIC_API_URL}/uploads`;
     const filePath = room?.uploads?.[room.cover_index]?.file_path;
     const ogImage = filePath ? `${bkUrl}/${filePath}` : 'https://tratimnha.com/images/intro/phong-tro-sai-gon.jpg';
+    const url = `https://tratimnha.com/nha-o-cho-thue/${room.slug}`;
 
     return (
         <>
-            <SeoHead
-                title={title}
-                description={description}
-                image={ogImage}
-                url={`https://tratimnha.com/nha-o-cho-thue/${room.slug}`}
-                type="article"
-            />
+            <Head>
+                <title>{title}</title>
+                <meta name="description" content={description} />
+                <link rel="canonical" href={url} />
+
+                <meta property="og:type" content="article" />
+                <meta property="og:title" content={title} />
+                <meta property="og:description" content={description} />
+                <meta property="og:image" content={ogImage} />
+                <meta property="og:image:width" content="1200" />
+                <meta property="og:image:height" content="630" />
+                <meta property="og:image:type" content="image/jpeg" />
+                <meta property="og:url" content={url} />
+                <meta property="og:site_name" content="Bất động sản Sài Gòn" />
+                <meta property="og:locale" content="vi_VN" />
+
+                <meta name="twitter:card" content="summary_large_image" />
+                <meta name="twitter:image" content={ogImage} />
+            </Head>
 
             <section className="container room-detail-page">
                 <Breadcrumb menu={PageUrl.Rooms} title={room.title} />

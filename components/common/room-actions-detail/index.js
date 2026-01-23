@@ -138,7 +138,6 @@ const RoomActionsDetail = ({
                 </div>
             </section>
 
-            {/* ===== MODALS ===== */}
             <BookingModal
                 open={openBooking}
                 roomId={roomId}

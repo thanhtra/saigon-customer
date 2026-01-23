@@ -110,7 +110,12 @@ export default function BookingModal({ open, onClose, roomId, rentalId, title, a
 
     return (
         <Portal>
-            <div className="modal-overlay" onClick={onClose}>
+            <div className="modal-overlay"
+                onClick={(e) => {
+                    e.stopPropagation();
+                    onClose();
+                }}
+            >
                 <div className="modal" onClick={(e) => e.stopPropagation()}>
                     <h3 className="modal-title">Đặt lịch xem phòng</h3>
 

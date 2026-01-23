@@ -11,9 +11,7 @@ export default class CustomDocument extends Document {
           <meta property="fb:app_id" content="588186160811740" />
           <link rel="icon" href="/favicon.ico" />
 
-
-          {/* ===== OPEN GRAPH ===== */}
-          {/* <meta property="og:type" content="website" />
+          <meta property="og:type" content="website" />
           <meta property="og:title" content="Bất động sản Sài Gòn - Nhà phố & Phòng trọ" />
           <meta
             property="og:description"
@@ -25,7 +23,7 @@ export default class CustomDocument extends Document {
           <meta property="og:image:type" content="image/jpeg" />
           <meta property="og:url" content="https://tratimnha.com/" />
           <meta property="og:site_name" content="Bất động sản Sài Gòn" />
-          <meta property="og:locale" content="vi_VN" /> */}
+          <meta property="og:locale" content="vi_VN" />
 
         </Head>
 
