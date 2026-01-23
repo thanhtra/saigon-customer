@@ -1,7 +1,8 @@
 'use client';
 
 import { BookingStatusLabels } from 'lib/constants/data';
-import { formatDateTime, formatVnd } from 'lib/utils';
+import { formatVnd } from 'lib/utils';
+import { formatDateTime, formatDateTimeString } from 'lib/utils/date';
 import { PageUrl } from 'lib/constants/tech';
 import Link from 'next/link';
 
@@ -50,7 +51,7 @@ const BookingItem = ({ booking }) => {
                 <p className="viewing-time">
                     ⏰ Lịch xem:{' '}
                     <strong>
-                        {formatDateTime(booking.viewing_at)}
+                        {formatDateTimeString(booking.viewing_at)}
                     </strong>
                 </p>
             </div>

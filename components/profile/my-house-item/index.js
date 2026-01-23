@@ -3,7 +3,8 @@
 import RoomStatusModal from 'components/room/room-status-modal';
 import { RentalTypeLabels, RoomStatus, RoomStatusLabels } from 'lib/constants/data';
 import { PageUrl } from 'lib/constants/tech';
-import { formatDateTime, formatVnd } from 'lib/utils';
+import { formatVnd } from 'lib/utils';
+import { formatDateTime } from 'lib/utils/date';
 import Link from 'next/link';
 import { useState } from 'react';
 import { updateRoom } from 'lib/api/room.api';

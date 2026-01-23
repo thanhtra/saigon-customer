@@ -23,13 +23,30 @@ export default function RoomVideoModal({ open, onClose, videoUrl }) {
         };
     }, [open]);
 
+    useEffect(() => {
+        if (!open) return;
+
+        const onEsc = (e) => {
+            if (e.key === 'Escape') onClose();
+        };
+
+        window.addEventListener('keydown', onEsc);
+        return () => window.removeEventListener('keydown', onEsc);
+    }, [open, onClose]);
+
     if (!open) return null;
 
     return (
         <Portal>
             <div className="video-modal-backdrop" onClick={onClose}>
                 <div className="video-modal" onClick={(e) => e.stopPropagation()}>
-                    <button className="video-close" onClick={onClose} aria-label="Đóng">
+
+                    <button
+                        className="video-close"
+                        onClick={onClose}
+                        aria-label="Đóng"
+                        type="button"
+                    >
                         ✕
                     </button>
 
@@ -49,9 +66,14 @@ export default function RoomVideoModal({ open, onClose, videoUrl }) {
                             allowFullScreen
                             onLoad={() => setLoading(false)}
                         />
+
+                        {/* 🔥 CLICK SHIELD */}
+                        <div className="iframe-click-shield" />
                     </div>
+
                 </div>
             </div>
+
         </Portal>
     );
 }

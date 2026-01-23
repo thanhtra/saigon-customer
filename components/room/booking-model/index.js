@@ -3,7 +3,7 @@
 import InputField from 'components/common/form/InputField';
 import { createBookingPublic } from 'lib/api/booking.api';
 import { PHONE_REGEX } from 'lib/constants/tech';
-import { getDatetimeLocalPlusMinutes, toDatetimeLocal, validateMinMinutesFromNow } from 'lib/utils/date';
+import { getDatetimeLocalPlusMinutes, validateMinMinutesFromNow } from 'lib/utils/date';
 import { handleApiError } from 'lib/utils/handleApiError';
 import NProgress from 'nprogress';
 import { useCallback, useEffect } from 'react';
@@ -83,7 +83,7 @@ export default function BookingModal({ open, onClose, roomId, rentalId, title, a
                     customer_name: data.customer_name,
                     customer_note: data.customer_note,
                     customer_phone: data.customer_phone,
-                    viewing_at: toDatetimeLocal(data.viewing_at),
+                    viewing_at: data.viewing_at,
                     ...(data.referrer_phone && { referrer_phone: data.referrer_phone })
                 });
 
