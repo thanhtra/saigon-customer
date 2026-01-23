@@ -190,17 +190,13 @@ const Header = ({ showSearchIcon = false }) => {
                             Bất động sản
                         </a>
 
-                        <a
-                            href="https://collshp.com/dacsantaynguyen"
-                            onClick={onClickNavItem}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className={pathname.includes(PageUrl.Products) ? 'active' : ''}
-                        >
-                            Sản phẩm
-                        </a>
+                        <Link href={PageUrl.Products}>
+                            <a onClick={onClickNavItem} className={pathname.includes(PageUrl.Products) ? 'active' : ''}>
+                                Sản phẩm
+                            </a>
+                        </Link>
 
-                        {/* ACCOUNT */}
+
                         {!isLoggedIn ? (
                             <Link href={PageUrl.Login}>
                                 <a

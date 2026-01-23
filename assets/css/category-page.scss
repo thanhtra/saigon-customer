@@ -1,0 +1,215 @@
+.category-page {
+    /* ===== Scoped variables ===== */
+    --primary: #076836;
+    --primary-soft: rgba(7, 104, 54, 0.12);
+    --text-main: #111827;
+    --text-sub: #6b7280;
+    --bg-page: #f8fafc;
+    --bg-card: #ffffff;
+    --border-light: #e5e7eb;
+    --radius: 16px;
+    --shadow-sm: 0 6px 18px rgba(0, 0, 0, 0.06);
+    --shadow-md: 0 20px 44px rgba(7, 104, 54, 0.18);
+
+    background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);
+    padding: 24px 0 56px;
+
+    /* ===============================
+       TITLE
+       =============================== */
+
+    h1 {
+        font-size: 24px;
+        font-weight: 800;
+        letter-spacing: -0.02em;
+        color: var(--text-main);
+        margin-bottom: 24px;
+    }
+
+    /* ===============================
+       GRID
+       =============================== */
+
+    .category-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 18px;
+    }
+
+    /* ===============================
+       CARD
+       =============================== */
+
+    .category-card {
+        position: relative;
+        display: block;
+        background: var(--bg-card);
+        border-radius: var(--radius);
+        overflow: hidden;
+        text-decoration: none;
+        border: 1px solid var(--border-light);
+        box-shadow: var(--shadow-sm);
+        transition: transform 0.35s ease, box-shadow 0.35s ease;
+
+        &:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-md);
+
+            .category-overlay {
+                opacity: 1;
+            }
+
+            img {
+                transform: scale(1.04);
+            }
+
+            .cta {
+                color: #0a8f4e;
+            }
+        }
+
+        img {
+            width: 100%;
+            height: 140px;
+            object-fit: cover;
+            display: block;
+            background: #f3f4f6;
+            transition: transform 0.4s ease;
+        }
+    }
+
+    /* ===============================
+       IMAGE OVERLAY (LIGHT VERSION)
+       =============================== */
+
+    .category-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(180deg,
+                rgba(255, 255, 255, 0) 45%,
+                rgba(7, 104, 54, 0.12) 100%);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        pointer-events: none;
+    }
+
+    /* ===============================
+       CONTENT
+       =============================== */
+
+    .category-card-content {
+        position: relative;
+        padding: 14px;
+
+        h3 {
+            font-size: 15px;
+            font-weight: 500;
+            color: var(--text-main);
+            margin-bottom: 6px;
+            line-height: 1.35;
+        }
+
+        p {
+            font-size: 13px;
+            color: var(--text-sub);
+            line-height: 1.5;
+        }
+
+        .cta {
+            margin-top: 10px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--primary);
+            transition: color 0.25s ease;
+
+            &::after {
+                content: '↗';
+                font-size: 12px;
+                transition: transform 0.25s ease;
+            }
+        }
+    }
+
+    .category-card:hover .cta::after {
+        transform: translateX(4px);
+    }
+
+    /* ===============================
+       BADGE
+       =============================== */
+
+    .category-badge {
+        position: absolute;
+        top: 12px;
+        left: 12px;
+        background: var(--primary);
+        color: #fff;
+        font-size: 11px;
+        font-weight: 500;
+        padding: 4px 10px;
+        border-radius: 999px;
+        z-index: 2;
+    }
+
+    /* ===============================
+       TABLET
+       =============================== */
+
+    @include breakpoint(tablet) {
+        padding: 32px 0 64px;
+
+        h1 {
+            font-size: 28px;
+            margin-bottom: 28px;
+        }
+
+        .category-grid {
+            grid-template-columns: repeat(3, 1fr);
+            gap: 22px;
+        }
+
+        .category-card img {
+            height: 170px;
+        }
+
+        .category-card-content {
+            padding: 16px;
+
+            h3 {
+                font-size: 16px;
+            }
+
+            p {
+                font-size: 14px;
+            }
+        }
+    }
+
+    /* ===============================
+       DESKTOP
+       =============================== */
+
+    @include breakpoint(desktop) {
+        .category-grid {
+            grid-template-columns: repeat(4, 1fr);
+            gap: 26px;
+        }
+
+        .category-card img {
+            height: 190px;
+        }
+    }
+
+    /* ===============================
+       WIDE
+       =============================== */
+
+    @include breakpoint(wide) {
+        .category-grid {
+            grid-template-columns: repeat(5, 1fr);
+        }
+    }
+}
