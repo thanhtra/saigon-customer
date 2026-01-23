@@ -1,4 +1,3 @@
-'use client';
 
 import RoomStatusModal from 'components/room/room-status-modal';
 import { RentalTypeLabels, RoomStatus, RoomStatusLabels } from 'lib/constants/data';

@@ -1,4 +1,3 @@
-'use client';
 
 import Portal from 'components/common/portal';
 import { CustomerTypeOptions, FieldCooperationLabels } from 'lib/constants/data';

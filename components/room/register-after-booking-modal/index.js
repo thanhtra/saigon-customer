@@ -1,4 +1,3 @@
-'use client';
 
 import NProgress from 'nprogress';
 import { useCallback, useEffect } from 'react';

@@ -1,4 +1,3 @@
-'use client';
 
 import { useSelector } from 'react-redux';
 import { useAuthInit } from 'hooks/useAuthInit';

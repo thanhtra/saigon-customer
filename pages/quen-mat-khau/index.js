@@ -1,4 +1,3 @@
-'use client';
 
 import Breadcrumb from 'components/common/breadcrumb';
 
@@ -52,8 +51,7 @@ export default ForgotPasswordPage;
 
 
 
-// 'use client';
-
+// 
 // import { useCallback, useState } from 'react';
 // import { useForm } from 'react-hook-form';
 // import { useRouter } from 'next/router';

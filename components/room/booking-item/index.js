@@ -1,4 +1,3 @@
-'use client';
 
 import { BookingStatusLabels } from 'lib/constants/data';
 import { formatVnd } from 'lib/utils';

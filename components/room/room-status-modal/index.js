@@ -1,4 +1,3 @@
-'use client';
 
 import { RoomStatusLabelsCustomer, RoomStatus } from 'lib/constants/data';
 import { buildSelectOptions } from 'lib/utils';

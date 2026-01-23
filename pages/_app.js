@@ -1,4 +1,3 @@
-'use client';
 
 import 'assets/css/main.scss';
 import Layout from 'components/common/layout-main';

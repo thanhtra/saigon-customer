@@ -1,4 +1,3 @@
-'use client';
 
 import InputField from 'components/common/form/InputField';
 import { createBookingPublic } from 'lib/api/booking.api';

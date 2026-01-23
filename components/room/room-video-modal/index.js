@@ -1,4 +1,3 @@
-'use client';
 
 import { useEffect, useMemo, useState } from 'react';
 import Portal from 'components/common/portal';

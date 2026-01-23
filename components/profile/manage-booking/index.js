@@ -1,4 +1,3 @@
-'use client';
 
 import SelectField from 'components/common/form/SelectField';
 import Pagination from 'components/common/pagination';
