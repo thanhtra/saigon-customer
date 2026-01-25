@@ -10,10 +10,11 @@ const PostFreePopup = () => {
 
     if (!isPopupPostFree) return null
 
-    const goToPost = (url) => {
+    const goTo = (url) => {
         dispatch({ type: POPUP_POST_FREE_HIDE })
         router.push(url)
     }
+
 
     return (
         <div className="post-free-popup-overlay">
@@ -21,14 +22,21 @@ const PostFreePopup = () => {
                 <h3>Chọn lĩnh vực đăng tin</h3>
 
                 <div className="post-options">
-                    <button onClick={() => goToPost(PageUrl.PostRental)}>
+                    <button onClick={() => goTo(PageUrl.PostRental)}>
                         🏠 Nhà ở cho thuê
                     </button>
 
-                    {/* <button onClick={() => goToPost(PageUrl.PostLand)}>
+                    {/* <button onClick={() => goTo(PageUrl.PostLand)}>
                         🏢 Bất động sản
                     </button> */}
                 </div>
+
+                <button
+                    className="btn-guide"
+                    onClick={() => goTo(PageUrl.RentalGuide)}
+                >
+                    📘 Hướng dẫn đăng tin cho người mới
+                </button>
 
                 <span
                     className="popup-close"

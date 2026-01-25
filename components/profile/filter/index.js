@@ -43,7 +43,7 @@ const ProfileFilter = ({ tab }) => {
         try {
             await logout();
         } catch (error) {
-            console.error('Logout error:', error);
+            // console.error('Logout error:', error);
         } finally {
             dispatch({ type: REMOVE_USER });
             window.location.href = '/';

@@ -61,7 +61,7 @@ const LocationSelect = ({
           );
         }
       } catch (e) {
-        console.error('Load provinces failed', e);
+        // console.error('Load provinces failed', e);
       }
     })();
 
@@ -117,7 +117,7 @@ const LocationSelect = ({
           initializedRef.current = true;
         }
       } catch (e) {
-        console.error('Load wards failed', e);
+        // console.error('Load wards failed', e);
       }
     })();
   }, [province, district, setValue]);
