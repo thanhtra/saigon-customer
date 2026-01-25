@@ -39,7 +39,7 @@ const RoomContent = ({ room }) => {
 
             <div className="room-meta">
                 {area && <div><strong>Diện tích:</strong> {formatArea(area)}</div>}
-                {deposit && <div><strong>Đặt cọc giữ phòng:</strong> {formatVnd(deposit)}</div>}
+                {deposit && <div><strong>Cọc giữ phòng:</strong> {formatVnd(deposit)}</div>}
                 {max_people && <div><strong>Ở tối đa:</strong> {max_people} người</div>}
             </div>
 
