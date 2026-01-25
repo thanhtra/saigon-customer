@@ -102,8 +102,14 @@ const Header = ({ showSearchIcon = false }) => {
     }, [dispatch]);
 
     const toggleMenuAccount = useCallback(() => {
+        if (!isLoggedIn) {
+            router.push(PageUrl.Login);
+            return;
+        }
+
         setOpenMenuAccount((prev) => !prev);
-    }, []);
+    }, [isLoggedIn, router]);
+
 
     const closeSearch = useCallback(() => {
         setSearchOpen(false);
