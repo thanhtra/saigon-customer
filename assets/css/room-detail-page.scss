@@ -170,6 +170,14 @@
         padding: 20px;
     }
 
+    &.room-description {
+        line-height: 20px;
+
+        @include breakpoint(tablet) {
+            line-height: 22px;
+        }
+    }
+
     .room-title {
         font-size: 22px;
         font-weight: 500;

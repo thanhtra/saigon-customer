@@ -1,7 +1,7 @@
 const Description = ({ room }) => {
 
   return (
-    <section className="room-summary-card">
+    <section className="room-summary-card room-description">
       <div dangerouslySetInnerHTML={{ __html: room.description }} />
     </section>
   );
