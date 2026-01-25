@@ -1,5 +1,5 @@
 import { formatVnd, formatArea } from 'lib/utils';
-import { RentalAmenityOptions } from 'lib/constants/data';
+import { RentalAmenityOptions, WaterUnitOptions } from 'lib/constants/data';
 
 const RoomContent = ({ room }) => {
     const {
@@ -12,6 +12,22 @@ const RoomContent = ({ room }) => {
         rental,
     } = room;
 
+    const renderWaterFee = () => {
+        if (!rental?.fee_water || rental.fee_water <= 0) {
+            return null; // Không hiển thị nếu không có phí nước hoặc phí là 0
+        }
+
+        const waterUnit = rental.water_unit && WaterUnitOptions[rental.water_unit];
+
+        const formattedWaterUnit = waterUnit ? ` ${waterUnit}` : '';
+
+        return (
+            <li>
+                Nước: {formatVnd(rental.fee_water, { suffix: null })}{formattedWaterUnit}
+            </li>
+        );
+    };
+
     return (
         <section className="room-summary-card">
             <h1 className="room-title">{title}</h1>
@@ -22,7 +38,7 @@ const RoomContent = ({ room }) => {
             </div>
 
             <div className="room-meta">
-                <div><strong>Diện tích:</strong> {formatArea(area)}</div>
+                {area && <div><strong>Diện tích:</strong> {formatArea(area)}</div>}
                 {deposit && <div><strong>Đặt cọc giữ phòng:</strong> {formatVnd(deposit)}</div>}
                 {max_people && <div><strong>Ở tối đa:</strong> {max_people} người</div>}
             </div>
@@ -35,7 +51,7 @@ const RoomContent = ({ room }) => {
                 <h4>Chi phí khác</h4>
                 <ul>
                     <li>Điện: {formatVnd(rental.fee_electric)}</li>
-                    <li>Nước: {formatVnd(rental.fee_water)}</li>
+                    {renderWaterFee()}
                     <li>Wifi: {formatVnd(rental.fee_wifi)}</li>
                     <li>Giữ xe: {formatVnd(rental.fee_parking)}</li>
                     <li>Phí khác: {rental.fee_other || "Miễn phí"}</li>

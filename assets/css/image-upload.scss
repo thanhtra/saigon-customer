@@ -149,4 +149,13 @@
         }
     }
 
+    .upload-label {
+        font-size: 12px;
+        font-style: italic;
+
+        @include breakpoint(tablet) {
+            font-size: 14px;
+        }
+    }
+
 }

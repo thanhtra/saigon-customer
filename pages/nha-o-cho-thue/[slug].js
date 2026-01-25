@@ -68,11 +68,11 @@ const RoomDetailPage = ({ room }) => {
         }
     }, [room?.id, loadingContact, contact, dispatch]);
 
-
+    const coverImage = room?.uploads?.find(upload => upload.is_cover);
     const title = `${room.title} - ${formatVnd(room.price)}`;
     const description = `${room.title}, ${room?.rental?.address_detail_display}. Giá tốt, pháp lý rõ ràng.`;
     const bkUrl = `${process.env.NEXT_PUBLIC_API_URL}/uploads`;
-    const filePath = room?.uploads?.[room.cover_index]?.file_path;
+    const filePath = coverImage?.file_path;
     const ogImage = filePath ? `${bkUrl}/${filePath}` : 'https://tratimnha.com/images/intro/phong-tro-sai-gon.jpg';
     const url = `https://tratimnha.com/nha-o-cho-thue/${room.slug}`;
 

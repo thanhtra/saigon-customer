@@ -21,7 +21,7 @@ import SelectField from 'components/common/form/SelectField';
 import { createUnitRental } from 'lib/api/rental.api';
 import { updateRoom } from 'lib/api/room.api';
 import useUploadImages from 'lib/api/upload.api';
-import { UploadDomain } from 'lib/constants/tech';
+import { UploadDomain, WaterUnit } from 'lib/constants/tech';
 import { buildSelectOptionsFromList } from 'lib/utils';
 
 import CardSelectField from 'components/common/card-select-field';
@@ -46,6 +46,8 @@ export const BoardingHouseModeOptions = {
     [BoardingHouseMode.SELECT_EXISTING]: 'Chọn nhà trọ đã có',
     [BoardingHouseMode.CREATE_NEW]: 'Tạo nhà trọ mới',
 };
+
+const per_m3 = 'per_m3';
 
 const PostRoomCreate = ({ slug = '', displayList }) => {
     const fetchedRef = useRef(false);
@@ -88,6 +90,7 @@ const PostRoomCreate = ({ slug = '', displayList }) => {
                 service: null,
                 parking: null,
                 other: '',
+                water_unit: WaterUnit.PerM3
             },
 
             room: {
@@ -226,6 +229,19 @@ const PostRoomCreate = ({ slug = '', displayList }) => {
         });
     }, [boardingMode, setValue]);
 
+    // useEffect(() => {
+    //     if (rentalType !== RentalType.BOARDING_HOUSE) return;
+
+    //     if (boardingHouses.length === 0) {
+    //         setValue('boarding_mode', BoardingHouseMode.CREATE_NEW);
+    //         setValue('boarding_house_id', ''); // Xóa giá trị nếu không có nhà trọ
+    //     } else {
+    //         setValue('boarding_mode', BoardingHouseMode.SELECT_EXISTING);
+    //         // setValue('boarding_house_id', boardingHouses[0]?.id || ''); // Điền ID nhà trọ đã chọn
+    //     }
+    // }, [rentalType, boardingHouses, setValue]);
+
+
     const isBoardingHouse = rentalType === RentalType.BOARDING_HOUSE;
     const showCommonInfo = !isBoardingHouse || boardingMode === BoardingHouseMode.CREATE_NEW;
     const hasBoardingHouse = boardingHouses.length > 0;
@@ -310,6 +326,7 @@ const PostRoomCreate = ({ slug = '', displayList }) => {
             service: null,
             parking: null,
             other: '',
+            water_unit: WaterUnit.PerM3
         }, { shouldDirty: false });
     };
 
@@ -332,6 +349,7 @@ const PostRoomCreate = ({ slug = '', displayList }) => {
                 address_detail_display: location.address_detail_display,
                 fee_electric: fee.electric,
                 fee_water: fee.water,
+                water_unit: fee.water_unit,
                 fee_wifi: fee.wifi,
                 fee_service: fee.service,
                 fee_parking: fee.parking,
@@ -352,12 +370,13 @@ const PostRoomCreate = ({ slug = '', displayList }) => {
             }
 
             const newHouse = {
-                id: res.result.rental.id,
-                address: res.result.rental.address_detail,
+                id: res.result.id,
+                address: res.result.address_detail,
             };
 
-            resetLocationAndFee(setValue);
             setBoardingHouses(prev => [newHouse, ...prev]);
+
+            resetLocationAndFee(setValue);
 
             setValue('boarding_mode', BoardingHouseMode.SELECT_EXISTING);
             setValue('boarding_house_id', newHouse.id);
@@ -373,35 +392,26 @@ const PostRoomCreate = ({ slug = '', displayList }) => {
     };
 
     const uploadRoomImages = async ({ roomId, images, uploadImages }) => {
-        if (!roomId || !images || !images.length) return;
+        if (!roomId || !images?.length) return;
 
-        const files = images
-            .map(img => img.file)
-            .filter(Boolean);
+        const hasCover = images.some(img => img.isCover);
 
-        if (!files.length) return;
+        const files = images.map((img, index) => ({
+            file: img.file,
+            is_cover: img.isCover || (index === 0 && !hasCover),
+        }));
 
         const uploadRes = await uploadImages(files, {
             domain: UploadDomain.Rooms,
             room_id: roomId,
         });
 
-        if (!uploadRes || !uploadRes.success || !uploadRes.result?.length) {
+        if (!uploadRes?.success) {
             throw new Error('UPLOAD_FAILED');
         }
+    };
 
-        const uploadIds = uploadRes.result.map(u => u.id);
 
-        const coverIndex =
-            images.findIndex(i => i.isCover) >= 0
-                ? images.findIndex(i => i.isCover)
-                : 0;
-
-        await updateRoom(roomId, {
-            upload_ids: uploadIds,
-            cover_index: coverIndex,
-        });
-    }
 
     const onSubmit = async (data) => {
         const {
@@ -485,6 +495,7 @@ const PostRoomCreate = ({ slug = '', displayList }) => {
                 // FEE
                 fee_electric: fee.electric,
                 fee_water: fee.water,
+                water_unit: fee.water_unit,
                 fee_wifi: fee.wifi,
                 fee_service: fee.service,
                 fee_parking: fee.parking,
@@ -668,20 +679,35 @@ const PostRoomCreate = ({ slug = '', displayList }) => {
                             />
                         </div>
 
-                        <div className="form-row inline">
+                        <div className="form-row inline flex-column">
                             <Controller
                                 name="room.images"
                                 control={control}
                                 defaultValue={[]}
-                                render={({ field }) => (
-                                    <FormImageUpload
-                                        value={field.value}
-                                        onChange={field.onChange}
-                                        label="Hình ảnh phòng"
-                                    />
+                                rules={{
+                                    validate: {
+                                        minImages: value => value.length > 0 || 'Vui lòng tải lên ít nhất 1 hình ảnh',
+                                        maxImages: value => value.length <= 10 || 'Tối đa chỉ được tải lên 10 hình ảnh',
+                                    }
+                                }}
+                                render={({ field, fieldState }) => (
+                                    <>
+                                        <FormImageUpload
+                                            value={field.value}
+                                            onChange={field.onChange}
+                                            label="Hình ảnh phòng"
+                                        />
+                                        {/* Hiển thị thông báo lỗi nếu có */}
+                                        {fieldState?.error && (
+                                            <p className="upload-error-message message message-error">
+                                                {fieldState?.error.message}
+                                            </p>
+                                        )}
+                                    </>
                                 )}
                             />
                         </div>
+
 
                         <div className="form-row inline textarea-input">
                             <InputField
@@ -727,14 +753,27 @@ const PostRoomCreate = ({ slug = '', displayList }) => {
                                     inputProps={{ min: 0, step: 500 }}
                                 />
 
-                                <InputFieldCurrency
-                                    label="Nước (đ/m³)"
-                                    name="fee.water"
-                                    type="number"
-                                    placeholder="Để trống nếu miễn phí"
-                                    control={control}
-                                    inputProps={{ min: 0, step: 1000 }}
-                                />
+                                <div className="form-row inline-p0">
+                                    <InputFieldCurrency
+                                        label="Nước"
+                                        name="fee.water"
+                                        type="number"
+                                        placeholder="Để trống nếu miễn phí"
+                                        control={control}
+                                        inputProps={{ min: 0, step: 1000 }}
+                                    />
+
+                                    <SelectField
+                                        label="Đơn vị"
+                                        name="fee.water_unit"
+                                        control={control}
+                                        options={[
+                                            { label: 'đ / m³', value: 'per_m3' },
+                                            { label: 'đ / người', value: 'per_person' },
+                                        ]}
+                                    />
+                                </div>
+
                             </div>
 
                             <div className="form-row">
@@ -806,7 +845,7 @@ const PostRoomCreate = ({ slug = '', displayList }) => {
                         <button
                             type="submit"
                             className="btn"
-                            disabled={isSubmitting || !canSubmit || loading}
+                            disabled={isSubmitting || !canSubmit || loading || uploading}
                         >
                             {loading ? "Đang lưu..." : submitLabel}
                         </button>

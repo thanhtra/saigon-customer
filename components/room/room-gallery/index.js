@@ -1,4 +1,3 @@
-
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { useState, useEffect, useCallback } from 'react';
 
@@ -6,7 +5,10 @@ const RoomGallery = ({ images = [], room }) => {
     const [activeIndex, setActiveIndex] = useState(0);
 
     useEffect(() => {
-        if (images.length) setActiveIndex(0);
+        if (images.length) {
+            const coverImageIndex = images.findIndex(img => img.is_cover);
+            setActiveIndex(coverImageIndex !== -1 ? coverImageIndex : 0);
+        }
     }, [images]);
 
     const imageUrl = useCallback(
@@ -18,7 +20,6 @@ const RoomGallery = ({ images = [], room }) => {
 
     return (
         <section className="room-gallery">
-            {/* ===== MAIN IMAGE ===== */}
             <div className="room-gallery-main">
                 <img
                     src={imageUrl(images[activeIndex].file_path)}
@@ -28,12 +29,9 @@ const RoomGallery = ({ images = [], room }) => {
                 />
             </div>
 
-            {/* ===== THUMBNAILS ===== */}
             <Swiper
                 slidesPerView={4.5}
                 spaceBetween={8}
-
-                /* 🔥 FIX LOOP RESIZE */
                 observer={false}
                 observeParents={false}
                 resizeObserver={false}

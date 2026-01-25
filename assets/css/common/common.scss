@@ -834,23 +834,14 @@ button {
 
 .action-cancel-submit {
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
     margin-top: 40px;
+    justify-content: flex-end;
 
-    @include breakpoint(tablet) {
-        justify-content: flex-end;
-    }
+    @include breakpoint(tablet) {}
 
     button {
-        width: 48%;
-        max-width: 300px;
-
-        @include breakpoint(tablet) {
-            width: auto;
-            max-width: 200px;
-            margin-left: 20px;
-        }
+        margin-left: 20px;
+        width: auto;
     }
 }
 

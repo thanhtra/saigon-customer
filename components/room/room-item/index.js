@@ -6,12 +6,12 @@ import Link from 'next/link';
 const { NEXT_PUBLIC_API_URL } = process.env;
 
 const RoomItem = ({ room }) => {
-    const { id, slug, title, price, area, rental, updatedAt, uploads, cover_index, amenities, floor, room_code } = room;
+    const { id, slug, title, price, area, rental, updatedAt, uploads, amenities, floor, room_code } = room;
 
     const bkUrl = `${NEXT_PUBLIC_API_URL}/uploads`;
-    const coverImage = uploads?.[cover_index];
+    const coverImage = uploads?.find(upload => upload.is_cover);
     const subImages = uploads
-        ?.filter((_, i) => i !== cover_index)
+        ?.filter(upload => !upload.is_cover)
         ?.slice(0, 2);
 
     return (
