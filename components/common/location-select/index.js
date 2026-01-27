@@ -1,4 +1,3 @@
-
 import { useEffect, useRef, useState } from 'react';
 import { useWatch } from 'react-hook-form';
 
@@ -37,8 +36,10 @@ const LocationSelect = ({
   const [districts, setDistricts] = useState([]);
   const [wards, setWards] = useState([]);
 
+  /* ================= REFS ================= */
   const mountedRef = useRef(false);
-  const initializedRef = useRef(false);
+  const prevProvinceRef = useRef(null);
+  const prevDistrictRef = useRef(null);
 
   /* ================= LOAD PROVINCES (ONCE) ================= */
   useEffect(() => {
@@ -47,12 +48,13 @@ const LocationSelect = ({
     (async () => {
       try {
         await getLocationsSync();
+
         const provinceOptions = await getProvinceOptions();
         if (!mountedRef.current) return;
 
         setProvinces(provinceOptions);
 
-        // set default province (only first time, if empty)
+        // set default province only if empty
         if (!province) {
           setValue(
             'location.province',
@@ -60,8 +62,8 @@ const LocationSelect = ({
             { shouldDirty: false, shouldTouch: false }
           );
         }
-      } catch (e) {
-        // console.error('Load provinces failed', e);
+      } catch {
+        // silent fail (production safe)
       }
     })();
 
@@ -85,6 +87,13 @@ const LocationSelect = ({
       setDistricts(districtOptions);
       setWards([]);
 
+      // reset district ONLY when province changes
+      if (prevProvinceRef.current && prevProvinceRef.current !== province) {
+        setValue('location.district', '', { shouldDirty: false });
+        setValue('location.ward', '', { shouldDirty: false });
+      }
+
+      // set default district if empty
       if (!district) {
         setValue(
           'location.district',
@@ -92,9 +101,10 @@ const LocationSelect = ({
           { shouldDirty: false }
         );
       }
-    })();
-  }, [province, district, setValue]);
 
+      prevProvinceRef.current = province;
+    })();
+  }, [province]);
 
   /* ================= DISTRICT CHANGE ================= */
   useEffect(() => {
@@ -110,17 +120,17 @@ const LocationSelect = ({
 
         setWards(wardOptions);
 
-        if (initializedRef.current) {
-          setValue('location.ward', '');
-        } else {
-          // mark init done
-          initializedRef.current = true;
+        // reset ward ONLY when district actually changes
+        if (prevDistrictRef.current && prevDistrictRef.current !== district) {
+          setValue('location.ward', '', { shouldDirty: false });
         }
-      } catch (e) {
-        // console.error('Load wards failed', e);
+
+        prevDistrictRef.current = district;
+      } catch {
+        // silent fail
       }
     })();
-  }, [province, district, setValue]);
+  }, [province, district]);
 
   /* ================= BUILD ADDRESS ================= */
   useEffect(() => {
@@ -136,7 +146,7 @@ const LocationSelect = ({
 
     setValue('location.address_detail', address, { shouldDirty: false });
     setValue('location.address_detail_display', address, { shouldDirty: false });
-  }, [province, district, ward, street, houseNumber, setValue]);
+  }, [province, district, ward, street, houseNumber]);
 
   /* ================= RENDER ================= */
   return (
@@ -166,8 +176,8 @@ const LocationSelect = ({
           label="Phường / Xã"
           name="location.ward"
           control={control}
-          options={wards}
-          disabled={!district}
+          options={district ? wards : []}
+          disabled={false} // ⚠️ tránh bug iOS
           required={required}
         />
 
