@@ -58,12 +58,13 @@ const MyHouseItem = ({ house, onStatusUpdated }) => {
     };
 
     const isDisabled = status === RoomStatus.PENDING_APPROVAL;
+    const isAvailable = status === RoomStatus.AVAILABLE;
 
     return (
         <>
             <div className="house-item">
                 <Link
-                    href={`${PageUrl.Rental}/${slug}`}
+                    href={isAvailable ? `${PageUrl.Rental}/${slug}` : '#'}
                 >
                     <div className="house-images">
                         {coverImage && (

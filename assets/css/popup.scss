@@ -65,9 +65,10 @@
     }
 
     .btn-guide {
-        width: 100%;
+        min-width: 260px;
+        width: 80%;
         margin-top: 30px;
-        padding: 12px 14px;
+        padding: 10px;
 
         background: #f3f7ff;
         color: #1e5eff;

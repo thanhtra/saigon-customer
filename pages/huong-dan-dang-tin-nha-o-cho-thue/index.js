@@ -50,7 +50,7 @@ export default function PostRentalGuide() {
                         <li>Chưa có tài khoản → chọn <b>Tạo tài khoản</b></li>
                     </ul>
 
-                    <GuideImage src={GUIDE_IMAGES.register} alt="Hướng dẫn đăng ký tài khoản" priority />
+                    <GuideImage src={GUIDE_IMAGES.register} alt="Hướng dẫn đăng ký tài khoản" />
                 </GuideSection>
 
                 {/* STEP 2 */}
@@ -207,7 +207,8 @@ function GuideImage({ src, alt, priority = false }) {
                 width={1200}
                 height={700}
                 priority={priority}
-                quality={85}
+                quality={65}
+                loading={priority ? 'eager' : 'lazy'}
             />
         </div>
     )

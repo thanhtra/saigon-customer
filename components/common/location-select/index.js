@@ -174,6 +174,7 @@ const LocationSelect = ({
         <InputField
           label="Tên đường"
           name="location.street"
+          placeholder="Nhập tên đường"
           control={control}
           required={required}
         />
@@ -182,6 +183,7 @@ const LocationSelect = ({
       <div className="form-row">
         <InputField
           label="Số nhà"
+          placeholder="Nhập số nhà"
           name="location.house_number"
           control={control}
           required={required}
@@ -198,6 +200,7 @@ const LocationSelect = ({
       <div className="form-row inline">
         <InputField
           label="Địa chỉ hiển thị (có thể chỉnh)"
+          placeholder="Địa chỉ hiển thị trên website"
           name="location.address_detail_display"
           control={control}
         />

@@ -87,7 +87,10 @@ const InputField = ({
   } = useController({
     name,
     control,
-    rules,
+    rules: {
+      ...(required && { required: 'Trường này là bắt buộc' }),
+      ...rules,
+    },
   });
 
   const isTextarea = type === 'textarea';

@@ -47,7 +47,6 @@ export const BoardingHouseModeOptions = {
     [BoardingHouseMode.CREATE_NEW]: 'Tạo nhà trọ mới',
 };
 
-const per_m3 = 'per_m3';
 
 const PostRoomCreate = ({ slug = '', displayList }) => {
     const fetchedRef = useRef(false);
@@ -68,6 +67,8 @@ const PostRoomCreate = ({ slug = '', displayList }) => {
         formState: { errors, isSubmitting },
     } = useForm({
         mode: 'onBlur',
+        reValidateMode: 'onChange',
+        shouldUnregister: true,
         defaultValues: {
             rental_type: '',
             boarding_mode: null,
@@ -224,22 +225,12 @@ const PostRoomCreate = ({ slug = '', displayList }) => {
         if (!boardingMode) return;
 
         setValue('boarding_house_id', '', {
-            shouldDirty: true,
-            shouldValidate: true,
+            shouldDirty: false,
+            shouldTouch: false,
+            shouldValidate: false,
         });
     }, [boardingMode, setValue]);
 
-    // useEffect(() => {
-    //     if (rentalType !== RentalType.BOARDING_HOUSE) return;
-
-    //     if (boardingHouses.length === 0) {
-    //         setValue('boarding_mode', BoardingHouseMode.CREATE_NEW);
-    //         setValue('boarding_house_id', ''); // Xóa giá trị nếu không có nhà trọ
-    //     } else {
-    //         setValue('boarding_mode', BoardingHouseMode.SELECT_EXISTING);
-    //         // setValue('boarding_house_id', boardingHouses[0]?.id || ''); // Điền ID nhà trọ đã chọn
-    //     }
-    // }, [rentalType, boardingHouses, setValue]);
 
 
     const isBoardingHouse = rentalType === RentalType.BOARDING_HOUSE;
@@ -618,6 +609,7 @@ const PostRoomCreate = ({ slug = '', displayList }) => {
                         <div className="form-row four">
                             <InputFieldCurrency
                                 label="Giá thuê (VNĐ/tháng)"
+                                placeholder="Nhập giá phòng"
                                 name="room.price"
                                 type="number"
                                 control={control}
@@ -627,6 +619,7 @@ const PostRoomCreate = ({ slug = '', displayList }) => {
 
                             <InputFieldCurrency
                                 label="Cọc giữ chỗ (VNĐ)"
+                                placeholder="Nhập cọc giữ chỗ"
                                 name="room.deposit"
                                 type="number"
                                 control={control}
@@ -636,6 +629,7 @@ const PostRoomCreate = ({ slug = '', displayList }) => {
 
                             <InputField
                                 label="Diện tích (m²)"
+                                placeholder="Nhập diện tích"
                                 name="room.area"
                                 type="number"
                                 control={control}
@@ -643,6 +637,7 @@ const PostRoomCreate = ({ slug = '', displayList }) => {
 
                             <InputField
                                 label="Số người tối đa"
+                                placeholder="Nhập số người tối đa"
                                 name="room.max_people"
                                 type="number"
                                 control={control}
@@ -834,7 +829,7 @@ const PostRoomCreate = ({ slug = '', displayList }) => {
                         <button
                             type="button"
                             className="btn"
-                            onClick={handleCreateBoardingHouse}
+                            onClick={handleSubmit(handleCreateBoardingHouse)}
                             disabled={creatingBoardingHouses}
                         >
                             {creatingBoardingHouses ? 'Đang lưu...' : 'Tạo nhà trọ mới'}

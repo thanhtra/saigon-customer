@@ -17,7 +17,10 @@ const SelectField = ({
     } = useController({
         name,
         control,
-        rules,
+        rules: {
+            ...(required && { required: 'Trường này là bắt buộc' }),
+            ...rules,
+        },
     });
 
     return (
