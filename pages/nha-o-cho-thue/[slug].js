@@ -99,7 +99,7 @@ const RoomDetailPage = ({ room }) => {
             </Head>
 
             <section className="container room-detail-page">
-                <Breadcrumb menu={PageUrl.Rooms} title={room.title} />
+                <Breadcrumb menu={PageUrl.Rental} title={room.title} />
 
                 <div className="room-detail-grid">
                     <div className="room-detail-left">

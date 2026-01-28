@@ -1,29 +1,59 @@
-import Link from 'next/link'
+import Link from 'next/link';
 import { PageUrl } from 'lib/constants/tech';
 
-const Breadcrumb = ({ menu = '', title }) => (
-  <section className="breadcrumb">
-    <ul className="breadcrumb-list">
-      <Link href="/">
-        <a href="#"><i className="icon-home"></i></a>
-      </Link>
-      {menu && <li className='b-menu'>
-        {menu === PageUrl.Products && <Link href={PageUrl.Products}>
-          <a href="#">Sản phẩm</a>
-        </Link>}
-        {menu === PageUrl.Discoveries && <Link href={PageUrl.Discoveries}>
-          <a href="#">Khám phá</a>
-        </Link>}
-        {menu === PageUrl.Lands && <Link href={PageUrl.Lands}>
-          <a href="#">Bất động sản</a>
-        </Link>}
-        {menu === PageUrl.Profile && <Link href={PageUrl.Profile}>
-          <a href="#">Tài khoản</a>
-        </Link>}
-      </li>}
-      <li><span>{title}</span></li>
-    </ul>
-  </section>
-)
+/**
+ * Map menu -> breadcrumb level 2
+ */
+const MENU_MAP = {
+  [PageUrl.Products]: {
+    href: PageUrl.Products,
+    label: 'Sản phẩm',
+  },
+  [PageUrl.Rental]: {
+    href: PageUrl.Rental,
+    label: 'Nhà ở cho thuê',
+  },
+  [PageUrl.Lands]: {
+    href: PageUrl.Lands,
+    label: 'Bất động sản',
+  },
+  [PageUrl.Profile]: {
+    href: PageUrl.Profile,
+    label: 'Tài khoản',
+  },
+};
 
-export default Breadcrumb
+const Breadcrumb = ({ menu, title }) => {
+  const menuItem = menu ? MENU_MAP[menu] : null;
+
+  return (
+    <nav className="breadcrumb" aria-label="Breadcrumb">
+      <ol className="breadcrumb-list">
+        {/* ===== HOME (luôn có) ===== */}
+        <li>
+          <Link href="/" aria-label="Trang chủ" className="breadcrumb-home">
+            <i className="icon-home" />
+          </Link>
+        </li>
+
+        {/* ===== MENU LEVEL (Danh sách) ===== */}
+        {menuItem && (
+          <li className="b-menu">
+            <Link href={menuItem.href}>
+              {menuItem.label}
+            </Link>
+          </li>
+        )}
+
+        {/* ===== CURRENT PAGE ===== */}
+        {title && (
+          <li className="active" aria-current="page">
+            <span>{title}</span>
+          </li>
+        )}
+      </ol>
+    </nav>
+  );
+};
+
+export default Breadcrumb;

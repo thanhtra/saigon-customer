@@ -1,10 +1,8 @@
 .rooms-page {
     @include breakpoint(tablet) {
-        padding-top: 20px;
         display: flex;
         align-items: flex-start;
         flex-direction: column;
-        // min-height: 80vh;
     }
 
     .rooms-main {

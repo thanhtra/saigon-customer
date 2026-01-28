@@ -1,5 +1,6 @@
 import SeoHead from 'components/common/seo-head';
 import { shopeeCategories } from 'lib/constants/affiliate';
+import Breadcrumb from 'components/common/breadcrumb';
 
 
 export default function ProductCategoryPage() {
@@ -12,33 +13,33 @@ export default function ProductCategoryPage() {
                 url="https://tratimnha.com/san-pham"
             />
 
-            <section className="category-page">
-                <div className="container">
-                    <h1>Danh mục sản phẩm</h1>
+            <section className="container category-page">
+                <Breadcrumb
+                    title="Danh mục sản phẩm"
+                />
 
-                    <div className="category-grid">
-                        {shopeeCategories.map(cat => (
-                            <a
-                                key={cat.id}
-                                href={cat.url}
-                                target="_blank"
-                                rel="nofollow sponsored noopener noreferrer"
-                                className="category-card"
-                            >
-                                <span className="category-badge">HOT</span>
+                <div className="category-grid">
+                    {shopeeCategories.map(cat => (
+                        <a
+                            key={cat.id}
+                            href={cat.url}
+                            target="_blank"
+                            rel="nofollow sponsored noopener noreferrer"
+                            className="category-card"
+                        >
+                            <span className="category-badge">HOT</span>
 
-                                <img src={cat.image} alt={cat.name} />
-                                <div className="category-overlay" />
+                            <img src={cat.image} alt={cat.name} />
+                            <div className="category-overlay" />
 
-                                <div className="category-card-content">
-                                    <h3>{cat.name}</h3>
-                                    {cat.description && <p>{cat.description}</p>}
-                                    <span className="cta">Xem ưu đãi</span>
-                                </div>
-                            </a>
+                            <div className="category-card-content">
+                                <h3>{cat.name}</h3>
+                                {cat.description && <p>{cat.description}</p>}
+                                <span className="cta">Xem ưu đãi</span>
+                            </div>
+                        </a>
 
-                        ))}
-                    </div>
+                    ))}
                 </div>
             </section>
         </>
