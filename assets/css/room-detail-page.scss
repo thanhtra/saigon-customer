@@ -170,7 +170,6 @@
         padding: 20px;
     }
 
-    /* ===== TITLE ===== */
     .room-title {
         font-size: 20px;
         font-weight: 500;
@@ -182,7 +181,6 @@
         }
     }
 
-    /* ===== PRICE ===== */
     .room-price {
         font-size: 24px;
         font-weight: 500;
@@ -197,7 +195,6 @@
         }
     }
 
-    /* ===== META ===== */
     .room-meta {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
@@ -260,7 +257,6 @@
         }
     }
 
-    /* ===== AMENITIES ===== */
     .room-amenities {
         h4 {
             font-size: 15px;
@@ -282,6 +278,11 @@
             color: #444;
             white-space: nowrap;
         }
+    }
+
+    &.room-description {
+        font-size: 16px;
+        line-height: 20px;
     }
 }
 
