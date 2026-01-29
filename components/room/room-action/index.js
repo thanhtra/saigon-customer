@@ -160,6 +160,7 @@ export default function RoomActions({
                 open={openVideo}
                 onClose={() => setOpenVideo(false)}
                 videoUrl={videoUrl}
+                title={title}
             />}
 
         </>

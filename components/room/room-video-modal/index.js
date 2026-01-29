@@ -1,114 +1,94 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo } from 'react';
 import Portal from 'components/common/portal';
-import { getEmbedUrl } from 'lib/utils';
 
-export default function RoomVideoModal({ open, onClose, videoUrl }) {
-    const [loading, setLoading] = useState(true);
-    const [embedHtml, setEmbedHtml] = useState(null);
+/* ================= HELPERS ================= */
+function getYouTubeEmbedUrl(url) {
+    if (!url) return null;
 
-    const embedUrl = useMemo(() => getEmbedUrl(videoUrl), [videoUrl]);
-    const isTikTok = videoUrl && videoUrl.includes('tiktok.com');
+    // Shorts
+    const shortsMatch = url.match(/youtube\.com\/shorts\/([^?&]+)/);
+    if (shortsMatch) {
+        return `https://www.youtube.com/embed/${shortsMatch[1]}`;
+    }
 
-    /* ================= LOCK SCROLL ================= */
+    // Watch + youtu.be
+    const match = url.match(
+        /(?:youtube\.com\/watch\?v=|youtu\.be\/)([^?&]+)/,
+    );
+
+    return match
+        ? `https://www.youtube.com/embed/${match[1]}`
+        : null;
+}
+
+/* ================= COMPONENT ================= */
+export default function RoomVideoModal({
+    open,
+    onClose,
+    videoUrl,
+    title,
+}) {
+    const youtubeEmbedUrl = useMemo(
+        () => getYouTubeEmbedUrl(videoUrl),
+        [videoUrl],
+    );
+
+    /* Lock scroll */
     useEffect(() => {
         if (!open) return;
-
         const prev = document.body.style.overflow;
         document.body.style.overflow = 'hidden';
-        setLoading(true);
-
         return () => {
             document.body.style.overflow = prev;
         };
     }, [open]);
 
-    /* ================= ESC CLOSE ================= */
+    /* ESC close */
     useEffect(() => {
         if (!open) return;
-
-        const onEsc = (e) => {
-            if (e.key === 'Escape') onClose();
-        };
-
+        const onEsc = (e) => e.key === 'Escape' && onClose();
         window.addEventListener('keydown', onEsc);
         return () => window.removeEventListener('keydown', onEsc);
     }, [open, onClose]);
-
-    /* ================= LOAD TIKTOK OEMBED ================= */
-    useEffect(() => {
-        if (!open || !videoUrl) return;
-
-        if (!isTikTok) {
-            setEmbedHtml(null);
-            return;
-        }
-
-        const loadTikTok = async () => {
-            try {
-                setLoading(true);
-
-                const res = await fetch(
-                    `https://www.tiktok.com/oembed?url=${encodeURIComponent(videoUrl)}`
-                );
-                const data = await res.json();
-
-                setEmbedHtml(data.html);
-            } catch (err) {
-                console.error('TikTok embed error:', err);
-                setEmbedHtml(null);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        loadTikTok();
-    }, [open, videoUrl, isTikTok]);
 
     if (!open) return null;
 
     return (
         <Portal>
-            <div className="video-modal-backdrop" onClick={onClose}>
+            <div
+                className="video-modal-backdrop"
+                onMouseDown={(e) =>
+                    e.target === e.currentTarget && onClose()
+                }
+            >
                 <div
                     className="video-modal"
-                    onClick={(e) => e.stopPropagation()}
+                    onMouseDown={(e) => e.stopPropagation()}
                 >
-                    <button
-                        className="video-close"
-                        onClick={onClose}
-                        aria-label="Đóng"
-                        type="button"
-                    >
-                        ✕
-                    </button>
+                    {/* ===== HEADER ===== */}
+                    <div className="video-modal-header">
+                        <h3 className="video-modal-title" title={title}>
+                            {title}
+                        </h3>
+                        <button
+                            className="video-close"
+                            onClick={onClose}
+                            aria-label="Đóng"
+                            type="button"
+                        >
+                            ✕
+                        </button>
+                    </div>
 
-                    <div className="video-wrapper">
-                        {loading && (
-                            <div className="video-loading">
-                                <div className="video-loading-spinner" />
-                                <p>Đang tải video...</p>
-                            </div>
-                        )}
-
-                        {/* ===== TIKTOK ===== */}
-                        {embedHtml ? (
-                            <div
-                                className="tiktok-embed-wrapper"
-                                dangerouslySetInnerHTML={{ __html: embedHtml }}
-                            />
-                        ) : (
-                            /* ===== OTHER (YouTube, etc) ===== */
+                    {/* ===== VIDEO ===== */}
+                    <div className="video-modal-body">
+                        {youtubeEmbedUrl && (
                             <iframe
-                                src={embedUrl}
-                                title="Video phòng"
-                                frameBorder="0"
+                                src={`${youtubeEmbedUrl}?playsinline=1&rel=0`}
                                 allow="autoplay; encrypted-media; picture-in-picture"
                                 allowFullScreen
-                                onLoad={() => setLoading(false)}
                             />
                         )}
-
-                        <div className="iframe-click-shield" />
                     </div>
                 </div>
             </div>
