@@ -236,7 +236,7 @@
 
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            column-gap: 16px;
+            // column-gap: 16px;
             row-gap: 6px;
         }
 
@@ -247,9 +247,9 @@
         }
 
         @include breakpoint(tablet) {
-            ul {
-                column-gap: 24px;
-            }
+            // ul {
+            //     column-gap: 24px;
+            // }
 
             li {
                 font-size: 15px;
