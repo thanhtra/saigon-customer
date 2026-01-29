@@ -212,15 +212,18 @@
         }
     }
 
-    /* ===== ADDRESS ===== */
     .room-address {
-        font-size: 14px;
+        font-size: 16px;
         margin-bottom: 16px;
         color: #444;
         line-height: 1.4;
+
+        @include breakpoint(tablet) {
+            font-size: 18px;
+            line-height: 1.6;
+        }
     }
 
-    /* ===== FEES ===== */
     .room-fees {
         margin-bottom: 16px;
 
