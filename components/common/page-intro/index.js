@@ -1,16 +1,24 @@
-
-import SwiperCore, { Autoplay, EffectFade } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { SLIDES } from 'lib/constants/data';
+import { Autoplay, EffectFade } from 'swiper/modules';
 
-SwiperCore.use([EffectFade, Autoplay]);
+import 'swiper/css';
+import 'swiper/css/effect-fade';
+
+import { SLIDES } from 'lib/constants/data';
 
 const PageIntro = () => {
     return (
         <section className="page-intro">
             <Swiper
-                autoplay={{ delay: 4000, disableOnInteraction: false }}
+                modules={[Autoplay, EffectFade]}
+                autoplay={{
+                    delay: 4000,
+                    disableOnInteraction: false,
+                }}
                 effect="fade"
+                fadeEffect={{ crossFade: true }}
+                loop
+                speed={800}
             >
                 {SLIDES.map((item, index) => (
                     <SwiperSlide key={index}>
