@@ -4,6 +4,7 @@ import ChangePassword from "components/profile/change-password";
 import ProfileFilter from 'components/profile/filter';
 import ManageBooking from "components/profile/manage-booking";
 import ManageMyHouses from 'components/profile/manage-my-houses';
+import ManageCustomers from 'components/profile/manage-customers';
 import { PageUrl, ProfileTab } from 'lib/constants/tech';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
@@ -47,6 +48,7 @@ const ProfilePage = () => {
                     <div className="profile-content">
                         {activeTab === ProfileTab.Account && <Account />}
                         {activeTab === ProfileTab.ManageBooking && <ManageBooking />}
+                        {activeTab === ProfileTab.ManageCustomers && <ManageCustomers />}
                         {activeTab === ProfileTab.ManagePostRental && <ManageMyHouses />}
                         {activeTab === ProfileTab.ChangePassword && <ChangePassword />}
                     </div>

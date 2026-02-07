@@ -91,14 +91,16 @@ const ManageMyHouses = () => {
             <div className="p-header">
                 <p className="p-title">Danh sách nhà của tôi</p>
 
-                <div className="form">
-                    <div className="form-row inline">
-                        <SelectField
-                            name="status"
-                            control={control}
-                            options={statusOptions}
-                            className="select-tiny"
-                        />
+                <div className='p-filter'>
+                    <div className="form">
+                        <div className="form-row inline">
+                            <SelectField
+                                name="status"
+                                control={control}
+                                options={statusOptions}
+                                className="select-tiny"
+                            />
+                        </div>
                     </div>
                 </div>
             </div>

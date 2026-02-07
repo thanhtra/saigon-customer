@@ -10,6 +10,8 @@ const SelectField = ({
     required = false,
     rules,
     className = '',
+    lbl = '-- Chọn --',
+    hasLabel = true
 }) => {
     const {
         field,
@@ -25,7 +27,7 @@ const SelectField = ({
 
     return (
         <div className="form-group">
-            <div className={`form-select ${className} has-label ${error ? 'has-error' : ''}`}>
+            <div className={`form-select ${className} ${hasLabel ? 'has-label' : ''} ${error ? 'has-error' : ''}`}>
                 <label htmlFor={name}>
                     {label}
                     {required && <span className="required">*</span>}
@@ -37,7 +39,7 @@ const SelectField = ({
                     value={String(field.value ?? '')}
                     disabled={disabled}
                 >
-                    <option value="">-- Chọn --</option>
+                    <option value="">{lbl}</option>
 
                     {options.map((opt, index) => (
                         <option

@@ -87,11 +87,13 @@ const Account = () => {
         <section className="account">
             <div className="p-header">
                 <p className="p-title">Thông tin của tôi</p>
-                {!isEdit && (
-                    <p className="btn-tiny" onClick={() => setIsEdit(true)}>
-                        Chỉnh sửa
-                    </p>
-                )}
+                <div className='p-filter'>
+                    {!isEdit && (
+                        <p className="btn-tiny" onClick={() => setIsEdit(true)}>
+                            Chỉnh sửa
+                        </p>
+                    )}
+                </div>
             </div>
 
             {!isEdit && (

@@ -226,6 +226,12 @@ const Header = ({ showSearchIcon = false }) => {
                                     </a>
                                 </Link>
 
+                                <Link href={{ pathname: PageUrl.Profile, query: { tab: ProfileTab.ManageCustomers } }}>
+                                    <a onClick={onClickNavItem} className={tab === ProfileTab.ManageCustomers ? 'active' : ''}>
+                                        Khách của tôi
+                                    </a>
+                                </Link>
+
                                 <Link href={{ pathname: PageUrl.Profile, query: { tab: ProfileTab.ManagePostRental } }}>
                                     <a
                                         onClick={onClickNavItem}

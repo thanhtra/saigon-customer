@@ -17,6 +17,15 @@ const PROFILE_MENUS = [
     { tab: ProfileTab.ManageBooking, label: 'Lịch xem nhà' },
 
     {
+        tab: ProfileTab.ManageCustomers,
+        label: 'Khách của tôi',
+        roles: [
+            UserRole.Admin,
+            UserRole.Sale,
+        ],
+    },
+
+    {
         tab: ProfileTab.ManagePostRental,
         label: 'Nhà ở cho thuê',
         roles: [
