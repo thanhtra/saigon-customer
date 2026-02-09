@@ -1,0 +1,405 @@
+.land-detail-page {
+    padding: 16px 10px;
+
+    .land-detail-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+
+        @include breakpoint(tablet) {
+            display: grid;
+            grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+            gap: 32px;
+        }
+    }
+
+    .land-detail-left {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+    }
+
+    .land-detail-right {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+
+        @include breakpoint(tablet) {
+            position: sticky;
+            top: 90px;
+        }
+    }
+
+    .admin-contact-box {
+        margin-top: 30px;
+        display: flex;
+        justify-content: flex-end;
+
+        .btn-contact-owner {
+            width: 200px;
+            height: 44px;
+            margin-right: 30px;
+            border-radius: 12px;
+            border: 1px solid rgba(0, 0, 0, 0.10);
+            color: #076836;
+
+            background: #fff;
+            cursor: pointer;
+
+            font-weight: 500;
+            font-size: 14px;
+
+            transition: all 0.18s ease;
+
+            &:hover {
+                border-color: var(--color-main-green);
+                box-shadow: 0 0 0 3px rgba(0, 150, 90, 0.08);
+            }
+
+            &.is-loading {
+                opacity: 0.75;
+                cursor: wait;
+            }
+        }
+    }
+}
+
+.land-gallery {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+
+    /* ===============================
+     * MAIN IMAGE - MOBILE FIRST
+     * =============================== */
+    .land-gallery-main {
+        width: 100%;
+        aspect-ratio: 4 / 3; // 🔥 mobile
+        border-radius: 12px;
+        overflow: hidden;
+        background: #f2f2f2;
+
+        /* FIX IOS SAFARI */
+        max-height: 70vh;
+        contain: layout paint size;
+
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+        }
+    }
+
+    /* ===============================
+     * THUMBNAILS
+     * =============================== */
+    .land-gallery-thumbs {
+        width: 100%;
+        height: 76px; // 🔒 khóa cứng
+        padding: 4px 0;
+
+        .swiper-wrapper {
+            align-items: center;
+        }
+
+        .swiper-slide {
+            height: 68px;
+            display: flex;
+        }
+
+        .thumb {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background: transparent;
+            border-radius: 8px;
+            overflow: hidden;
+            opacity: 0.55;
+            transition: all 0.2s ease;
+
+            &.active {
+                opacity: 1;
+                box-shadow: 0 0 0 2px var(--main-red-2-color);
+            }
+
+            img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                display: block;
+            }
+        }
+    }
+
+    /* ===============================
+     * TABLET & UP
+     * =============================== */
+    @include breakpoint(tablet) {
+        gap: 14px;
+
+        .land-gallery-main {
+            aspect-ratio: 16 / 9;
+            max-height: unset;
+        }
+
+        .land-gallery-thumbs {
+            height: 84px;
+
+            .swiper-slide {
+                height: 76px;
+            }
+        }
+    }
+}
+
+.land-gallery,
+.swiper {
+    z-index: 0;
+}
+
+.land-summary-card {
+    background: #fff;
+    border-radius: 14px;
+    padding: 14px;
+    border: 1px solid #eee;
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.06);
+
+    @include breakpoint(tablet) {
+        padding: 20px;
+    }
+
+    .land-title {
+        font-size: 20px;
+        font-weight: 500;
+        margin-bottom: 10px;
+        line-height: 1.35;
+
+        @include breakpoint(tablet) {
+            font-size: 22px;
+        }
+    }
+
+    .land-price {
+        font-size: 24px;
+        font-weight: 500;
+        color: var(--main-red-2-color);
+        margin-bottom: 16px;
+
+        span {
+            font-size: 18px;
+            font-weight: 400;
+            margin-left: 4px;
+            color: #666;
+        }
+    }
+
+    .land-meta {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 6px 12px;
+        font-size: 14px;
+        margin-bottom: 16px;
+        color: #333;
+
+        strong {
+            font-weight: 500;
+            color: #555;
+        }
+    }
+
+    .land-address {
+        font-size: 16px;
+        margin-bottom: 16px;
+        color: #444;
+        line-height: 1.4;
+
+        @include breakpoint(tablet) {
+            font-size: 18px;
+            line-height: 1.6;
+        }
+    }
+
+    .land-fees {
+        margin-bottom: 16px;
+
+        h4 {
+            font-size: 15px;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+
+        ul {
+            list-style: disc;
+            padding-left: 18px;
+
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            // column-gap: 16px;
+            row-gap: 6px;
+        }
+
+        li {
+            font-size: 14px;
+            line-height: 1.4;
+            color: #333;
+        }
+
+        @include breakpoint(tablet) {
+            // ul {
+            //     column-gap: 24px;
+            // }
+
+            li {
+                font-size: 15px;
+            }
+        }
+    }
+
+    .land-amenities {
+        h4 {
+            font-size: 15px;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+
+        .amenities-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .amenity-tag {
+            background: #f5f6f7;
+            border-radius: 999px;
+            padding: 6px 12px;
+            font-size: 13px;
+            color: #444;
+            white-space: nowrap;
+        }
+    }
+
+    &.land-description {
+        font-size: 16px;
+        line-height: 20px;
+    }
+}
+
+
+.land-single-description {
+    font-size: 16px;
+    line-height: 1.75;
+    color: #333;
+    padding: 12px;
+
+    @include breakpoint(tablet) {
+        padding: 20px;
+    }
+
+    p {
+        margin-bottom: 16px;
+    }
+
+    strong {
+        font-weight: 400;
+        color: #111;
+    }
+
+    em {
+        color: #555;
+    }
+
+    /* ===== HEADINGS (CMS SAFE) ===== */
+    h1,
+    h2,
+    h3,
+    h4 {
+        font-weight: 500;
+        line-height: 1.4;
+        margin: 24px 0 12px;
+        color: #111;
+    }
+
+    h1 {
+        font-size: 22px;
+    }
+
+    h2 {
+        font-size: 20px;
+    }
+
+    h3 {
+        font-size: 18px;
+    }
+
+    h4 {
+        font-size: 16px;
+    }
+
+    /* ===== LIST ===== */
+    ul,
+    ol {
+        padding-left: 22px;
+        margin: 16px 0;
+
+        li {
+            margin-bottom: 8px;
+            line-height: 1.6;
+        }
+    }
+
+    /* ===== IMAGE ===== */
+    img {
+        max-width: 100%;
+        height: auto;
+        display: block;
+        border-radius: 12px;
+        margin: 20px auto;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    }
+
+    /* ===== LINK ===== */
+    a {
+        color: var(--color-main-green);
+        font-weight: 500;
+        text-decoration: underline;
+        text-underline-offset: 3px;
+        transition: color 0.2s ease;
+
+        &:hover {
+            color: darken(#076836, 8%);
+        }
+    }
+
+    /* ===== QUOTE / NOTE ===== */
+    blockquote {
+        margin: 20px 0;
+        padding: 16px 20px;
+        background: #f9fafb;
+        border-left: 4px solid var(--color-main-green);
+        border-radius: 6px;
+        font-style: italic;
+        color: #444;
+    }
+
+    /* ===== TABLE (if any) ===== */
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 20px 0;
+        font-size: 14px;
+
+        th,
+        td {
+            border: 1px solid #eee;
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background: #f5f5f5;
+            font-weight: 400;
+        }
+    }
+}

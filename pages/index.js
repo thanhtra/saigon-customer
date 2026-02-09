@@ -28,7 +28,7 @@ const IndexPage = () => {
 
           <div className="featured-item">
             <div className="col-4 left">
-              <Link href={PageUrl.Lands}>
+              <Link href={PageUrl.Land}>
                 <p className="des-title">Nhà phố Sài Gòn - Thông tin minh bạch, giá trị thực</p>
               </Link>
 
@@ -47,8 +47,7 @@ const IndexPage = () => {
 
               <div className="h-content">
                 <p className="f-i-title">Nhà phố Sài Gòn</p>
-                {/* <Link href={PageUrl.Lands}> */}
-                <Link href={''}>
+                <Link href={PageUrl.Land}>
                   <button className="btn">Xem nhà</button>
                 </Link>
               </div>
@@ -83,7 +82,6 @@ const IndexPage = () => {
             </div>
           </div>
 
-          {/* ===== Tool & Phần mềm ===== */}
           <div className="featured-item">
             <div className="col-4 left">
               <p className="des-title">Tool - Website</p>
@@ -116,7 +114,6 @@ const IndexPage = () => {
             </div>
           </div>
 
-          {/* ===== Website & Dịch vụ ===== */}
           <div className="featured-item col">
             <div className="col-6">
               <div

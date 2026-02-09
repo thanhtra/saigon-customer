@@ -13,8 +13,8 @@ const MENU_MAP = {
     href: PageUrl.Rental,
     label: 'Nhà ở cho thuê',
   },
-  [PageUrl.Lands]: {
-    href: PageUrl.Lands,
+  [PageUrl.Land]: {
+    href: PageUrl.Land,
     label: 'Bất động sản',
   },
   [PageUrl.Profile]: {

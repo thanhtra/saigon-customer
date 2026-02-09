@@ -36,7 +36,7 @@ const Header = ({ showSearchIcon = false }) => {
     const { register, handleSubmit, reset } = useForm();
 
     const isFilterPage = useMemo(() => {
-        return pathname.includes(PageUrl.Rental) || pathname.includes(PageUrl.Lands);
+        return pathname.includes(PageUrl.Rental) || pathname.includes(PageUrl.Land);
     }, [pathname]);
 
     const isLoggedIn = useMemo(() => {
@@ -122,7 +122,7 @@ const Header = ({ showSearchIcon = false }) => {
 
     const openSearchOrFilter = useCallback(() => {
         // Trang nhà thuê / đất => mở filter
-        if (pathname.includes(PageUrl.Rental) || pathname.includes(PageUrl.Lands)) {
+        if (pathname.includes(PageUrl.Rental) || pathname.includes(PageUrl.Land)) {
             dispatch({ type: POPUP_FILTER_OPEN });
             return;
         }
@@ -167,17 +167,14 @@ const Header = ({ showSearchIcon = false }) => {
     return (
         <header className="site-header site-header--fixed">
             <div className="container">
-                {/* LOGO */}
                 <Link href="/">
                     <a className="site-logo" aria-label="Trang chủ">
                         <div className="img-logo" style={{ backgroundImage: 'url(/images/logo.png)' }} />
                     </a>
                 </Link>
 
-                {/* ✅ Overlay click outside (FAST) */}
                 {menuOpen && <div className="nav-overlay" onClick={closeMenu} />}
 
-                {/* NAV */}
                 <nav className={`site-nav ${menuOpen ? 'site-nav--open' : ''}`}>
                     <div className="mobile-nav-header">
                         <span>Menu</span>
@@ -185,28 +182,23 @@ const Header = ({ showSearchIcon = false }) => {
                     </div>
 
                     <div className="nav-menu">
+                        <Link href={PageUrl.Land}>
+                            <a onClick={onClickNavItem} className={pathname.includes(PageUrl.Land) ? 'active' : ''}>
+                                Bất động sản
+                            </a>
+                        </Link>
+
                         <Link href={PageUrl.Rental}>
                             <a onClick={onClickNavItem} className={pathname.includes(PageUrl.Rental) ? 'active' : ''}>
                                 Nhà ở cho thuê
                             </a>
                         </Link>
 
-                        <a
-                            href={`https://zalo.me/${PHONE_ZALO}`}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            onClick={onClickNavItem}
-                            className="cursor-pointer"
-                        >
-                            Bất động sản
-                        </a>
-
                         <Link href={PageUrl.Products}>
                             <a onClick={onClickNavItem} className={pathname.includes(PageUrl.Products) ? 'active' : ''}>
                                 Sản phẩm
                             </a>
                         </Link>
-
 
                         <div className="menu-item-account">
                             <button type="button" className="site-nav-btn btn-account" onClick={toggleMenuAccount}>
@@ -255,7 +247,6 @@ const Header = ({ showSearchIcon = false }) => {
                     </div>
                 </nav>
 
-                {/* ACTIONS */}
                 <div className="site-header-actions">
                     <button
                         className="site-header-btn-post"

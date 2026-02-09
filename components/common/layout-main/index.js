@@ -1,10 +1,10 @@
-import Header from 'components/common/header';
-import Footer from 'components/common/footer';
-import { useRouter } from 'next/router';
-import { useSelector } from 'react-redux';
-import { useMemo } from 'react';
 import clsx from 'clsx';
+import Footer from 'components/common/footer';
+import Header from 'components/common/header';
 import PostFreePopup from 'components/common/post-free-popup';
+import { useRouter } from 'next/router';
+import { useMemo } from 'react';
+import { useSelector } from 'react-redux';
 
 const Layout = ({ children }) => {
     const { pathname } = useRouter();
@@ -21,15 +21,8 @@ const Layout = ({ children }) => {
         [isPopupOpen, isPopupFilterOpen, isPopupAddAddressOpen, isPopupPostFree]
     );
 
-    const isShowContact = useMemo(
-        () =>
-            pathname.includes('bat-dong-san') &&
-            !pathname.includes('dang-tin-bat-dong-san'),
-        [pathname]
-    );
-
-    const showSearchIcon = pathname.startsWith('/nha-o-cho-thue')
-    const hideFooter = pathname.startsWith('/nha-o-cho-thue') || pathname.startsWith('/tai-khoan');
+    const showSearchIcon = pathname.startsWith('/nha-o-cho-thue') || pathname.startsWith('/bat-dong-san')
+    const hideFooter = pathname.startsWith('/nha-o-cho-thue') || pathname.startsWith('/tai-khoan') || pathname.startsWith('/bat-dong-san');
 
     return (
         <div
@@ -47,28 +40,6 @@ const Layout = ({ children }) => {
             </main>
 
             {!hideFooter && <Footer />}
-
-            <div
-                className={clsx('contact-action', {
-                    hide: !isShowContact
-                })}
-            >
-                <a
-                    className="btn btn_call zalo"
-                    href="https://zalo.me/0968922006"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    Zalo
-                </a>
-
-                <a
-                    className="btn btn_call"
-                    href="tel:0968922006"
-                >
-                    Bấm gọi
-                </a>
-            </div>
         </div>
     );
 };
