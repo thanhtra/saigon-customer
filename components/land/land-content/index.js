@@ -31,7 +31,7 @@ const LandContent = ({ land }) => {
 
                 {area && (
                     <div>
-                        <strong>Diện tích:</strong>{formatArea(area)}
+                        <strong>Diện tích:</strong> {formatArea(area)}
                     </div>
                 )}
             </div>

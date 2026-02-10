@@ -97,15 +97,27 @@ export default function PopupContact({ isShow, hideModal, contact }) {
                             </div>
 
                             <div className="contact-row full note">
-                                <span className="label">📝 Ghi chú tài khoản</span>
-                                <span className="value">{contact.user_note || "-"}</span>
+                                <span className="label">📝 Ghi chú hợp tác</span>
+                                <span className="value">{contact.user_note} - {contact.collaborator_note}</span>
                             </div>
 
                             <div className="contact-row full note">
-                                <span className="label">📝 Ghi chú hợp tác</span>
-                                <span className="value">{contact.collaborator_note || "-"}</span>
+                                <span className="label">📝 Ghi chú bất động sản</span>
+                                <div className="value" dangerouslySetInnerHTML={{ __html: contact.land_private_note }} />
                             </div>
 
+                            {!!contact.land_daitheky_link && (
+                                <div className="contact-row full">
+                                    <a
+                                        className="link"
+                                        href={contact.land_daitheky_link}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                    >
+                                        🌐 Daitheky
+                                    </a>
+                                </div>
+                            )}
 
                             <div className="contact-row full note">
                                 <span className="label">📝 Hoa hồng</span>

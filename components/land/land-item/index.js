@@ -198,10 +198,10 @@ const LandItem = ({ land }) => {
 
                                     <span className="land-dimension">
                                         {[
-                                            width_top && `Ngang trước ${Number(width_top)}m`,
-                                            width_bottom && `Ngang sau ${Number(width_bottom)}m`,
-                                            length_left && `Dài trái ${Number(length_left)}m`,
-                                            length_right && `Dài phải ${Number(length_right)}m`,
+                                            width_top && `Ngang trước: ${Number(width_top)}m`,
+                                            width_bottom && `Ngang sau: ${Number(width_bottom)}m`,
+                                            length_left && `Dài trái: ${Number(length_left)}m`,
+                                            length_right && `Dài phải: ${Number(length_right)}m`,
                                         ]
                                             .filter(Boolean)
                                             .join(' · ')}
