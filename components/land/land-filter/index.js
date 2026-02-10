@@ -19,7 +19,7 @@ import {
     PriceLevelOptions,
 } from 'lib/constants/landFilters';
 
-import { LandTypeOptions } from 'lib/constants/data';
+import { LandTypeOptions, LegalStatusOptions, FurnitureStatusOptions, HouseDirectionOptions, LandAmenityOptions } from 'lib/constants/data';
 
 import { DEFAULT_PROVINCE_ID } from 'lib/locations/const';
 
@@ -136,22 +136,6 @@ const LandFilter = ({ searchLands, query }) => {
         }));
     }, []);
 
-    const selectProvince = async e => {
-        const provinceId = String(e.target.value);
-
-        setFilters(prev => ({
-            ...prev,
-            province: provinceId,
-            district: '',
-            ward: '',
-        }));
-
-        setWards([]);
-        const ds = provinceId ? await getDistrictOptions(provinceId) : [];
-        setDistricts(ds);
-    };
-
-
     const selectDistrict = async e => {
         const districtId = e.target.value;
         const provinceId = String(filters.province || DEFAULT_PROVINCE_ID);
@@ -226,11 +210,11 @@ const LandFilter = ({ searchLands, query }) => {
                         type="text"
                         className="filter-input"
                         placeholder="Nhập từ khóa..."
-                        value={filters.keyword || ''}
+                        value={filters.key_search || ''}
                         onChange={e =>
                             setFilters(prev => ({
                                 ...prev,
-                                keyword: e.target.value,
+                                key_search: e.target.value,
                             }))
                         }
                     />
@@ -339,6 +323,121 @@ const LandFilter = ({ searchLands, query }) => {
                         ))}
                     </div>
                 </div>
+
+                <div className="filter-block">
+                    <p className="filter-title">Phòng</p>
+
+                    <div className="filter-row">
+                        <select
+                            className="filter-select"
+                            value={filters.bedrooms}
+                            onChange={e =>
+                                setFilters(prev => ({ ...prev, bedrooms: e.target.value }))
+                            }
+                        >
+                            <option value="">Phòng ngủ</option>
+                            {[1, 2, 3, 4, 5, 6, 7].map(n => (
+                                <option key={n} value={n}>{`${n} PN`}</option>
+                            ))}
+                        </select>
+
+                        <select
+                            className="filter-select"
+                            value={filters.toilets}
+                            onChange={e =>
+                                setFilters(prev => ({ ...prev, toilets: e.target.value }))
+                            }
+                        >
+                            <option value="">Phòng WC</option>
+                            {[1, 2, 3, 4, 5, 6, 7].map(n => (
+                                <option key={n} value={n}>{`${n} WC`}</option>
+                            ))}
+                        </select>
+                    </div>
+                </div>
+
+                <div className="filter-block">
+                    <p className="filter-title">Pháp lý</p>
+                    <div className="filter-list">
+                        {LegalStatusOptions.map(item => (
+                            <div
+                                key={item.value}
+                                className={`filter-item ${filters.legal_status === item.value ? 'active' : ''
+                                    }`}
+                                onClick={() =>
+                                    selectSingleValue('legal_status', item.value)
+                                }
+                            >
+                                {item.label}
+                            </div>
+                        ))}
+                    </div>
+                </div>
+
+                <div className="filter-block">
+                    <p className="filter-title">Tiện ích</p>
+                    <div className="filter-list">
+                        {LandAmenityOptions.map(item => {
+                            const active = filters.amenities
+                                .split(',')
+                                .includes(item.value);
+
+                            return (
+                                <div
+                                    key={item.value}
+                                    className={`filter-item ${active ? 'active' : ''}`}
+                                    onClick={() =>
+                                        toggleMultiValue('amenities', item.value)
+                                    }
+                                >
+                                    {item.label}
+                                </div>
+                            );
+                        })}
+                    </div>
+                </div>
+
+                <div className="filter-block">
+                    <p className="filter-title">Nội thất</p>
+                    <div className="filter-list">
+                        {FurnitureStatusOptions.map(item => (
+                            <div
+                                key={item.value}
+                                className={`filter-item ${filters.furniture_status === item.value ? 'active' : ''
+                                    }`}
+                                onClick={() =>
+                                    selectSingleValue('furniture_status', item.value)
+                                }
+                            >
+                                {item.label}
+                            </div>
+                        ))}
+                    </div>
+                </div>
+
+                <div className="filter-block">
+                    <p className="filter-title">Hướng nhà</p>
+                    <div className="filter-list">
+                        {HouseDirectionOptions.map(item => {
+                            const active = filters.house_direction
+                                .split(',')
+                                .includes(item.value);
+
+                            return (
+                                <div
+                                    key={item.value}
+                                    className={`filter-item ${active ? 'active' : ''}`}
+                                    onClick={() =>
+                                        toggleMultiValue('house_direction', item.value)
+                                    }
+                                >
+                                    {item.label}
+                                </div>
+                            );
+                        })}
+                    </div>
+                </div>
+
             </div>
         </div>
 
@@ -363,9 +462,9 @@ const LandFilter = ({ searchLands, query }) => {
                             type="text"
                             className="filter-search-input"
                             placeholder="Nhập từ khóa (đường, khu vực...)"
-                            value={filters.keyword || ''}
+                            value={filters.key_search || ''}
                             onChange={e =>
-                                setFilters(prev => ({ ...prev, keyword: e.target.value }))
+                                setFilters(prev => ({ ...prev, key_search: e.target.value }))
                             }
                         />
                     </div>
@@ -468,6 +567,118 @@ const LandFilter = ({ searchLands, query }) => {
                                     {a.label}
                                 </div>
                             ))}
+                        </div>
+                    </div>
+
+                    <div className="filter-card">
+                        <p className="filter-card-title">🚪 Phòng</p>
+
+                        <div className="filter-row">
+                            <select
+                                className="filter-select"
+                                value={filters.bedrooms}
+                                onChange={e =>
+                                    setFilters(prev => ({ ...prev, bedrooms: e.target.value }))
+                                }
+                            >
+                                <option value="">Phòng ngủ</option>
+                                {[1, 2, 3, 4, 5, 6, 7].map(n => (
+                                    <option key={n} value={n}>{`${n} PN`}</option>
+                                ))}
+                            </select>
+
+                            <select
+                                className="filter-select"
+                                value={filters.toilets}
+                                onChange={e =>
+                                    setFilters(prev => ({ ...prev, toilets: e.target.value }))
+                                }
+                            >
+                                <option value="">Phòng WC</option>
+                                {[1, 2, 3, 4, 5, 6, 7].map(n => (
+                                    <option key={n} value={n}>{`${n} WC`}</option>
+                                ))}
+                            </select>
+                        </div>
+                    </div>
+
+                    <div className="filter-card">
+                        <p className="filter-card-title">📄 Pháp lý</p>
+                        <div className="filter-pill-group grid-2">
+                            {LegalStatusOptions.map(item => (
+                                <div
+                                    key={item.value}
+                                    className={`pill ${filters.legal_status === item.value ? 'active' : ''}`}
+                                    onClick={() =>
+                                        selectSingleValue('legal_status', item.value)
+                                    }
+                                >
+                                    {item.label}
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+
+                    <div className="filter-card">
+                        <p className="filter-card-title">✨ Tiện ích</p>
+                        <div className="filter-pill-group grid-2">
+                            {LandAmenityOptions.map(item => {
+                                const active = filters.amenities
+                                    .split(',')
+                                    .includes(item.value);
+
+                                return (
+                                    <div
+                                        key={item.value}
+                                        className={`pill ${active ? 'active' : ''}`}
+                                        onClick={() =>
+                                            toggleMultiValue('amenities', item.value)
+                                        }
+                                    >
+                                        {item.label}
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    </div>
+
+                    <div className="filter-card">
+                        <p className="filter-card-title">🛋️ Nội thất</p>
+                        <div className="filter-pill-group grid-2">
+                            {FurnitureStatusOptions.map(item => (
+                                <div
+                                    key={item.value}
+                                    className={`pill ${filters.furniture_status === item.value ? 'active' : ''}`}
+                                    onClick={() =>
+                                        selectSingleValue('furniture_status', item.value)
+                                    }
+                                >
+                                    {item.label}
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+
+                    <div className="filter-card">
+                        <p className="filter-card-title">🧭 Hướng nhà</p>
+                        <div className="filter-pill-group grid-3">
+                            {HouseDirectionOptions.map(item => {
+                                const active = filters.house_direction
+                                    .split(',')
+                                    .includes(item.value);
+
+                                return (
+                                    <div
+                                        key={item.value}
+                                        className={`pill ${active ? 'active' : ''}`}
+                                        onClick={() =>
+                                            toggleMultiValue('house_direction', item.value)
+                                        }
+                                    >
+                                        {item.label}
+                                    </div>
+                                );
+                            })}
                         </div>
                     </div>
 

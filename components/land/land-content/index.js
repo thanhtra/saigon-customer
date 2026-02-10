@@ -1,3 +1,9 @@
+import {
+    FurnitureStatusLabels,
+    HouseDirectionLabels,
+    LandAmenityLabels,
+    LegalStatusLabels
+} from 'lib/constants/data';
 import { formatArea } from 'lib/utils';
 
 const LandContent = ({ land }) => {
@@ -10,7 +16,14 @@ const LandContent = ({ land }) => {
         width_bottom,
         length_left,
         length_right,
-        address_detail_display
+        address_detail_display,
+
+        bedrooms,
+        toilets,
+        amenities,
+        legal_status,
+        furniture_status,
+        house_direction,
     } = land;
 
     return (
@@ -25,13 +38,40 @@ const LandContent = ({ land }) => {
             <div className="land-meta">
                 {structure && (
                     <div>
-                        <strong>Kết cấu:</strong> {structure}
+                        <strong>Kết cấu:</strong><span className='land-value'> {structure}</span>
                     </div>
                 )}
 
                 {area && (
                     <div>
-                        <strong>Diện tích:</strong> {formatArea(area)}
+                        <strong>Diện tích:</strong><span className='land-value'> {formatArea(area)}</span>
+                    </div>
+                )}
+
+                {(bedrooms || toilets) && (
+                    <div>
+                        <strong>Phòng:</strong>{' '}
+                        <span className='land-value'>{bedrooms && `${bedrooms} PN`}</span>
+                        {bedrooms && toilets && ' • '}
+                        <span className='land-value'>{toilets && `${toilets} WC`}</span>
+                    </div>
+                )}
+
+                {house_direction && (
+                    <div>
+                        <strong>Hướng nhà:</strong><span className='land-value'> {HouseDirectionLabels[house_direction]}</span>
+                    </div>
+                )}
+
+                {legal_status && (
+                    <div>
+                        <strong>Pháp lý:</strong><span className='land-value'> {LegalStatusLabels[legal_status]}</span>
+                    </div>
+                )}
+
+                {furniture_status && (
+                    <div>
+                        <strong>Nội thất:</strong><span className='land-value'> {FurnitureStatusLabels[furniture_status]}</span>
                     </div>
                 )}
             </div>
@@ -45,12 +85,25 @@ const LandContent = ({ land }) => {
             <div className="land-fees">
                 <h4>Kích thước</h4>
                 <ul>
-                    <li>Ngang trên: {Number(width_top)}m</li>
-                    <li>Ngang dưới: {Number(width_bottom)}m</li>
-                    <li>Dài trái: {Number(length_left)}m</li>
-                    <li>Dài phải: {Number(length_right)}m</li>
+                    <li>Ngang trên: <span className='land-value'>{Number(width_top)} m</span></li>
+                    <li>Ngang dưới: <span className='land-value'>{Number(width_bottom)} m</span></li>
+                    <li>Dài trái: <span className='land-value'>{Number(length_left)} m</span></li>
+                    <li>Dài phải: <span className='land-value'>{Number(length_right)} m</span></li>
                 </ul>
             </div>
+
+            {!!amenities.length && (
+                <div className="land-amenities">
+                    <h4>Tiện ích</h4>
+                    <div className="amenities-grid">
+                        {amenities.map((key) => (
+                            <span key={key} className="amenity-tag">
+                                {LandAmenityLabels[key]}
+                            </span>
+                        ))}
+                    </div>
+                </div>
+            )}
 
         </section>
     );

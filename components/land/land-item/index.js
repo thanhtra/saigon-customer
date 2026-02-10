@@ -1,5 +1,9 @@
 import LandActions from 'components/land/land-action/index';
-import { LandTypeLabels } from 'lib/constants/data';
+import {
+    LandTypeLabels, HouseDirectionLabels,
+    LegalStatusLabels, FurnitureStatusLabels, LandAmenityLabels,
+    FurnitureStatus, LegalStatus, HouseDirection
+} from 'lib/constants/data';
 import { PageUrl } from 'lib/constants/tech';
 import { formatArea } from 'lib/utils/index';
 import Link from 'next/link';
@@ -21,7 +25,13 @@ const LandItem = ({ land }) => {
         width_bottom,
         length_left,
         length_right,
-        video_url
+        video_url,
+        bedrooms,
+        toilets,
+        house_direction,
+        legal_status,
+        furniture_status,
+        amenities
     } = land;
 
 
@@ -168,6 +178,20 @@ const LandItem = ({ land }) => {
                             </>
                         )}
 
+                        {(bedrooms || toilets) && (
+                            <span className="meta">
+                                <span className="icon icon-bed">
+                                    🛏
+                                </span>
+                                <span>
+                                    {bedrooms ? `${bedrooms} PN` : ''}
+                                    {bedrooms && toilets ? ' · ' : ''}
+                                    {toilets ? `${toilets} WC` : ''}
+                                </span>
+                            </span>
+                        )}
+
+
                         {(width_top || width_bottom || length_left || length_right) && (
                             <>
                                 <span className="meta-dimension">
@@ -209,6 +233,65 @@ const LandItem = ({ land }) => {
                                 </span>
                             </>
                         )}
+
+                        <div className="land-extra">
+                            {house_direction && house_direction !== HouseDirection.Updating && (
+                                <div className="extra-item">
+                                    🧭 <span>{HouseDirectionLabels[house_direction]}</span>
+                                </div>
+                            )}
+
+                            {legal_status && legal_status !== LegalStatus.Updating && (
+                                <div className="extra-item">
+                                    📜 <span>{LegalStatusLabels[legal_status]}</span>
+                                </div>
+                            )}
+
+                            {furniture_status && furniture_status !== FurnitureStatus.Updating && (
+                                <div className="extra-item">
+                                    🛋 <span>{FurnitureStatusLabels[furniture_status]}</span>
+                                </div>
+                            )}
+                        </div>
+
+                        <div className="land-amenities">
+                            {
+                                amenities.length > 0 && <span className="icon-amenity">
+                                    <svg
+                                        width="12"
+                                        height="12"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                        <path
+                                            d="M3 11L12 3l9 8v10a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1V11Z"
+                                            stroke="currentColor"
+                                            strokeWidth="2"
+                                            strokeLinejoin="round"
+                                        />
+                                        <path
+                                            d="M9 11l2 2 4-4"
+                                            stroke="currentColor"
+                                            strokeWidth="2"
+                                            strokeLinecap="round"
+                                        />
+                                    </svg>
+                                </span>
+                            }
+
+                            {amenities?.slice(0, 8).map(item => (
+                                <span key={item} className="amenity-chip">
+                                    {LandAmenityLabels[item]}
+                                </span>
+                            ))}
+                            {amenities?.length > 8 && (
+                                <span className="amenity-more">
+                                    +{amenities.length - 8}
+                                </span>
+                            )}
+                        </div>
+
                     </div>
                 </div>
             </Link>
