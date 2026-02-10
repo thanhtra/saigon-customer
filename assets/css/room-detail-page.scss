@@ -283,6 +283,15 @@
     &.room-description {
         font-size: 16px;
         line-height: 20px;
+
+        pre {
+            white-space: pre-wrap;
+            /* cho xuống dòng */
+            word-break: break-word;
+            /* bẻ từ dài */
+            overflow-wrap: anywhere;
+            /* emoji + text dài */
+        }
     }
 }
 
