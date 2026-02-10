@@ -1,3 +1,33 @@
+import Document, { Html, Head, Main, NextScript } from 'next/document';
+
+export default class CustomDocument extends Document {
+  render() {
+    return (
+      <Html lang="vi">
+        <Head>
+          <meta charSet="UTF-8" />
+          <meta name="viewport" content="width=device-width, initial-scale=1" />
+          <meta name="robots" content="index, follow" />
+          <link rel="icon" href="/favicon.ico" />
+
+          <meta property="fb:app_id" content="588186160811740" />
+        </Head>
+
+        <body>
+          <h1 hidden>Bất động sản Sài Gòn</h1>
+          <h2 hidden>Mua bán & Cho thuê nhà phố, phòng trọ</h2>
+
+          <Main />
+          <NextScript />
+        </body>
+      </Html>
+    );
+  }
+}
+
+
+
+
 // import Document, { Html, Head, Main, NextScript } from 'next/document';
 
 // export default class CustomDocument extends Document {
@@ -40,30 +70,3 @@
 //   }
 // }
 
-
-import Document, { Html, Head, Main, NextScript } from 'next/document';
-
-export default class CustomDocument extends Document {
-  render() {
-    return (
-      <Html lang="vi">
-        <Head>
-          <meta charSet="UTF-8" />
-          <meta name="viewport" content="width=device-width, initial-scale=1" />
-          <meta name="robots" content="index, follow" />
-          <link rel="icon" href="/favicon.ico" />
-
-          <meta property="fb:app_id" content="588186160811740" />
-        </Head>
-
-        <body>
-          <h1 hidden>Bất động sản Sài Gòn</h1>
-          <h2 hidden>Mua bán & Cho thuê nhà phố, phòng trọ</h2>
-
-          <Main />
-          <NextScript />
-        </body>
-      </Html>
-    );
-  }
-}

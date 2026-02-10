@@ -1,13 +1,13 @@
 
 import Breadcrumb from 'components/common/breadcrumb';
 import PopupContact from 'components/common/popup-contact-land';
+import SeoHead from 'components/common/seo-head';
 import LandContent from 'components/land/land-content';
 import Description from 'components/land/land-description';
 import LandGallery from 'components/land/land-gallery';
 import { getContact, getLandDetail } from 'lib/api/land.api';
 import { PageUrl, UserRole } from 'lib/constants/tech';
 import { formatVnd } from 'lib/utils';
-import Head from 'next/head';
 import { useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
@@ -70,33 +70,21 @@ const LandDetailPage = ({ land }) => {
 
     const coverImage = land?.uploads?.find(upload => upload.is_cover);
     const title = `${land.title} - ${formatVnd(land.price)}`;
-    const description = `${land.title}, ${land?.rental?.address_detail_display}. Giá tốt, pháp lý rõ ràng.`;
+    const description = `${land.title}, ${land?.address_detail_display}. Giá tốt, pháp lý rõ ràng.`;
     const bkUrl = `${process.env.NEXT_PUBLIC_API_URL}/uploads`;
     const filePath = coverImage?.file_path;
-    const ogImage = filePath ? `${bkUrl}/${filePath}` : 'https://tratimnha.com/images/intro/phong-tro-sai-gon.jpg';
-    const url = `https://tratimnha.com/nha-o-cho-thue/${land.slug}`;
+    const ogImage = filePath ? `${bkUrl}${filePath}` : 'https://tratimnha.com/og/land.jpg';
+    const url = `https://tratimnha.com/bat-dong-san/${land.slug}`;
 
     return (
         <>
-            <Head>
-                <title>{title}</title>
-                <meta name="description" content={description} />
-                <link rel="canonical" href={url} />
-
-                <meta property="og:type" content="article" />
-                <meta property="og:title" content={title} />
-                <meta property="og:description" content={description} />
-                <meta property="og:image" content={ogImage} />
-                <meta property="og:image:width" content="1200" />
-                <meta property="og:image:height" content="630" />
-                <meta property="og:image:type" content="image/jpeg" />
-                <meta property="og:url" content={url} />
-                <meta property="og:site_name" content="Bất động sản Sài Gòn" />
-                <meta property="og:locale" content="vi_VN" />
-
-                <meta name="twitter:card" content="summary_large_image" />
-                <meta name="twitter:image" content={ogImage} />
-            </Head>
+            <SeoHead
+                title={title}
+                description={description}
+                image={ogImage}
+                url={url}
+                type="article"
+            />
 
             <section className="container land-detail-page">
                 <Breadcrumb menu={PageUrl.Land} title={land.title} />
