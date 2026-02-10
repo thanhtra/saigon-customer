@@ -12,13 +12,12 @@ const Layout = ({ children }) => {
     const {
         isPopupOpen,
         isPopupFilterOpen,
-        isPopupAddAddressOpen,
         isPopupPostFree
     } = useSelector((state) => state.commons);
 
     const isPopupActive = useMemo(
-        () => isPopupOpen || isPopupFilterOpen || isPopupAddAddressOpen || isPopupPostFree,
-        [isPopupOpen, isPopupFilterOpen, isPopupAddAddressOpen, isPopupPostFree]
+        () => isPopupOpen || isPopupFilterOpen || isPopupPostFree,
+        [isPopupOpen, isPopupFilterOpen, isPopupPostFree]
     );
 
     const showSearchIcon = pathname.startsWith('/nha-o-cho-thue') || pathname.startsWith('/bat-dong-san')

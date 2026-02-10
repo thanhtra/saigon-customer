@@ -9,7 +9,6 @@ import {
     POPUP_FILTER_HIDE,
     POPUP_HIDE,
     POPUP_OPEN,
-    POPUP_ADD_ADDRESS_HIDE,
     POPUP_FILTER_OPEN,
     POPUP_POST_FREE_OPEN,
 } from 'lib/store/type/common-type';
@@ -17,7 +16,6 @@ import {
 import { logout } from 'lib/api/auth.api';
 import { REMOVE_USER } from 'lib/store/type/user-type';
 
-const PHONE_ZALO = '0968922006';
 
 const Header = ({ showSearchIcon = false }) => {
     const router = useRouter();
@@ -50,7 +48,6 @@ const Header = ({ showSearchIcon = false }) => {
         // ✅ defer để tránh block render
         const t = setTimeout(() => {
             dispatch({ type: POPUP_HIDE });
-            dispatch({ type: POPUP_ADD_ADDRESS_HIDE });
             dispatch({ type: POPUP_FILTER_HIDE });
         }, 0);
 

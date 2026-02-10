@@ -1,10 +1,10 @@
 import Breadcrumb from 'components/common/breadcrumb';
+import SeoHead from 'components/common/seo-head';
 import LandFilter from 'components/land/land-filter';
 import LandsContent from 'components/land/lands-content';
 import { useLandRouter } from 'hooks/useLandRouter';
 import { getLands } from 'lib/api/land.api';
 import { normalizeLandQuery } from 'lib/utils/normalizeLandQuery';
-import SeoHead from 'components/common/seo-head';
 
 export async function getServerSideProps({ query }) {
     try {
@@ -42,10 +42,10 @@ const LandPage = ({ lands, meta }) => {
     return (
         <>
             <SeoHead
-                title="Nhà ở cho thuê tại Sài Gòn | Phòng trọ, căn hộ, nhà nguyên căn"
-                description="Tổng hợp nhà ở cho thuê tại Sài Gòn: phòng trọ, căn hộ, nhà nguyên căn chính chủ. Giá tốt, pháp lý rõ ràng, cập nhật liên tục."
-                image="https://tratimnha.com/og/home.jpg"
-                url="https://tratimnha.com/nha-o-cho-thue"
+                title="Bất động sản Sài Gòn | Mua bán, cho thuê nhà đất chính chủ"
+                description="Tổng hợp bất động sản tại Sài Gòn: mua bán, cho thuê nhà đất, căn hộ, mặt bằng chính chủ. Giá tốt, pháp lý rõ ràng, cập nhật liên tục mỗi ngày."
+                image="https://tratimnha.com/og/land.jpg"
+                url="https://tratimnha.com/bat-dong-san"
                 type="website"
             />
 
