@@ -10,14 +10,13 @@ const Layout = ({ children }) => {
     const { pathname } = useRouter();
 
     const {
-        isPopupOpen,
         isPopupFilterOpen,
         isPopupPostFree
     } = useSelector((state) => state.commons);
 
     const isPopupActive = useMemo(
-        () => isPopupOpen || isPopupFilterOpen || isPopupPostFree,
-        [isPopupOpen, isPopupFilterOpen, isPopupPostFree]
+        () => isPopupFilterOpen || isPopupPostFree,
+        [isPopupFilterOpen, isPopupPostFree]
     );
 
     const showSearchIcon = pathname.startsWith('/nha-o-cho-thue') || pathname.startsWith('/bat-dong-san')

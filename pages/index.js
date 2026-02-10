@@ -106,29 +106,48 @@ const IndexPage = () => {
             </div>
           </div>
 
+
           <div className="featured-item col">
             <div className="col-6">
               <div
                 className="bg-image"
-                style={{ backgroundImage: "url(/images/intro/website-dich-vu.jpg)" }}
+                style={{ backgroundImage: "url(/images/intro/san-pham-chat-luong.jpg)" }}
               />
               <div className="overlay" />
 
               <div className="h-content">
-                <p className="f-i-title">Dịch vụ đề xuất</p>
-                <button className="btn">Khám phá ngay</button>
+                <p className="f-i-title">Sản phẩm chất lượng</p>
+                <Link href={PageUrl.Products}>
+                  <button className="btn">Xem ngay</button>
+                </Link>
               </div>
             </div>
 
             <div className="col-4 right">
-              <p className="des-title">Giới thiệu website & dịch vụ chất lượng</p>
+              <p className="des-title">
+                Những sản phẩm chất lượng, đã chọn lọc
+              </p>
 
-              <div className="item"><p className="txt-des-title">Chọn lọc và giới thiệu các nền tảng uy tín</p></div>
-              <div className="item"><p className="txt-des-title">Phù hợp cho cá nhân, doanh nghiệp và người kinh doanh</p></div>
-              <div className="item"><p className="txt-des-title">Dễ sử dụng - thông tin rõ ràng - triển khai nhanh</p></div>
-              <div className="item"><p className="txt-des-title">Giúp tiết kiệm thời gian tìm hiểu và lựa chọn</p></div>
+              <div className="item">
+                <p className="txt-des-title">
+                  Chỉ giới thiệu sản phẩm tốt, đúng mô tả, dễ sử dụng
+                </p>
+              </div>
+
+              <div className="item">
+                <p className="txt-des-title">
+                  Phù hợp cho nhu cầu hằng ngày và sử dụng lâu dài
+                </p>
+              </div>
+
+              <div className="item">
+                <p className="txt-des-title">
+                  Mục tiêu của tôi là giúp bạn mua đúng và yên tâm sử dụng
+                </p>
+              </div>
             </div>
           </div>
+
 
         </div>
       </section >
@@ -163,10 +182,10 @@ const IndexPage = () => {
 
             <div className="video-wrapper">
               <iframe
-                loading="lazy"
-                src="https://www.youtube.com/embed/2Xepq4XEI8g"
+                src="https://www.youtube.com/embed/YGfiAO2jJAA"
                 title="Giới thiệu dịch vụ"
-                allow="autoplay; encrypted-media"
+                loading="lazy"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
               />
             </div>
@@ -288,7 +307,9 @@ const IndexPage = () => {
         <div className="container">
           <h3>Bạn đang cần giải pháp cho nhà ở, kinh doanh hoặc công nghệ?</h3>
           <p>Để lại thông tin - chúng tôi sẽ liên hệ và tư vấn phù hợp nhất</p>
-          <button className="btn">Nhận tư vấn miễn phí</button>
+          <button className="btn" onClick={() => {
+            window.open('https://zalo.me/0968922006', '_blank');
+          }}>Nhận tư vấn miễn phí</button>
         </div>
       </section>
 

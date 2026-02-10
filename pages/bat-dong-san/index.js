@@ -46,7 +46,6 @@ const LandPage = ({ lands, meta }) => {
                 description="Tổng hợp bất động sản tại Sài Gòn: mua bán, cho thuê nhà đất, căn hộ, mặt bằng chính chủ. Giá tốt, pháp lý rõ ràng, cập nhật liên tục mỗi ngày."
                 image="https://tratimnha.com/og/land.jpg"
                 url="https://tratimnha.com/bat-dong-san"
-                type="website"
             />
 
             <section className="container lands-page">

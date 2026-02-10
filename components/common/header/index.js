@@ -1,14 +1,13 @@
+
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useCallback, useEffect, useMemo, useState, startTransition } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 
 import { PageUrl, ProfileTab } from 'lib/constants/tech';
 import {
     POPUP_FILTER_HIDE,
-    POPUP_HIDE,
-    POPUP_OPEN,
     POPUP_FILTER_OPEN,
     POPUP_POST_FREE_OPEN,
 } from 'lib/store/type/common-type';
@@ -25,8 +24,6 @@ const Header = ({ showSearchIcon = false }) => {
     const { tab } = router.query || {};
 
     const { user } = useSelector((state) => state.users);
-    const { isPopupOpen } = useSelector((state) => state.commons);
-
     const [menuOpen, setMenuOpen] = useState(false);
     const [searchOpen, setSearchOpen] = useState(false);
     const [openMenuAccount, setOpenMenuAccount] = useState(false);
@@ -41,29 +38,10 @@ const Header = ({ showSearchIcon = false }) => {
         return !!user && Object.keys(user).length > 0;
     }, [user]);
 
-    /* =========================================
-     * INIT: reset popup state on mount (optional)
-     * ========================================= */
     useEffect(() => {
-        // ✅ defer để tránh block render
-        const t = setTimeout(() => {
-            dispatch({ type: POPUP_HIDE });
-            dispatch({ type: POPUP_FILTER_HIDE });
-        }, 0);
+        dispatch({ type: POPUP_FILTER_HIDE });
+    }, [pathname, dispatch]);
 
-        return () => clearTimeout(t);
-    }, [dispatch]);
-
-    /* =========================================
-     * SYNC: if global popup closed => close menu
-     * ========================================= */
-    useEffect(() => {
-        if (!isPopupOpen) setMenuOpen(false);
-    }, [isPopupOpen]);
-
-    /* =========================================
-     * LOCK SCROLL when menu open
-     * ========================================= */
     useEffect(() => {
         if (!menuOpen) return;
 
@@ -76,34 +54,20 @@ const Header = ({ showSearchIcon = false }) => {
         };
     }, [menuOpen]);
 
-    /* =========================================
-     * HANDLERS (FAST)
-     * ========================================= */
+
     const openMenu = useCallback(() => {
-        // ✅ open UI first (instant)
         setOpenMenuAccount(false);
         setMenuOpen(true);
-
-        // ✅ redux dispatch after UI open
-        startTransition(() => {
-            dispatch({ type: POPUP_OPEN });
-        });
-    }, [dispatch]);
+    }, []);
 
     const closeMenu = useCallback(() => {
         setMenuOpen(false);
-
-        startTransition(() => {
-            dispatch({ type: POPUP_HIDE });
-        });
-    }, [dispatch]);
+    }, []);
 
     const toggleMenuAccount = useCallback(() => {
         if (!isLoggedIn) {
             setMenuOpen(false);
             setOpenMenuAccount(false);
-
-            dispatch({ type: POPUP_HIDE });
 
             router.push(PageUrl.Login);
             return;
@@ -113,32 +77,30 @@ const Header = ({ showSearchIcon = false }) => {
     }, [isLoggedIn, router, dispatch]);
 
 
-    const closeSearch = useCallback(() => {
-        setSearchOpen(false);
-    }, []);
-
     const openSearchOrFilter = useCallback(() => {
-        // Trang nhà thuê / đất => mở filter
-        if (pathname.includes(PageUrl.Rental) || pathname.includes(PageUrl.Land)) {
+        if (isFilterPage) {
             dispatch({ type: POPUP_FILTER_OPEN });
             return;
         }
 
-        // Trang khác => mở input search
         reset({ search: router.query.keySearch || '' });
         setSearchOpen(true);
     }, [dispatch, pathname, reset, router.query.keySearch]);
 
+    const closeSearch = useCallback(() => {
+        setSearchOpen(false);
+        reset({ search: '' });
+    }, [reset]);
+
     const logoutHandle = useCallback(async () => {
         try {
             await logout();
-        } catch (e) { }
+        } catch { }
 
         dispatch({ type: REMOVE_USER });
+        router.replace('/');
+    }, [dispatch, router]);
 
-        // ✅ hard reload to clean state nhanh + chắc
-        window.location.href = '/';
-    }, [dispatch]);
 
     const onSubmit = useCallback(
         (data) => {

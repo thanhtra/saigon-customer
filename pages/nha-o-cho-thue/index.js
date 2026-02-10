@@ -1,10 +1,10 @@
 import Breadcrumb from 'components/common/breadcrumb';
+import SeoHead from 'components/common/seo-head';
 import RoomFilter from 'components/room/room-filter';
 import RoomsContent from 'components/room/rooms-content';
 import { useRoomRouter } from 'hooks/useRoomRouter';
 import { getRooms } from 'lib/api/room.api';
 import { normalizeRoomQuery } from 'lib/utils/normalizeRoomQuery';
-import SeoHead from 'components/common/seo-head';
 
 export async function getServerSideProps({ query }) {
     try {
@@ -43,10 +43,9 @@ const RentalPage = ({ rooms, meta }) => {
         <>
             <SeoHead
                 title="Nhà ở cho thuê tại Sài Gòn | Phòng trọ, căn hộ, nhà nguyên căn"
-                description="Tổng hợp nhà ở cho thuê tại Sài Gòn: phòng trọ, căn hộ, nhà nguyên căn chính chủ. Giá tốt, pháp lý rõ ràng, cập nhật liên tục."
-                image="https://tratimnha.com/og/home.jpg"
+                description="Tổng hợp nhà ở cho thuê tại Sài Gòn: phòng trọ, căn hộ, nhà nguyên căn chính chủ. Giá tốt, cập nhật liên tục."
+                image="https://tratimnha.com/og/room.jpg"
                 url="https://tratimnha.com/nha-o-cho-thue"
-                type="website"
             />
 
             <section className="container rooms-page">

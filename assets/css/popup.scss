@@ -66,10 +66,9 @@
 
     .btn-guide {
         min-width: 270px;
-        width: 80%;
         margin-top: 50px;
         padding: 10px;
-
+        width: auto;
         background: #f3f7ff;
         color: #1e5eff;
 
@@ -92,7 +91,6 @@
         }
 
         @include breakpoint(tablet) {
-            width: auto;
             margin: 40px auto 0;
             display: block;
             padding: 10px 20px;
