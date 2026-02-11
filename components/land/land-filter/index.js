@@ -230,7 +230,7 @@ const LandFilter = ({ searchLands, query }) => {
                     >
                         <option key={"999"} value="">Tỉnh / Thành</option>
                         {provinces.map(p => (
-                            <option key={p.id} value={String(p.value)}>
+                            <option key={`province-${p.value}`} value={String(p.value)}>
                                 {p.label}
                             </option>
                         ))}
@@ -244,7 +244,7 @@ const LandFilter = ({ searchLands, query }) => {
                     >
                         <option value="">Quận / Huyện</option>
                         {districts.map(d => (
-                            <option key={d.value} value={d.value}>
+                            <option key={`district-${d.value}`} value={d.value}>
                                 {d.label}
                             </option>
                         ))}
@@ -475,7 +475,7 @@ const LandFilter = ({ searchLands, query }) => {
                         <div className="filter-select-wrap has-value">
                             <select value={filters.province} disabled className="filter-select">
                                 {provinces.map(p => (
-                                    <option key={p.value} value={p.value}>
+                                    <option key={`province-${p.value}`} value={p.value}>
                                         {p.label}
                                     </option>
                                 ))}
@@ -490,7 +490,7 @@ const LandFilter = ({ searchLands, query }) => {
                             >
                                 <option value="">Chọn quận / huyện</option>
                                 {districts.map(d => (
-                                    <option key={d.value} value={d.value}>
+                                    <option key={`district-${d.value}`} value={d.value}>
                                         {d.label}
                                     </option>
                                 ))}

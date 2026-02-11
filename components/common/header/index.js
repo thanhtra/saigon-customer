@@ -1,16 +1,14 @@
 
-import Link from 'next/link';
-import { useRouter } from 'next/router';
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useForm } from 'react-hook-form';
-
 import { PageUrl, ProfileTab } from 'lib/constants/tech';
 import {
     POPUP_FILTER_HIDE,
     POPUP_FILTER_OPEN,
     POPUP_POST_FREE_OPEN,
 } from 'lib/store/type/common-type';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { logout } from 'lib/api/auth.api';
 import { REMOVE_USER } from 'lib/store/type/user-type';
@@ -25,13 +23,10 @@ const Header = ({ showSearchIcon = false }) => {
 
     const { user } = useSelector((state) => state.users);
     const [menuOpen, setMenuOpen] = useState(false);
-    const [searchOpen, setSearchOpen] = useState(false);
     const [openMenuAccount, setOpenMenuAccount] = useState(false);
 
-    const { register, handleSubmit, reset } = useForm();
-
     const isFilterPage = useMemo(() => {
-        return pathname.includes(PageUrl.Rental) || pathname.includes(PageUrl.Land);
+        return pathname === PageUrl.Rental || pathname === PageUrl.Land;
     }, [pathname]);
 
     const isLoggedIn = useMemo(() => {
@@ -76,21 +71,12 @@ const Header = ({ showSearchIcon = false }) => {
         setOpenMenuAccount((prev) => !prev);
     }, [isLoggedIn, router, dispatch]);
 
-
     const openSearchOrFilter = useCallback(() => {
         if (isFilterPage) {
             dispatch({ type: POPUP_FILTER_OPEN });
             return;
         }
-
-        reset({ search: router.query.keySearch || '' });
-        setSearchOpen(true);
-    }, [dispatch, pathname, reset, router.query.keySearch]);
-
-    const closeSearch = useCallback(() => {
-        setSearchOpen(false);
-        reset({ search: '' });
-    }, [reset]);
+    }, [dispatch]);
 
     const logoutHandle = useCallback(async () => {
         try {
@@ -100,24 +86,6 @@ const Header = ({ showSearchIcon = false }) => {
         dispatch({ type: REMOVE_USER });
         router.replace('/');
     }, [dispatch, router]);
-
-
-    const onSubmit = useCallback(
-        (data) => {
-            const search = data?.search?.trim() || '';
-            closeSearch();
-
-            if (pathname.includes(PageUrl.Products)) {
-                router.push({
-                    pathname: router.pathname,
-                    query: { ...router.query, keySearch: search },
-                });
-            } else {
-                router.push(`/san-pham?keySearch=${encodeURIComponent(search)}`);
-            }
-        },
-        [closeSearch, pathname, router]
-    );
 
     const onClickNavItem = useCallback(() => {
         closeMenu();
@@ -217,12 +185,7 @@ const Header = ({ showSearchIcon = false }) => {
                     </button>
 
                     {showSearchIcon && (
-                        <div className={`search-form-wrapper ${searchOpen && !isFilterPage ? 'search-active' : ''}`}>
-                            <form className="search-form" onSubmit={handleSubmit(onSubmit)} autoComplete="off">
-                                <i className="icon-cancel" onClick={closeSearch} />
-                                <input type="text" name="search" autoComplete="off" placeholder="Tìm kiếm sản phẩm" {...register('search')} />
-                            </form>
-
+                        <div className={`search-form-wrapper ${!isFilterPage ? 'search-active' : ''}`}>
                             <i onClick={openSearchOrFilter} className="icon-search" />
                         </div>
                     )}

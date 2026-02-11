@@ -234,25 +234,29 @@ const LandItem = ({ land }) => {
                             </>
                         )}
 
-                        <div className="land-extra">
-                            {house_direction && house_direction !== HouseDirection.Updating && (
-                                <div className="extra-item">
-                                    🧭 <span>{HouseDirectionLabels[house_direction]}</span>
-                                </div>
-                            )}
+                        {
+                            (house_direction && house_direction !== HouseDirection.Updating ||
+                                legal_status && legal_status !== LegalStatus.Updating ||
+                                furniture_status && furniture_status !== FurnitureStatus.Updating) &&
+                            <div className="land-extra">
+                                {house_direction && house_direction !== HouseDirection.Updating && (
+                                    <div className="extra-item">
+                                        🧭 <span>{HouseDirectionLabels[house_direction]}</span>
+                                    </div>
+                                )}
 
-                            {legal_status && legal_status !== LegalStatus.Updating && (
-                                <div className="extra-item">
-                                    📜 <span>{LegalStatusLabels[legal_status]}</span>
-                                </div>
-                            )}
+                                {legal_status && legal_status !== LegalStatus.Updating && (
+                                    <div className="extra-item">
+                                        📜 <span>{LegalStatusLabels[legal_status]}</span>
+                                    </div>
+                                )}
 
-                            {furniture_status && furniture_status !== FurnitureStatus.Updating && (
-                                <div className="extra-item">
-                                    🛋 <span>{FurnitureStatusLabels[furniture_status]}</span>
-                                </div>
-                            )}
-                        </div>
+                                {furniture_status && furniture_status !== FurnitureStatus.Updating && (
+                                    <div className="extra-item">
+                                        🛋 <span>{FurnitureStatusLabels[furniture_status]}</span>
+                                    </div>
+                                )}
+                            </div>}
 
                         <div className="land-amenities">
                             {

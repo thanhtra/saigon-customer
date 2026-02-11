@@ -19,7 +19,7 @@ const Layout = ({ children }) => {
         [isPopupFilterOpen, isPopupPostFree]
     );
 
-    const showSearchIcon = pathname.startsWith('/nha-o-cho-thue') || pathname.startsWith('/bat-dong-san')
+    const showSearchIcon = pathname === '/nha-o-cho-thue' || pathname === '/bat-dong-san';
     const hideFooter = pathname.startsWith('/nha-o-cho-thue') || pathname.startsWith('/tai-khoan') || pathname.startsWith('/bat-dong-san');
 
     return (

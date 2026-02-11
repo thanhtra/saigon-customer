@@ -27,6 +27,9 @@
 
         transform: translateY(0);
         animation: contactModalIn 0.18s ease;
+
+        overflow: auto;
+        height: 100%;
     }
 
     @keyframes contactModalIn {
@@ -185,6 +188,15 @@
             display: grid;
             grid-template-columns: 1fr;
             gap: 10px;
+
+            pre {
+                white-space: pre-wrap;
+                /* cho xuống dòng */
+                word-break: break-word;
+                /* bẻ từ dài */
+                overflow-wrap: anywhere;
+                /* emoji + text dài */
+            }
         }
 
         .contact-row {

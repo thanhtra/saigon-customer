@@ -385,3 +385,25 @@ select {
 .upload-error-message {
     width: 100%;
 }
+
+
+.form-tinymce {
+    width: 100%;
+
+    .form-label {
+        display: block;
+        margin-bottom: 6px;
+        font-weight: 600;
+    }
+
+    .required {
+        color: #e53935;
+        margin-left: 4px;
+    }
+
+    .form-error {
+        margin-top: 6px;
+        font-size: 13px;
+        color: #e53935;
+    }
+}

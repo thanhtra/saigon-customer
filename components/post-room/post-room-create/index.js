@@ -19,10 +19,11 @@ import InputFieldCurrency from 'components/common/form/InputFieldCurrency';
 import RadioGroupCheckbox from 'components/common/form/RadioGroupCheckbox';
 import SelectField from 'components/common/form/SelectField';
 import { createUnitRental } from 'lib/api/rental.api';
-import { updateRoom } from 'lib/api/room.api';
 import useUploadImages from 'lib/api/upload.api';
 import { UploadDomain, WaterUnit } from 'lib/constants/tech';
 import { buildSelectOptionsFromList } from 'lib/utils';
+
+import FormTinyMCE from 'components/common/form-tiny-mce';
 
 import CardSelectField from 'components/common/card-select-field';
 import { RentalType } from 'lib/constants/data';
@@ -171,7 +172,6 @@ const PostRoomCreate = ({ slug = '', displayList }) => {
 
     useEffect(() => {
         if (rentalType !== RentalType.BOARDING_HOUSE) return;
-        // if (fetchedRef.current) return;
 
         fetchedRef.current = true;
 
@@ -401,8 +401,6 @@ const PostRoomCreate = ({ slug = '', displayList }) => {
             throw new Error('UPLOAD_FAILED');
         }
     };
-
-
 
     const onSubmit = async (data) => {
         const {
@@ -703,25 +701,16 @@ const PostRoomCreate = ({ slug = '', displayList }) => {
                             />
                         </div>
 
-
-                        <div className="form-row inline textarea-input">
-                            <InputField
-                                label="Mô tả chi tiết"
+                        <div className="form-row inline">
+                            <FormTinyMCE
                                 name="room.description"
-                                placeholder='VD: Phòng gần tiện ích chợ, bách hoá xanh, cách công viên Làng Hoa 200m'
-                                type="textarea"
-                                rows={6}
                                 control={control}
-                                rules={{
-                                    required: 'Vui lòng nhập mô tả chi tiết',
-                                    minLength: {
-                                        value: 10,
-                                        message: 'Mô tả tối thiểu 10 ký tự',
-                                    },
-                                }}
+                                label="Mô tả chi tiết"
+                                height={300}
                                 required
                             />
                         </div>
+
                     </div>
                 )}
 
