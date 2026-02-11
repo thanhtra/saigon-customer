@@ -24,7 +24,7 @@ export default function FormTinyMCE({
                                     .replace(/<[^>]*>/g, '')
                                     .trim().length > 0
                                 ? true
-                                : 'Vui lòng nhập nội dung',
+                                : 'Vui lòng nhập mô tả',
                     }
                     : {}
             }
@@ -71,7 +71,7 @@ export default function FormTinyMCE({
                     />
 
                     {fieldState.error && (
-                        <p className="form-error">
+                        <p className="message message-error">
                             {fieldState.error.message}
                         </p>
                     )}
