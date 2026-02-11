@@ -392,8 +392,13 @@ select {
 
     .form-label {
         display: block;
-        margin-bottom: 6px;
-        font-weight: 600;
+        margin-bottom: 8px;
+        font-size: 12px;
+        font-style: italic;
+
+        @include breakpoint(tablet) {
+            font-size: 14px;
+        }
     }
 
     .required {

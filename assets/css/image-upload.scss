@@ -19,17 +19,12 @@
         font-weight: 500;
         cursor: pointer;
         transition: all 0.2s ease;
-        width: fit-content;
+        width: 100%;
 
         &:hover {
             background: #f1f5f9;
             border-color: var(--color-main-green);
             color: var(--color-main-green);
-        }
-
-        /* Tablet + Desktop */
-        @include breakpoint(tablet) {
-            width: 100%;
         }
     }
 

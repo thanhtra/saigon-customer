@@ -437,9 +437,10 @@ const PostRoomCreate = ({ slug = '', displayList }) => {
                     title: room.title,
                     room_number: room.room_number,
                     price: Number(room.price),
-                    deposit: Number(room.deposit),
                     description: room.description,
                     amenities: room.amenities,
+
+                    ...(room?.deposit && { deposit: Number(room.deposit) }),
                     ...(room?.area && { area: Number(room.area) }),
                     ...(room?.max_people && { max_people: Number(room.max_people) }),
                     ...(room?.floor && { floor: Number(room.floor) })
@@ -621,8 +622,6 @@ const PostRoomCreate = ({ slug = '', displayList }) => {
                                 name="room.deposit"
                                 type="number"
                                 control={control}
-                                required
-                                rules={{ required: 'Vui lòng nhập giá thuê' }}
                             />
 
                             <InputField
