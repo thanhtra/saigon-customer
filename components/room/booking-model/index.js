@@ -49,17 +49,14 @@ export default function BookingModal({ open, onClose, roomId, rentalId, title, a
             return;
         }
 
-        const isConfirmedBroker = (user.role === UserRole.Broker || user.role === UserRole.Owner) && user.is_ctv === true;
+        const isConfirmedBroker = user.role === UserRole.Sale && user.is_ctv === true;
 
         const roleValueMap = {
             [UserRole.Tenant]: {
                 customer_name: user.name || '',
                 customer_phone: user.phone || '',
             },
-            [UserRole.Broker]: isConfirmedBroker
-                ? { referrer_phone: user.phone || '' }
-                : {},
-            [UserRole.Owner]: isConfirmedBroker
+            [UserRole.Sale]: isConfirmedBroker
                 ? { referrer_phone: user.phone || '' }
                 : {},
         };
