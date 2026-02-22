@@ -6,12 +6,12 @@ import Breadcrumb from 'components/common/breadcrumb';
 export default function ProductCategoryPage() {
     return (
         <>
-            <SeoHead
+            {/* <SeoHead
                 title="Danh mục sản phẩm Shopee | Deal ngon mỗi ngày"
                 description="Danh sách danh mục sản phẩm Shopee Affiliate: đặc sản, thời trang, gia dụng. Click xem ưu đãi mới nhất."
                 image="https://tratimnha.com/og/san-pham.jpg"
                 url="https://tratimnha.com/san-pham"
-            />
+            /> */}
 
             <section className="container category-page">
                 <Breadcrumb

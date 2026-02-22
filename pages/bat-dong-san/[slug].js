@@ -78,13 +78,13 @@ const LandDetailPage = ({ land }) => {
 
     return (
         <>
-            <SeoHead
+            {/* <SeoHead
                 title={title}
                 description={description}
                 image={ogImage}
                 url={url}
                 type="article"
-            />
+            /> */}
 
             <section className="container land-detail-page">
                 <Breadcrumb menu={PageUrl.Land} title={land.title} />

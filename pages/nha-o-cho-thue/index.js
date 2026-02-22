@@ -41,12 +41,12 @@ const RentalPage = ({ rooms, meta }) => {
 
     return (
         <>
-            <SeoHead
+            {/* <SeoHead
                 title="Nhà ở cho thuê tại Sài Gòn | Phòng trọ, căn hộ, nhà nguyên căn"
                 description="Tổng hợp nhà ở cho thuê tại Sài Gòn: phòng trọ, căn hộ, nhà nguyên căn chính chủ. Giá tốt, cập nhật liên tục."
                 image="https://tratimnha.com/og/room.jpg"
                 url="https://tratimnha.com/nha-o-cho-thue"
-            />
+            /> */}
 
             <section className="container rooms-page">
                 <Breadcrumb
