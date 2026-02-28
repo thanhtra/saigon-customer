@@ -38,6 +38,18 @@ const PostFreePopup = () => {
                     📘 Hướng dẫn đăng tin cho người mới
                 </button>
 
+                <button
+                    className="btn-youtube"
+                    onClick={() =>
+                        window.open(
+                            "https://www.youtube.com/watch?v=iggqJO7N9Q4&t=5s",
+                            "_blank"
+                        )
+                    }
+                >
+                    ▶️ Xem video hướng dẫn đăng tin
+                </button>
+
                 <span
                     className="popup-close"
                     onClick={() => dispatch({ type: POPUP_POST_FREE_HIDE })}
