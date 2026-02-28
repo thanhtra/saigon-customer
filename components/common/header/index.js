@@ -35,7 +35,7 @@ const Header = ({ showSearchIcon = false }) => {
 
     useEffect(() => {
         dispatch({ type: POPUP_FILTER_HIDE });
-    }, [pathname, dispatch]);
+    }, []);
 
     useEffect(() => {
         if (!menuOpen) return;
@@ -72,10 +72,10 @@ const Header = ({ showSearchIcon = false }) => {
     }, [isLoggedIn, router, dispatch]);
 
     const openSearchOrFilter = useCallback(() => {
-        if (isFilterPage) {
-            dispatch({ type: POPUP_FILTER_OPEN });
-            return;
-        }
+        // if (isFilterPage) {
+        dispatch({ type: POPUP_FILTER_OPEN });
+        return;
+        // }
     }, [dispatch]);
 
     const logoutHandle = useCallback(async () => {
