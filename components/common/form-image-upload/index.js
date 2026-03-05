@@ -126,24 +126,26 @@ export default function FormImageUpload({
             let finalFile = file;
 
             try {
-                if (
-                    typeof window !== "undefined" &&
-                    (
-                        file.type === "image/heic" ||
-                        file.type === "image/heif" ||
-                        file.name.toLowerCase().endsWith(".heic")
-                    )
-                ) {
+                const isHeic =
+                    file.type === "image/heic" ||
+                    file.type === "image/heif" ||
+                    file.type === "image/heic-sequence" ||
+                    file.name.toLowerCase().endsWith(".heic") ||
+                    file.name.toLowerCase().endsWith(".heif");
+
+                if (typeof window !== "undefined" && isHeic) {
                     const heic2any = (await import("heic2any")).default;
 
-                    const blob = await heic2any({
+                    const result = await heic2any({
                         blob: file,
                         toType: "image/jpeg",
                     });
 
+                    const blob = Array.isArray(result) ? result[0] : result;
+
                     finalFile = new File(
                         [blob],
-                        file.name.replace(/\.heic$/i, ".jpg"),
+                        file.name.replace(/\.(heic|heif)$/i, ".jpg"),
                         { type: "image/jpeg" }
                     );
                 }
@@ -161,6 +163,7 @@ export default function FormImageUpload({
 
         onChange([...images, ...processed]);
     };
+
 
     const handleRemove = (idx) => {
         const removed = images[idx];
@@ -202,7 +205,8 @@ export default function FormImageUpload({
                 <input
                     type="file"
                     multiple
-                    accept="image/*"
+                    // accept="image/*"
+                    accept="image/*,.heic,.heif"
                     hidden
                     onChange={(e) => {
                         if (e.target.files) {
