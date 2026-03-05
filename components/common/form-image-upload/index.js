@@ -101,8 +101,6 @@
 //     );
 // }
 
-import heic2any from "heic2any";
-
 export default function FormImageUpload({
     value = [],
     onChange,
@@ -128,12 +126,16 @@ export default function FormImageUpload({
             let finalFile = file;
 
             try {
-                // convert HEIC -> JPEG
                 if (
-                    file.type === "image/heic" ||
-                    file.type === "image/heif" ||
-                    file.name.toLowerCase().endsWith(".heic")
+                    typeof window !== "undefined" &&
+                    (
+                        file.type === "image/heic" ||
+                        file.type === "image/heif" ||
+                        file.name.toLowerCase().endsWith(".heic")
+                    )
                 ) {
+                    const heic2any = (await import("heic2any")).default;
+
                     const blob = await heic2any({
                         blob: file,
                         toType: "image/jpeg",
