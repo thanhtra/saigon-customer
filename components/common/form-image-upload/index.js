@@ -101,6 +101,7 @@
 //     );
 // }
 
+import heic2any from "heic2any";
 
 export default function FormImageUpload({
     value = [],
@@ -109,15 +110,54 @@ export default function FormImageUpload({
 }) {
     const images = Array.isArray(value) ? value : [];
 
-    const handleAddFiles = (files) => {
-        const newFiles = Array.from(files).map((file, index) => ({
-            file,
-            preview: URL.createObjectURL(file),
-            isCover: images.length === 0 && index === 0,
-            client_id: crypto.randomUUID(),
-        }));
+    // const handleAddFiles = (files) => {
+    //     const newFiles = Array.from(files).map((file, index) => ({
+    //         file,
+    //         preview: URL.createObjectURL(file),
+    //         isCover: images.length === 0 && index === 0,
+    //         client_id: crypto.randomUUID(),
+    //     }));
 
-        onChange([...images, ...newFiles]);
+    //     onChange([...images, ...newFiles]);
+    // };
+
+    const handleAddFiles = async (files) => {
+        const processed = [];
+
+        for (const [index, file] of Array.from(files).entries()) {
+            let finalFile = file;
+
+            try {
+                // convert HEIC -> JPEG
+                if (
+                    file.type === "image/heic" ||
+                    file.type === "image/heif" ||
+                    file.name.toLowerCase().endsWith(".heic")
+                ) {
+                    const blob = await heic2any({
+                        blob: file,
+                        toType: "image/jpeg",
+                    });
+
+                    finalFile = new File(
+                        [blob],
+                        file.name.replace(/\.heic$/i, ".jpg"),
+                        { type: "image/jpeg" }
+                    );
+                }
+            } catch (err) {
+                console.error("Convert HEIC lỗi:", err);
+            }
+
+            processed.push({
+                file: finalFile,
+                preview: URL.createObjectURL(finalFile),
+                isCover: images.length === 0 && index === 0,
+                client_id: crypto.randomUUID(),
+            });
+        }
+
+        onChange([...images, ...processed]);
     };
 
     const handleRemove = (idx) => {
