@@ -213,7 +213,7 @@ export default function FormImageUpload({
                     multiple
                     // accept="image/*"
                     accept="image/*,.heic,.heif"
-                    capture="environment"
+                    // capture="environment"
                     hidden
                     onChange={(e) => {
                         if (e.target.files) {
