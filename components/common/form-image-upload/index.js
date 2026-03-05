@@ -119,11 +119,13 @@ export default function FormImageUpload({
     //     onChange([...images, ...newFiles]);
     // };
 
+
     const handleAddFiles = async (files) => {
         const processed = [];
 
         for (const [index, file] of Array.from(files).entries()) {
             let finalFile = file;
+            let previewUrl = URL.createObjectURL(file);
 
             try {
                 const isHeic =
@@ -139,6 +141,7 @@ export default function FormImageUpload({
                     const result = await heic2any({
                         blob: file,
                         toType: "image/jpeg",
+                        quality: 0.9,
                     });
 
                     const blob = Array.isArray(result) ? result[0] : result;
@@ -148,6 +151,9 @@ export default function FormImageUpload({
                         file.name.replace(/\.(heic|heif)$/i, ".jpg"),
                         { type: "image/jpeg" }
                     );
+
+                    // preview ổn định hơn
+                    previewUrl = URL.createObjectURL(blob);
                 }
             } catch (err) {
                 console.error("Convert HEIC lỗi:", err);
@@ -155,7 +161,7 @@ export default function FormImageUpload({
 
             processed.push({
                 file: finalFile,
-                preview: URL.createObjectURL(finalFile),
+                preview: previewUrl,
                 isCover: images.length === 0 && index === 0,
                 client_id: crypto.randomUUID(),
             });
@@ -207,6 +213,7 @@ export default function FormImageUpload({
                     multiple
                     // accept="image/*"
                     accept="image/*,.heic,.heif"
+                    capture="environment"
                     hidden
                     onChange={(e) => {
                         if (e.target.files) {
@@ -224,7 +231,7 @@ export default function FormImageUpload({
                             key={img.client_id || img.id || idx}
                             className={`image-upload__item ${img.isCover ? 'is-cover' : ''}`}
                         >
-                            <img src={img.preview} alt="" />
+                            <img src={img.preview} alt="" loading="lazy" />
 
                             {/* remove */}
                             <button
