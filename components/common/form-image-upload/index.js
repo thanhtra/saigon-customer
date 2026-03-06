@@ -10,21 +10,22 @@ export default function FormImageUpload({
 
 
     // const handleAddFiles = async (files) => {
+    //     setLoading(true);
+
     //     const processed = [];
 
     //     for (const [index, file] of Array.from(files).entries()) {
     //         let finalFile = file;
-    //         let previewUrl = URL.createObjectURL(file);
+    //         let previewUrl;
+
+    //         const isHeic =
+    //             file.type === "image/heic" ||
+    //             file.type === "image/heif" ||
+    //             file.name.toLowerCase().endsWith(".heic") ||
+    //             file.name.toLowerCase().endsWith(".heif");
 
     //         try {
-    //             const isHeic =
-    //                 file.type === "image/heic" ||
-    //                 file.type === "image/heif" ||
-    //                 file.type === "image/heic-sequence" ||
-    //                 file.name.toLowerCase().endsWith(".heic") ||
-    //                 file.name.toLowerCase().endsWith(".heif");
-
-    //             if (typeof window !== "undefined" && isHeic) {
+    //             if (isHeic) {
     //                 const heic2any = (await import("heic2any")).default;
 
     //                 const result = await heic2any({
@@ -41,9 +42,20 @@ export default function FormImageUpload({
     //                     { type: "image/jpeg" }
     //                 );
 
-    //                 // preview ổn định hơn
-    //                 previewUrl = URL.createObjectURL(blob);
+    //                 previewUrl = await new Promise((resolve) => {
+    //                     const reader = new FileReader();
+    //                     reader.onload = (e) => resolve(e.target.result);
+    //                     reader.readAsDataURL(blob);
+    //                 });
+
+    //             } else {
+    //                 previewUrl = await new Promise((resolve) => {
+    //                     const reader = new FileReader();
+    //                     reader.onload = (e) => resolve(e.target.result);
+    //                     reader.readAsDataURL(file);
+    //                 });
     //             }
+
     //         } catch (err) {
     //             console.error("Convert HEIC lỗi:", err);
     //         }
@@ -57,71 +69,61 @@ export default function FormImageUpload({
     //     }
 
     //     onChange([...images, ...processed]);
+
+    //     setLoading(false);
     // };
 
     const handleAddFiles = async (files) => {
         setLoading(true);
 
-        const processed = [];
+        const fileArray = Array.from(files);
 
-        for (const [index, file] of Array.from(files).entries()) {
-            let finalFile = file;
-            let previewUrl;
+        const heic2any = (await import("heic2any")).default;
 
-            const isHeic =
-                file.type === "image/heic" ||
-                file.type === "image/heif" ||
-                file.name.toLowerCase().endsWith(".heic") ||
-                file.name.toLowerCase().endsWith(".heif");
+        const processed = await Promise.all(
+            fileArray.map(async (file, index) => {
+                let finalFile = file;
 
-            try {
-                if (isHeic) {
-                    const heic2any = (await import("heic2any")).default;
+                const isHeic =
+                    file.type === "image/heic" ||
+                    file.type === "image/heif" ||
+                    file.name.toLowerCase().endsWith(".heic") ||
+                    file.name.toLowerCase().endsWith(".heif");
 
-                    const result = await heic2any({
-                        blob: file,
-                        toType: "image/jpeg",
-                        quality: 0.9,
-                    });
+                try {
+                    if (isHeic) {
+                        const result = await heic2any({
+                            blob: file,
+                            toType: "image/jpeg",
+                            quality: 0.9,
+                        });
 
-                    const blob = Array.isArray(result) ? result[0] : result;
+                        const blob = Array.isArray(result) ? result[0] : result;
 
-                    finalFile = new File(
-                        [blob],
-                        file.name.replace(/\.(heic|heif)$/i, ".jpg"),
-                        { type: "image/jpeg" }
-                    );
-
-                    previewUrl = await new Promise((resolve) => {
-                        const reader = new FileReader();
-                        reader.onload = (e) => resolve(e.target.result);
-                        reader.readAsDataURL(blob);
-                    });
-
-                } else {
-                    previewUrl = await new Promise((resolve) => {
-                        const reader = new FileReader();
-                        reader.onload = (e) => resolve(e.target.result);
-                        reader.readAsDataURL(file);
-                    });
+                        finalFile = new File(
+                            [blob],
+                            file.name.replace(/\.(heic|heif)$/i, ".jpg"),
+                            { type: "image/jpeg" }
+                        );
+                    }
+                } catch (err) {
+                    console.error("Convert HEIC lỗi:", err);
                 }
 
-            } catch (err) {
-                console.error("Convert HEIC lỗi:", err);
-            }
-
-            processed.push({
-                file: finalFile,
-                preview: previewUrl,
-                isCover: images.length === 0 && index === 0,
-                client_id: crypto.randomUUID(),
-            });
-        }
+                return {
+                    file: finalFile,
+                    preview: URL.createObjectURL(finalFile),
+                    isCover: images.length === 0 && index === 0,
+                    client_id: crypto.randomUUID(),
+                };
+            })
+        );
 
         onChange([...images, ...processed]);
 
         setLoading(false);
     };
+
 
     const handleRemove = (idx) => {
         const removed = images[idx];
