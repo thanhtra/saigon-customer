@@ -216,9 +216,9 @@ const PostRoomCreate = ({ slug = '', displayList }) => {
             shouldDirty: false,
         });
 
-        setValue('location.district', String(DEFAULT_DISTRICT_ID), {
-            shouldDirty: false,
-        });
+        // setValue('location.district', String(DEFAULT_DISTRICT_ID), {
+        //     shouldDirty: false,
+        // });
     }, [rentalType, setValue]);
 
     useEffect(() => {
@@ -721,6 +721,7 @@ const PostRoomCreate = ({ slug = '', displayList }) => {
                                 control={control}
                                 setValue={setValue}
                                 errors={errors}
+                                disabledDistrict={false}
                             />
                         </div>
                         <div className="card-post">

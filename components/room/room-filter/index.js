@@ -6,6 +6,7 @@ import {
     getDistrictOptions,
     getProvinceOptions,
     getWardOptions,
+    normalizeWard
 } from 'lib/locations/location.utils';
 
 import {
@@ -62,29 +63,62 @@ const RoomFilter = ({ searchRooms, query }) => {
         initProvince();
     }, []);
 
+    // useEffect(() => {
+    //     const applyQuery = async () => {
+    //         if (!query) return;
+
+    //         const provinceId = String(query?.province || DEFAULT_PROVINCE_ID);
+
+    //         const next = {
+    //             ...INIT_ROOM_FILTER,
+    //             ...query,
+    //             province: provinceId,
+    //         };
+
+    //         setFilters(prev => (isSameRoomFilter(prev, next) ? prev : next));
+
+    //         const ds = await getDistrictOptions(provinceId);
+    //         setDistricts(ds);
+
+    //         if (query?.district) {
+    //             const ws = await getWardOptions(provinceId, query.district);
+    //             setWards(ws);
+    //         } else {
+    //             setWards([]);
+    //         }
+    //     };
+
+    //     applyQuery();
+    // }, [query]);
+
     useEffect(() => {
         const applyQuery = async () => {
             if (!query) return;
 
             const provinceId = String(query?.province || DEFAULT_PROVINCE_ID);
 
-            const next = {
-                ...INIT_ROOM_FILTER,
-                ...query,
-                province: provinceId,
-            };
-
-            setFilters(prev => (isSameRoomFilter(prev, next) ? prev : next));
-
             const ds = await getDistrictOptions(provinceId);
             setDistricts(ds);
 
+            let ws = [];
+
             if (query?.district) {
-                const ws = await getWardOptions(provinceId, query.district);
+                ws = await getWardOptions(provinceId, query.district);
                 setWards(ws);
             } else {
                 setWards([]);
             }
+
+            const next = {
+                ...INIT_ROOM_FILTER,
+                ...query,
+                province: provinceId,
+                ward: normalizeWard(query?.ward, ws), // ⭐ FIX
+            };
+
+            setFilters(prev =>
+                isSameRoomFilter(prev, next) ? prev : next
+            );
         };
 
         applyQuery();
@@ -137,22 +171,6 @@ const RoomFilter = ({ searchRooms, query }) => {
         }));
     }, []);
 
-    const selectProvince = async e => {
-        const provinceId = String(e.target.value);
-
-        setFilters(prev => ({
-            ...prev,
-            province: provinceId,
-            district: '',
-            ward: '',
-        }));
-
-        setWards([]);
-        const ds = provinceId ? await getDistrictOptions(provinceId) : [];
-        setDistricts(ds);
-    };
-
-
     const selectDistrict = async e => {
         const districtId = e.target.value;
         const provinceId = String(filters.province || DEFAULT_PROVINCE_ID);
@@ -169,7 +187,6 @@ const RoomFilter = ({ searchRooms, query }) => {
 
         setWards(ws);
     };
-
 
     const selectWard = e => {
         setFilters(prev => ({
@@ -234,6 +251,12 @@ const RoomFilter = ({ searchRooms, query }) => {
                                 keyword: e.target.value,
                             }))
                         }
+                        onKeyDown={(e) => {
+                            if (e.key === 'Enter') {
+                                e.preventDefault();     // 🚨 tránh reload form
+                                searchRooms(filters);   // 🔥 search ngay
+                            }
+                        }}
                     />
                 </div>
 
@@ -275,7 +298,7 @@ const RoomFilter = ({ searchRooms, query }) => {
                     >
                         <option value="">Phường / Xã</option>
                         {wards.map(w => (
-                            <option key={w.id} value={w.id}>
+                            <option key={`ward-${w.value}`} value={w.value}>
                                 {w.label}
                             </option>
                         ))}

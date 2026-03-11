@@ -15,6 +15,7 @@ import {
 import {
   DEFAULT_PROVINCE_ID,
   DEFAULT_DISTRICT_ID,
+  ALLOWED_DISTRICTS
 } from 'lib/locations/const';
 
 const LocationSelect = ({
@@ -84,8 +85,28 @@ const LocationSelect = ({
       const districtOptions = await getDistrictOptions(province);
       if (!mountedRef.current) return;
 
-      setDistricts(districtOptions);
+      // setDistricts(districtOptions);
+
+      const filteredDistricts = districtOptions.filter(d =>
+        ALLOWED_DISTRICTS.includes(String(d.value))
+      );
+
+      if (!mountedRef.current) return;
+
+      setDistricts(filteredDistricts);
+
       setWards([]);
+
+      if (
+        district &&
+        !ALLOWED_DISTRICTS.includes(String(district))
+      ) {
+        setValue(
+          'location.district',
+          String(DEFAULT_DISTRICT_ID),
+          { shouldDirty: false }
+        );
+      }
 
       // reset district ONLY when province changes
       if (prevProvinceRef.current && prevProvinceRef.current !== province) {
