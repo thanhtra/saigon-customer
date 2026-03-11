@@ -5,17 +5,16 @@ import InputField from 'components/common/form/InputField';
 import SelectField from 'components/common/form/SelectField';
 
 import {
-  getProvinceOptions,
-  getDistrictOptions,
-  getWardOptions,
   buildAddressDetail,
+  getDistrictOptions,
   getLocationsSync,
+  getProvinceOptions,
+  getWardOptions,
 } from 'lib/locations/location.utils';
 
 import {
-  DEFAULT_PROVINCE_ID,
-  DEFAULT_DISTRICT_ID,
-  ALLOWED_DISTRICTS
+  ALLOWED_DISTRICTS,
+  DEFAULT_PROVINCE_ID
 } from 'lib/locations/const';
 
 const LocationSelect = ({
@@ -95,39 +94,27 @@ const LocationSelect = ({
 
       setDistricts(filteredDistricts);
 
-      setWards([]);
-
-      if (
-        district &&
-        !ALLOWED_DISTRICTS.includes(String(district))
-      ) {
-        setValue(
-          'location.district',
-          String(DEFAULT_DISTRICT_ID),
-          { shouldDirty: false }
-        );
+      if (prevProvinceRef.current !== province) {
+        setWards([]);
       }
 
-      // reset district ONLY when province changes
-      if (prevProvinceRef.current && prevProvinceRef.current !== province) {
+      const provinceChanged =
+        prevProvinceRef.current &&
+        prevProvinceRef.current !== province;
+
+      const invalidDistrict =
+        district &&
+        !ALLOWED_DISTRICTS.includes(String(district));
+
+      if (provinceChanged || invalidDistrict) {
         setValue('location.district', '', { shouldDirty: false });
         setValue('location.ward', '', { shouldDirty: false });
-      }
-
-      // set default district if empty
-      if (!district) {
-        setValue(
-          'location.district',
-          String(DEFAULT_DISTRICT_ID),
-          { shouldDirty: false }
-        );
       }
 
       prevProvinceRef.current = province;
     })();
   }, [province]);
 
-  /* ================= DISTRICT CHANGE ================= */
   useEffect(() => {
     if (!province || !district) {
       setWards([]);
@@ -141,7 +128,6 @@ const LocationSelect = ({
 
         setWards(wardOptions);
 
-        // reset ward ONLY when district actually changes
         if (prevDistrictRef.current && prevDistrictRef.current !== district) {
           setValue('location.ward', '', { shouldDirty: false });
         }
