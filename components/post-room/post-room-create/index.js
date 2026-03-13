@@ -92,7 +92,7 @@ const PostRoomCreate = ({ slug = '', displayList }) => {
                 service: null,
                 parking: null,
                 other: '',
-                water_unit: WaterUnit.PerM3
+                water_unit: WaterUnit.PerPerson
             },
 
             room: {
@@ -317,7 +317,7 @@ const PostRoomCreate = ({ slug = '', displayList }) => {
             service: null,
             parking: null,
             other: '',
-            water_unit: WaterUnit.PerM3
+            water_unit: WaterUnit.PerPerson
         }, { shouldDirty: false });
     };
 
@@ -752,8 +752,8 @@ const PostRoomCreate = ({ slug = '', displayList }) => {
                                         name="fee.water_unit"
                                         control={control}
                                         options={[
-                                            { label: 'đ / m³', value: 'per_m3' },
                                             { label: 'đ / người', value: 'per_person' },
+                                            { label: 'đ / m³', value: 'per_m3' },
                                         ]}
                                     />
                                 </div>
