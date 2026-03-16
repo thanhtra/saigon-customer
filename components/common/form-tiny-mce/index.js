@@ -47,6 +47,10 @@ export default function FormTinyMCE({
                             height,
                             menubar: false,
                             branding: false,
+                            mobile: {
+                                menubar: false,
+                                toolbar_mode: 'scrolling',
+                            },
                             plugins: [
                                 'advlist',
                                 'autolink',

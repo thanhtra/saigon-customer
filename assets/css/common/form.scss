@@ -405,4 +405,8 @@ select {
         color: #e53935;
         margin-left: 4px;
     }
+
+    iframe {
+        pointer-events: auto !important;
+    }
 }

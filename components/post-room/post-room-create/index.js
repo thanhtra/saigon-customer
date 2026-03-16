@@ -48,6 +48,45 @@ export const BoardingHouseModeOptions = {
     [BoardingHouseMode.CREATE_NEW]: 'Tạo nhà trọ mới',
 };
 
+const DEFAULT_VALUE = {
+    rental_type: '',
+    boarding_mode: null,
+    boarding_house_id: '',
+
+    location: {
+        province: '',
+        district: '',
+        ward: '',
+        street: '',
+        house_number: '',
+        address_detail: '',
+        address_detail_display: '',
+    },
+
+    fee: {
+        electric: null,
+        water: null,
+        wifi: null,
+        service: null,
+        parking: null,
+        other: '',
+        water_unit: WaterUnit.PerPerson
+    },
+
+    room: {
+        title: '',
+        price: null,
+        deposit: null,
+        area: null,
+        floor: null,
+        room_number: '',
+        max_people: null,
+        description: '',
+        amenities: [],
+        images: [],
+    },
+};
+
 
 const PostRoomCreate = ({ slug = '', displayList }) => {
     const fetchedRef = useRef(false);
@@ -70,44 +109,7 @@ const PostRoomCreate = ({ slug = '', displayList }) => {
         mode: 'onBlur',
         reValidateMode: 'onChange',
         shouldUnregister: true,
-        defaultValues: {
-            rental_type: '',
-            boarding_mode: null,
-            boarding_house_id: '',
-
-            location: {
-                province: '',
-                district: '',
-                ward: '',
-                street: '',
-                house_number: '',
-                address_detail: '',
-                address_detail_display: '',
-            },
-
-            fee: {
-                electric: null,
-                water: null,
-                wifi: null,
-                service: null,
-                parking: null,
-                other: '',
-                water_unit: WaterUnit.PerPerson
-            },
-
-            room: {
-                title: '',
-                price: null,
-                deposit: null,
-                area: null,
-                floor: null,
-                room_number: '',
-                max_people: null,
-                description: '',
-                amenities: [],
-                images: [],
-            },
-        },
+        defaultValues: DEFAULT_VALUE,
     });
 
     const rentalType = useWatch({
@@ -461,7 +463,7 @@ const PostRoomCreate = ({ slug = '', displayList }) => {
                 });
 
                 toast.success('Tạo phòng thành công');
-                reset();
+                reset(DEFAULT_VALUE);
 
                 setLoading(false);
                 return;
@@ -522,7 +524,7 @@ const PostRoomCreate = ({ slug = '', displayList }) => {
             }
 
             toast.success('Tạo tin cho thuê thành công');
-            reset();
+            reset(DEFAULT_VALUE);
 
             router.push(`${PageUrl.Profile}?tab=${ProfileTab.ManagePostRental}`)
 
