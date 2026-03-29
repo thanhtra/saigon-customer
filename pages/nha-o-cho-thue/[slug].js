@@ -79,14 +79,17 @@ const RoomDetailPage = ({ room }) => {
     const ogImage = filePath ? `${bkUrl}${filePath}` : 'https://tratimnha.com/og/room.jpg';
     const url = `https://tratimnha.com/nha-o-cho-thue/${room.slug}`;
 
+    const htmlToText = (html = '') => {
+        const div = document.createElement('div');
+        div.innerHTML = html;
+        return div.textContent || div.innerText || '';
+    };
 
     const buildSalesContent = () => {
-        const cleanDescription =
-            room.description?.replace(/<[^>]+>/g, '') || '';
+        const cleanDescription = htmlToText(room.description);
 
         const rental = room?.rental || {};
 
-        // ===== WATER FEE =====
         const waterFee =
             rental.fee_water > 0
                 ? `💧 Nước: ${formatVnd(rental.fee_water, { suffix: null })}${rental.water_unit
@@ -108,7 +111,7 @@ const RoomDetailPage = ({ room }) => {
             room.area ? `📐 ${room.area} m²` : null,
 
             '',
-            '━━━━━━━━━━━━━━',
+            '------------------------------',
             '💵 CHI PHÍ',
 
             rental.fee_electric
@@ -134,13 +137,13 @@ const RoomDetailPage = ({ room }) => {
                 : null,
 
             '',
-            '━━━━━━━━━━━━━━',
+            '------------------------------',
             '📝 MÔ TẢ',
             cleanDescription,
 
 
             '',
-            '━━━━━━━━━━━━━━',
+            '------------------------------',
             '📞 LIÊN HỆ',
             `👤 ${user?.name ?? ''}`,
             `📱 ${user?.phone ?? ''}`,
@@ -164,41 +167,62 @@ const RoomDetailPage = ({ room }) => {
         }
     };
 
-    const handleDownloadAllImages = async () => {
+    const downloadImage = async (url, filename) => {
+        const response = await fetch(url, {
+            mode: 'cors',
+            credentials: 'omit',
+        });
+
+        if (!response.ok) {
+            throw new Error('Download failed');
+        }
+
+        const blob = await response.blob();
+
+        const blobUrl = window.URL.createObjectURL(blob);
+
+        const a = document.createElement('a');
+        a.href = blobUrl;
+        a.download = filename;
+
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+
+        window.URL.revokeObjectURL(blobUrl);
+    };
+
+    const downloadAllImages = async () => {
         try {
             const uploads = room?.uploads || [];
-            if (!uploads.length) return;
+
+            if (!uploads.length) {
+                toast.error('Không có hình');
+                return;
+            }
 
             const baseUrl = `${process.env.NEXT_PUBLIC_API_URL}/uploads`;
 
-            for (const img of uploads) {
+            for (const [index, img] of uploads.entries()) {
                 const url = `${baseUrl}${img.file_path}`;
 
-                const res = await fetch(url);
-                const blob = await res.blob();
+                const filename =
+                    `${room.room_code || 'room'}-${index + 1}.jpg`;
 
-                const blobUrl = window.URL.createObjectURL(blob);
+                await downloadImage(url, filename);
 
-                const a = document.createElement('a');
-                a.href = blobUrl;
-                a.download = `${room.room_code || 'room'}-${img.id}.jpg`;
-
-                document.body.appendChild(a);
-                a.click();
-                a.remove();
-
-                window.URL.revokeObjectURL(blobUrl);
-
-                // tránh browser block multi download
-                await new Promise(r => setTimeout(r, 300));
+                // tránh browser block multi-download
+                await new Promise((r) => setTimeout(r, 250));
             }
 
-            toast.success('Tải hình thành công');
+            toast.success('Đã tải toàn bộ hình');
         } catch (err) {
             console.error(err);
             toast.error('Tải hình thất bại');
         }
     };
+
+
 
     return (
         <>
@@ -239,7 +263,7 @@ const RoomDetailPage = ({ room }) => {
                             videoUrl={room?.video_url}
                         />
 
-                        {isSales && (
+                        {(isAdmin || isSales) && (
                             <div className="admin-contact-box">
                                 <button
                                     type="button"
@@ -254,7 +278,7 @@ const RoomDetailPage = ({ room }) => {
                                 <button
                                     type="button"
                                     className="btn btn-contact-owner"
-                                    onClick={handleDownloadAllImages}
+                                    onClick={downloadAllImages}
                                 >
                                     ⬇️ Tải hình
                                 </button>
