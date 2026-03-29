@@ -167,52 +167,42 @@ const RoomDetailPage = ({ room }) => {
         }
     };
 
-    const downloadImage = async (url, filename) => {
-        const response = await fetch(url, {
-            mode: 'cors',
-            credentials: 'omit',
-        });
+    const downloadAllImages = async () => {
+        const images = (room.uploads || []).map(
+            img =>
+                `${process.env.NEXT_PUBLIC_API_URL}/uploads${img.file_path}`
+        );
 
-        if (!response.ok) {
-            throw new Error('Download failed');
+        if (!images.length) {
+            toast.error('Không có hình');
+            return;
         }
 
-        const blob = await response.blob();
-
-        const blobUrl = window.URL.createObjectURL(blob);
-
-        const a = document.createElement('a');
-        a.href = blobUrl;
-        a.download = filename;
-
-        document.body.appendChild(a);
-        a.click();
-        a.remove();
-
-        window.URL.revokeObjectURL(blobUrl);
-    };
-
-    const downloadAllImages = async () => {
         try {
-            const uploads = room?.uploads || [];
+            for (let i = 0; i < images.length; i++) {
+                const url = images[i];
 
-            if (!uploads.length) {
-                toast.error('Không có hình');
-                return;
-            }
+                const res = await fetch(url, { mode: 'cors' });
 
-            const baseUrl = `${process.env.NEXT_PUBLIC_API_URL}/uploads`;
+                if (!res.ok) throw new Error();
 
-            for (const [index, img] of uploads.entries()) {
-                const url = `${baseUrl}${img.file_path}`;
+                const blob = await res.blob();
 
-                const filename =
-                    `${room.room_code || 'room'}-${index + 1}.jpg`;
+                const objectUrl = URL.createObjectURL(blob);
 
-                await downloadImage(url, filename);
+                const a = document.createElement('a');
+                a.href = objectUrl;
+                a.download =
+                    `${room.room_code || 'room'}-${i + 1}.jpg`;
 
-                // tránh browser block multi-download
-                await new Promise((r) => setTimeout(r, 250));
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+
+                URL.revokeObjectURL(objectUrl);
+
+                // tránh Chrome block multi-download
+                await new Promise(r => setTimeout(r, 350));
             }
 
             toast.success('Đã tải toàn bộ hình');
@@ -221,8 +211,6 @@ const RoomDetailPage = ({ room }) => {
             toast.error('Tải hình thất bại');
         }
     };
-
-
 
     return (
         <>
