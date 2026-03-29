@@ -263,7 +263,7 @@ const RoomDetailPage = ({ room }) => {
                             videoUrl={room?.video_url}
                         />
 
-                        {(isAdmin || isSales) && (
+                        {isSales && (
                             <div className="admin-contact-box">
                                 <button
                                     type="button"
