@@ -168,32 +168,30 @@ const RoomDetailPage = ({ room }) => {
     };
 
     const downloadAllImages = async () => {
-        const images = (room.uploads || []).map(
-            img =>
-                `${process.env.NEXT_PUBLIC_API_URL}/uploads${img.file_path}`
-        );
+        const images = (room.uploads || [])
+            .filter(img => img.file_path)
+            .map(img => `${process.env.NEXT_PUBLIC_API_URL}/uploads${img.file_path}`);
 
         if (!images.length) {
             toast.error('Không có hình');
             return;
         }
 
-        try {
-            for (let i = 0; i < images.length; i++) {
+        for (let i = 0; i < images.length; i++) {
+            try {
                 const url = images[i];
 
-                const res = await fetch(url, { mode: 'cors' });
-
+                const res = await fetch(url);
                 if (!res.ok) throw new Error();
 
                 const blob = await res.blob();
-
                 const objectUrl = URL.createObjectURL(blob);
 
                 const a = document.createElement('a');
                 a.href = objectUrl;
-                a.download =
-                    `${room.room_code || 'room'}-${i + 1}.jpg`;
+
+                const random = Math.floor(Math.random() * 100000);
+                a.download = `${room.room_code || 'room'}-${random}.jpg`;
 
                 document.body.appendChild(a);
                 a.click();
@@ -201,15 +199,14 @@ const RoomDetailPage = ({ room }) => {
 
                 URL.revokeObjectURL(objectUrl);
 
-                // tránh Chrome block multi-download
-                await new Promise(r => setTimeout(r, 350));
+                await new Promise(r => setTimeout(r, 500));
+            } catch (err) {
+                console.log('❌ Lỗi ảnh:', images[i], err);
             }
-
-            toast.success('Đã tải toàn bộ hình');
-        } catch (err) {
-            console.error(err);
-            toast.error('Tải hình thất bại');
         }
+
+        toast.success('Hoàn tất tải hình');
+
     };
 
     return (
