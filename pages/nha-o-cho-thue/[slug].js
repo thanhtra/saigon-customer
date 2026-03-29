@@ -1,18 +1,19 @@
 
 import Breadcrumb from 'components/common/breadcrumb';
 import PopupContact from 'components/common/popup-contact-room';
-import SeoHead from 'components/common/seo-head';
 import RoomContent from 'components/room/room-content';
 import Description from 'components/room/room-description';
 import RoomGallery from 'components/room/room-gallery';
 import { getContact, getRoomDetail } from 'lib/api/room.api';
 import { PageUrl, UserRole } from 'lib/constants/tech';
-import { formatVnd } from 'lib/utils';
+import { formatOtherFee, formatVnd } from 'lib/utils';
 import { useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 
 import RoomActionsDetail from 'components/common/room-actions-detail';
+
+import { WaterUnitOptions } from 'lib/constants/data';
 
 export async function getServerSideProps({ params }) {
     try {
@@ -40,8 +41,10 @@ const RoomDetailPage = ({ room }) => {
     const [isContactOpen, setIsContactOpen] = useState(false);
     const [loadingContact, setLoadingContact] = useState(false);
     const [contact, setContact] = useState(null);
+    const [copying, setCopying] = useState(false);
 
-    const isAdmin = user?.role === UserRole.Admin
+    const isAdmin = user?.role === UserRole.Admin;
+    const isSales = user?.role === UserRole.Sale;
 
     const closeContactModal = useCallback(() => {
         setIsContactOpen(false);
@@ -75,6 +78,127 @@ const RoomDetailPage = ({ room }) => {
     const filePath = coverImage?.file_path;
     const ogImage = filePath ? `${bkUrl}${filePath}` : 'https://tratimnha.com/og/room.jpg';
     const url = `https://tratimnha.com/nha-o-cho-thue/${room.slug}`;
+
+
+    const buildSalesContent = () => {
+        const cleanDescription =
+            room.description?.replace(/<[^>]+>/g, '') || '';
+
+        const rental = room?.rental || {};
+
+        // ===== WATER FEE =====
+        const waterFee =
+            rental.fee_water > 0
+                ? `💧 Nước: ${formatVnd(rental.fee_water, { suffix: null })}${rental.water_unit
+                    ? ` ${WaterUnitOptions[rental.water_unit] || ''}`
+                    : ''
+                }`
+                : null;
+
+        const lines = [
+            `🏠 ${room.title} (${room.room_code})`,
+            room.room_number ? `🆔 Phòng: ${room.room_number}` : null,
+
+            '',
+            `📍 ${rental.address_detail_display || ''}`,
+            '',
+            `💰 Giá: ${formatVnd(room.price)}/tháng`,
+
+            room.max_people ? `👥 ${room.max_people} người` : null,
+            room.area ? `📐 ${room.area} m²` : null,
+
+            '',
+            '━━━━━━━━━━━━━━',
+            '💵 CHI PHÍ',
+
+            rental.fee_electric
+                ? `⚡ Điện: ${formatVnd(rental.fee_electric)}`
+                : null,
+
+            waterFee,
+
+            rental.fee_wifi
+                ? `📶 Wifi: ${formatVnd(rental.fee_wifi)}`
+                : null,
+
+            rental.fee_parking
+                ? `🛵 Giữ xe: ${formatVnd(rental.fee_parking)}`
+                : null,
+
+            rental.fee_service
+                ? `🧹 Dịch vụ: ${formatVnd(rental.fee_service)}`
+                : null,
+
+            rental.fee_other
+                ? `📦 Phí khác: ${formatOtherFee(rental.fee_other)}`
+                : null,
+
+            '',
+            '━━━━━━━━━━━━━━',
+            '📝 MÔ TẢ',
+            cleanDescription,
+
+
+            '',
+            '━━━━━━━━━━━━━━',
+            '📞 LIÊN HỆ',
+            `👤 ${user?.name ?? ''}`,
+            `📱 ${user?.phone ?? ''}`,
+        ];
+
+        return lines.filter(Boolean).join('\n');
+    };
+
+    const handleCopySalesInfo = async () => {
+        try {
+            setCopying(true);
+
+            const content = buildSalesContent();
+            await navigator.clipboard.writeText(content);
+
+            toast.success('Đã copy nội dung đăng bài');
+        } catch {
+            toast.error('Copy thất bại');
+        } finally {
+            setCopying(false);
+        }
+    };
+
+    const handleDownloadAllImages = async () => {
+        try {
+            const uploads = room?.uploads || [];
+            if (!uploads.length) return;
+
+            const baseUrl = `${process.env.NEXT_PUBLIC_API_URL}/uploads`;
+
+            for (const img of uploads) {
+                const url = `${baseUrl}${img.file_path}`;
+
+                const res = await fetch(url);
+                const blob = await res.blob();
+
+                const blobUrl = window.URL.createObjectURL(blob);
+
+                const a = document.createElement('a');
+                a.href = blobUrl;
+                a.download = `${room.room_code || 'room'}-${img.id}.jpg`;
+
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+
+                window.URL.revokeObjectURL(blobUrl);
+
+                // tránh browser block multi download
+                await new Promise(r => setTimeout(r, 300));
+            }
+
+            toast.success('Tải hình thành công');
+        } catch (err) {
+            console.error(err);
+            toast.error('Tải hình thất bại');
+        }
+    };
 
     return (
         <>
@@ -115,6 +239,28 @@ const RoomDetailPage = ({ room }) => {
                             videoUrl={room?.video_url}
                         />
 
+                        {isSales && (
+                            <div className="admin-contact-box">
+                                <button
+                                    type="button"
+                                    className={`btn btn-contact-owner ${copying ? 'is-loading' : ''
+                                        }`}
+                                    onClick={handleCopySalesInfo}
+                                    disabled={copying}
+                                >
+                                    {copying ? 'Đang copy...' : '📋 Copy thông tin'}
+                                </button>
+
+                                <button
+                                    type="button"
+                                    className="btn btn-contact-owner"
+                                    onClick={handleDownloadAllImages}
+                                >
+                                    ⬇️ Tải hình
+                                </button>
+                            </div>
+                        )}
+
                         {isAdmin && (
                             <div className="admin-contact-box">
                                 <button
@@ -127,7 +273,6 @@ const RoomDetailPage = ({ room }) => {
                                 </button>
                             </div>
                         )}
-
                     </aside>
                 </div>
 
