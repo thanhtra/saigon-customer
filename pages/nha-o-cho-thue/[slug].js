@@ -13,7 +13,7 @@ import { toast } from 'react-toastify';
 
 import RoomActionsDetail from 'components/common/room-actions-detail';
 
-import { WaterUnitOptions } from 'lib/constants/data';
+import { WaterUnitOptions, RentalAmenityOptions } from 'lib/constants/data';
 
 export async function getServerSideProps({ params }) {
     try {
@@ -98,6 +98,14 @@ const RoomDetailPage = ({ room }) => {
                 }`
                 : null;
 
+        const amenitiesText =
+            room?.amenities?.length
+                ? `Tiện ích: ${room.amenities
+                    .map(key => RentalAmenityOptions[key])
+                    .filter(Boolean)
+                    .join(' - ')}`
+                : null;
+
         const lines = [
             `${room.title} (${room.room_code})`,
             '',
@@ -134,9 +142,10 @@ const RoomDetailPage = ({ room }) => {
             '----------------',
             room.max_people ? `Ở tối đa: ${room.max_people} người` : null,
             room.area ? `Diện tích: ${room.area} m²` : null,
+            amenitiesText,
             cleanDescription,
             '',
-
+            '----------------',
             `Liên hệ: ${user?.name ?? ''} - Gọi/Zalo: ${user?.phone ?? ''}`,
         ];
 
