@@ -92,61 +92,52 @@ const RoomDetailPage = ({ room }) => {
 
         const waterFee =
             rental.fee_water > 0
-                ? `💧 Nước: ${formatVnd(rental.fee_water, { suffix: null })}${rental.water_unit
+                ? `Nước: ${formatVnd(rental.fee_water, { suffix: null })}${rental.water_unit
                     ? ` ${WaterUnitOptions[rental.water_unit] || ''}`
                     : ''
                 }`
                 : null;
 
         const lines = [
-            `🏠 ${room.title} (${room.room_code})`,
-            room.room_number ? `🆔 Phòng: ${room.room_number}` : null,
-
+            `${room.title} (${room.room_code})`,
             '',
-            `📍 ${rental.address_detail_display || ''}`,
+            room.room_number ? `Mã phòng: ${room.room_number}` : null,
             '',
-            `💰 Giá: ${formatVnd(room.price)}/tháng`,
+            `Địa chỉ: ${rental.address_detail_display || ''}`,
+            '----------------',
 
-            room.max_people ? `👥 ${room.max_people} người` : null,
-            room.area ? `📐 ${room.area} m²` : null,
-
-            '',
-            '------------------------------',
-            '💵 CHI PHÍ',
+            `Giá: ${formatVnd(room.price)}/tháng`,
 
             rental.fee_electric
-                ? `⚡ Điện: ${formatVnd(rental.fee_electric)}`
+                ? `Điện: ${formatVnd(rental.fee_electric)}`
                 : null,
 
             waterFee,
 
             rental.fee_wifi
-                ? `📶 Wifi: ${formatVnd(rental.fee_wifi)}`
+                ? `Wifi: ${formatVnd(rental.fee_wifi)}`
                 : null,
 
             rental.fee_parking
-                ? `🛵 Giữ xe: ${formatVnd(rental.fee_parking)}`
+                ? `Giữ xe: ${formatVnd(rental.fee_parking)}`
                 : null,
 
             rental.fee_service
-                ? `🧹 Dịch vụ: ${formatVnd(rental.fee_service)}`
+                ? `Dịch vụ: ${formatVnd(rental.fee_service)}`
                 : null,
 
             rental.fee_other
-                ? `📦 Phí khác: ${formatOtherFee(rental.fee_other)}`
+                ? `Phí khác: ${formatOtherFee(rental.fee_other)}`
                 : null,
-
             '',
-            '------------------------------',
-            '📝 MÔ TẢ',
+
+            '----------------',
+            room.max_people ? `Ở tối đa: ${room.max_people} người` : null,
+            room.area ? `Diện tích: ${room.area} m²` : null,
             cleanDescription,
-
-
             '',
-            '------------------------------',
-            '📞 LIÊN HỆ',
-            `👤 ${user?.name ?? ''}`,
-            `📱 ${user?.phone ?? ''}`,
+
+            `Liên hệ: ${user?.name ?? ''} - Gọi/Zalo: ${user?.phone ?? ''}`,
         ];
 
         return lines.filter(Boolean).join('\n');
@@ -248,7 +239,7 @@ const RoomDetailPage = ({ room }) => {
                             videoUrl={room?.video_url}
                         />
 
-                        {isSales && (
+                        {(isAdmin || isSales) && (
                             <div className="admin-contact-box">
                                 <button
                                     type="button"
