@@ -152,14 +152,50 @@ const RoomDetailPage = ({ room }) => {
         return lines.filter(Boolean).join('\n');
     };
 
+    const copyText = async (text) => {
+        // Clipboard API
+        if (navigator.clipboard && window.isSecureContext) {
+            try {
+                await navigator.clipboard.writeText(text);
+                return true;
+            } catch (e) {
+                console.log("Clipboard API failed:", e);
+            }
+        }
+
+        // Fallback cho Safari/iPhone
+        const textarea = document.createElement("textarea");
+        textarea.value = text;
+
+        textarea.style.position = "fixed";
+        textarea.style.top = "0";
+        textarea.style.left = "0";
+        textarea.style.opacity = "0";
+
+        document.body.appendChild(textarea);
+
+        textarea.focus();
+        textarea.select();
+        textarea.setSelectionRange(0, textarea.value.length);
+
+        const success = document.execCommand("copy");
+
+        textarea.remove();
+
+        if (!success) {
+            throw new Error("Copy failed");
+        }
+    };
+
     const handleCopySalesInfo = async () => {
         try {
-            setCopying(true);
 
             const content = buildSalesContent();
-            await navigator.clipboard.writeText(content);
+            // await navigator.clipboard.writeText(content);
+            await copyText(content);
 
-            toast.success('Đã copy nội dung đăng bài');
+            setCopying(true);
+            toast.success('Đã copy');
         } catch {
             toast.error('Copy thất bại');
         } finally {
