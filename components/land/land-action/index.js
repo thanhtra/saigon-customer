@@ -56,7 +56,7 @@ export default function LandActions({
                 });
             } else {
                 await navigator.clipboard.writeText(detailUrl);
-                toast.success('Đã sao chép link phòng');
+                toast.success('Đã sao chép link nhà');
             }
         } catch (error) {
             // toast.error('Không thể chia sẻ liên kết');

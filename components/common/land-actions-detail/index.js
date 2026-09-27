@@ -42,7 +42,7 @@ const LandActionsDetail = ({
                 await navigator.share({ title, text: title, url });
             } else {
                 await navigator.clipboard.writeText(url);
-                toast.success('Đã sao chép link phòng');
+                toast.success('Đã sao chép link nhà');
             }
         } catch {
             // toast.error('Không thể chia sẻ liên kết');

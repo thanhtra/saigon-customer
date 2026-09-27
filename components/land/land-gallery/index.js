@@ -38,8 +38,14 @@ const LandGallery = ({ images = [], land }) => {
 
                 watchOverflow
                 breakpoints={{
-                    768: { slidesPerView: 5 },
-                    1024: { slidesPerView: 6 },
+                    768: {
+                        slidesPerView: 5.5,
+                        spaceBetween: 8,
+                    },
+                    1024: {
+                        slidesPerView: 6.5,
+                        spaceBetween: 8,
+                    },
                 }}
                 className="land-gallery-thumbs"
             >
