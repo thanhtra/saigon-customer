@@ -217,6 +217,12 @@ const LandFilter = ({ searchLands, query }) => {
                                 key_search: e.target.value,
                             }))
                         }
+                        onKeyDown={(e) => {
+                            if (e.key === 'Enter') {
+                                e.preventDefault();     // 🚨 tránh reload form
+                                searchLands(filters);   // 🔥 search ngay
+                            }
+                        }}
                     />
                 </div>
 
@@ -466,12 +472,6 @@ const LandFilter = ({ searchLands, query }) => {
                             onChange={e =>
                                 setFilters(prev => ({ ...prev, key_search: e.target.value }))
                             }
-                            onKeyDown={(e) => {
-                                if (e.key === 'Enter') {
-                                    e.preventDefault();     // 🚨 tránh reload form
-                                    searchLands(filters);   // 🔥 search ngay
-                                }
-                            }}
                         />
                     </div>
 
