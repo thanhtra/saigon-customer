@@ -451,6 +451,7 @@ const LandFilter = ({ searchLands, query }) => {
             open={isPopupFilterOpen}
             onClose={() => dispatch({ type: POPUP_FILTER_HIDE })}
             className="popup-filter-lands"
+            modal
         >
             <div className="filter-mobile">
                 <div className="filter-header">

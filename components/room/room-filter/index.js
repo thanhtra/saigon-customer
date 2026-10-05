@@ -394,6 +394,7 @@ const RoomFilter = ({ searchRooms, query }) => {
             open={isPopupFilterOpen}
             onClose={() => dispatch({ type: POPUP_FILTER_HIDE })}
             className="popup-filter-rooms"
+            modal
         >
             <div className="filter-mobile">
 
