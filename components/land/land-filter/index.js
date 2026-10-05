@@ -258,7 +258,7 @@ const LandFilter = ({ searchLands, query }) => {
                     >
                         <option value="">Phường / Xã</option>
                         {wards.map(w => (
-                            <option key={w.id} value={w.id}>
+                            <option key={w.value} value={w.value}>
                                 {w.label}
                             </option>
                         ))}
