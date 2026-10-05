@@ -53,7 +53,7 @@ const LandActionsDetail = ({
         <>
             <section className="land-actions-detail">
                 <div className="land-code-box">
-                    <span className="label">Mã động sản</span>
+                    <span className="label">Mã nhà</span>
                     <button
                         type="button"
                         className="land-code"
